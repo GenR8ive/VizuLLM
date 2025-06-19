@@ -1,0 +1,55 @@
+{
+  "name": "Weekly Timetable",
+  "version": "1.0.0",
+  "description": "A weekly class schedule component with customizable time slots and subjects",
+  "type": "object",
+  "properties": {
+    "days": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "description": "Array of day names to display in the timetable"
+    },
+    "timeSlots": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00"],
+      "description": "Array of time slots to display in the timetable"
+    },
+    "subjects": {
+      "type": "object",
+      "description": "Object mapping day and time combinations to subject names",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        }
+      }
+    },
+    "theme": {
+      "type": "object",
+      "properties": {
+        "primaryColor": {
+          "type": "string",
+          "default": "blue",
+          "description": "Primary color for regular subjects"
+        },
+        "lunchColor": {
+          "type": "string",
+          "default": "orange",
+          "description": "Color for lunch break"
+        },
+        "headerBgColor": {
+          "type": "string",
+          "default": "gray-50",
+          "description": "Background color for table header"
+        }
+      }
+    }
+  },
+  "required": ["days", "timeSlots", "subjects"]
+} 

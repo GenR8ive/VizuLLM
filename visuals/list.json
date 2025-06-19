@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Haftalık Ders Takvimi",
+    "slug": "weekly-timetable",
+    "author": "burak",
+    "description": "Basit bir haftalık ders programı. Pazartesi'den Cuma'ya kadar ders saatlerini listeleyen modern bir tablo.",
+    "preview": "visuals/weekly-timetable/preview.png",
+    "schema": "visuals/weekly-timetable/schema.json",
+    "componentPath": "visuals/weekly-timetable/component.tsx"
+  },
+  {
+    "name": "Fatura (Modern)",
+    "slug": "invoice-modern",
+    "author": "ayse-dev",
+    "description": "Modern tasarımlı, şirket bilgilerini ve ürün kalemlerini içeren fatura çıktısı.",
+    "preview": "visuals/invoice-modern/preview.png",
+    "schema": "visuals/invoice-modern/schema.json",
+    "componentPath": "visuals/invoice-modern/component.tsx"
+  },
+  {
+    "name": "CV - Klasik",
+    "slug": "cv-classic",
+    "author": "kemal.codes",
+    "description": "Klasik formatta, başvuruya hazır bir özgeçmiş bileşeni.",
+    "preview": "visuals/cv-classic/preview.png",
+    "schema": "visuals/cv-classic/schema.json",
+    "componentPath": "visuals/cv-classic/component.tsx"
+  },
+  {
+    "name": "Weekly/Monthly Program Calendar",
+    "slug": "weekly-monthly-calendar",
+    "author": "VisuLLM",
+    "description": "Modern, printable calendar component for weekly and monthly programs with event scheduling and organization branding.",
+    "preview": "visuals/weekly-monthly-calendar/preview.png",
+    "schema": "visuals/weekly-monthly-calendar/schema.json",
+    "componentPath": "visuals/weekly-monthly-calendar/component.tsx"
+  }
+]

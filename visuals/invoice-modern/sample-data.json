@@ -1,0 +1,51 @@
+{
+  "invoiceNumber": "INV-2024-002",
+  "date": "2024-01-20",
+  "dueDate": "2024-02-20",
+  "company": {
+    "name": "Digital Solutions Inc.",
+    "address": "789 Innovation Drive",
+    "city": "Tech Valley, TV 54321",
+    "email": "billing@digitalsolutions.com",
+    "phone": "+1 (555) 987-6543"
+  },
+  "client": {
+    "name": "Global Enterprises Ltd.",
+    "address": "321 Corporate Plaza",
+    "city": "Business District, BD 98765",
+    "email": "finance@globalenterprises.com"
+  },
+  "items": [
+    {
+      "description": "Mobile App Development",
+      "quantity": 60,
+      "unit": "hours",
+      "rate": 120,
+      "amount": 7200
+    },
+    {
+      "description": "Database Design",
+      "quantity": 15,
+      "unit": "hours",
+      "rate": 95,
+      "amount": 1425
+    },
+    {
+      "description": "Cloud Infrastructure Setup",
+      "quantity": 1,
+      "unit": "project",
+      "rate": 2500,
+      "amount": 2500
+    },
+    {
+      "description": "User Training Session",
+      "quantity": 8,
+      "unit": "hours",
+      "rate": 75,
+      "amount": 600
+    }
+  ],
+  "subtotal": 11725,
+  "tax": 1172.5,
+  "total": 12897.5
+} 
