@@ -69,7 +69,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
   const [jsonInput, setJsonInput] = useState<string>('');
   const [jsonError, setJsonError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
-  
+
   // Export settings
   const [selectedPageSize, setSelectedPageSize] = useState<PageSize>(PAGE_SIZES[0]);
   const [customWidth, setCustomWidth] = useState<number>(210);
@@ -79,7 +79,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
   const [exportFormat, setExportFormat] = useState<ExportFormat>('png');
   const [isExporting, setIsExporting] = useState(false);
   const [showExportPopover, setShowExportPopover] = useState(false);
-  
+
   const componentRef = useRef<HTMLDivElement>(null);
   const exportPopoverRef = useRef<HTMLDivElement>(null);
 
@@ -114,10 +114,10 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
         if (!response.ok) {
           throw new Error('Failed to load visuals list');
         }
-        
+
         const visuals: VisualComponent[] = await response.json();
         const foundVisual = visuals.find(v => v.slug === slug);
-        
+
         if (!foundVisual) {
           throw new Error(`Visual with slug "${slug}" not found`);
         }
@@ -190,16 +190,16 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
 
   const copySchemaToClipboard = async () => {
     if (!schema) return;
-    
+
     try {
       // Extract only properties and required fields
       const simplifiedSchema = {
         properties: schema.properties || {},
         required: schema.required || []
       };
-      
+
       const prompt = `Output as JSON following this schema:\n\n${JSON.stringify(simplifiedSchema, null, 2)}`;
-      
+
       await navigator.clipboard.writeText(prompt);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -229,20 +229,26 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
 
     setIsExporting(true);
     setShowExportPopover(false);
-    
+
     try {
-      // Wait a bit to ensure the component is fully rendered
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
+            // Import the export utility
+      const { ensureStylesApplied, waitForRender, waitForImages } = await import('../utils/exportUtils');
+
+      // Wait for component to be fully rendered
+      await waitForRender(1000);
+
+      // Wait for all images to load
+      await waitForImages(componentRef.current);
+
       // Convert mm to pixels based on resolution
       const mmToPixels = (mm: number, dpi: number) => (mm * dpi) / 25.4;
-      
+
       const width = selectedPageSize.name === 'Custom' ? customWidth : selectedPageSize.width;
       const height = selectedPageSize.name === 'Custom' ? customHeight : selectedPageSize.height;
       const unit = selectedPageSize.name === 'Custom' ? customUnit : selectedPageSize.unit;
-      
+
       let pixelWidth: number, pixelHeight: number;
-      
+
       if (unit === 'mm') {
         pixelWidth = mmToPixels(width, exportResolution);
         pixelHeight = mmToPixels(height, exportResolution);
@@ -256,136 +262,179 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
 
       console.log('Target dimensions:', pixelWidth, 'x', pixelHeight);
 
-      // Use html2canvas with high quality settings
-      const html2canvas = (await import('html2canvas')).default;
-      const componentCanvas = await html2canvas(componentRef.current, {
-        backgroundColor: 'white',
-        scale: 2, // Reduced scale to prevent memory issues
-        useCORS: true,
-        allowTaint: true,
-        foreignObjectRendering: true, // Better for complex layouts
-        imageTimeout: 0, // No timeout for images
-        logging: false, // Disable logging for cleaner output
-        width: componentRef.current.scrollWidth,
-        height: componentRef.current.scrollHeight,
-        scrollX: 0,
-        scrollY: 0,
-        windowWidth: componentRef.current.scrollWidth,
-        windowHeight: componentRef.current.scrollHeight,
-        onclone: (clonedDoc) => {
-          const clonedElement = clonedDoc.querySelector('[data-component-ref]') as HTMLElement;
-          if (clonedElement) {
-            console.log('Cloned element found:', clonedElement);
-            // Ensure the element is visible and properly styled
-            clonedElement.style.display = 'block';
-            clonedElement.style.visibility = 'visible';
-            clonedElement.style.opacity = '1';
-            clonedElement.style.width = '100%';
-            clonedElement.style.height = 'auto';
-            clonedElement.style.padding = '20px'; // Add padding for better appearance
-            clonedElement.style.backgroundColor = 'white';
-          } else {
-            console.log('No cloned element found with data-component-ref');
-          }
-        }
-      });
+                  // Store original dimensions to restore later
+      const originalWidth = componentRef.current.style.width;
+      const originalHeight = componentRef.current.style.height;
+      const originalMaxWidth = componentRef.current.style.maxWidth;
+      const originalMaxHeight = componentRef.current.style.maxHeight;
+      const originalMinWidth = componentRef.current.style.minWidth;
+      const originalMinHeight = componentRef.current.style.minHeight;
+      const originalPadding = componentRef.current.style.padding;
+      const originalPosition = componentRef.current.style.position;
+      const originalTransform = componentRef.current.style.transform;
+      const originalOverflow = componentRef.current.style.overflow;
 
-      console.log('Canvas captured:', componentCanvas.width, 'x', componentCanvas.height);
+      try {
+        // Convert target dimensions to pixels for rendering
+        let renderWidth: number, renderHeight: number;
 
-      if (exportFormat === 'png') {
-        // PNG Export with high quality
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        
-        if (!ctx) {
-          throw new Error('Failed to get canvas context');
+        if (unit === 'mm') {
+          // Convert mm to pixels at 96 DPI for rendering
+          renderWidth = (width / 25.4) * 96;
+          renderHeight = (height / 25.4) * 96;
+        } else if (unit === 'in') {
+          // Convert inches to pixels at 96 DPI
+          renderWidth = width * 96;
+          renderHeight = height * 96;
+        } else {
+          // Already in pixels
+          renderWidth = width;
+          renderHeight = height;
         }
 
-        canvas.width = pixelWidth;
-        canvas.height = pixelHeight;
+        // Temporarily resize the component to target dimensions
+        componentRef.current.style.width = `${renderWidth}px`;
+        componentRef.current.style.height = `${renderHeight}px`;
+        componentRef.current.style.maxWidth = `${renderWidth}px`;
+        componentRef.current.style.maxHeight = `${renderHeight}px`;
+        componentRef.current.style.minWidth = `${renderWidth}px`;
+        componentRef.current.style.minHeight = `${renderHeight}px`;
+        componentRef.current.style.padding = '20px';
+        componentRef.current.style.boxSizing = 'border-box';
+        componentRef.current.style.overflow = 'hidden';
+        componentRef.current.style.position = 'relative';
+        componentRef.current.style.transform = 'scale(1)';
 
-        // Set white background
-        ctx.fillStyle = 'white';
-        ctx.fillRect(0, 0, pixelWidth, pixelHeight);
+        // Ensure the component's children also adapt to the new size
+        const componentContent = componentRef.current.querySelector('[data-component-content]') as HTMLElement;
+        if (componentContent) {
+          componentContent.style.width = '100%';
+          componentContent.style.height = '100%';
+          componentContent.style.maxWidth = '100%';
+          componentContent.style.maxHeight = '100%';
+        }
 
-        // Calculate scaling to fit the component within the page size
-        const scaleX = pixelWidth / componentCanvas.width;
-        const scaleY = pixelHeight / componentCanvas.height;
-        const scale = Math.min(scaleX, scaleY);
+        // Force layout recalculation
+        componentRef.current.offsetHeight;
 
-        // Calculate centering offsets
-        const scaledWidth = componentCanvas.width * scale;
-        const scaledHeight = componentCanvas.height * scale;
-        const offsetX = (pixelWidth - scaledWidth) / 2;
-        const offsetY = (pixelHeight - scaledHeight) / 2;
+        // Wait for component to re-render at new dimensions
+        await waitForRender(1500);
+        await waitForImages(componentRef.current);
 
-        // Enable image smoothing for better quality
-        ctx.imageSmoothingEnabled = true;
-        ctx.imageSmoothingQuality = 'high';
+        // Use html2canvas with optimized settings for Tailwind CSS
+        const html2canvas = (await import('html2canvas')).default;
 
-        // Draw the component centered and scaled
-        ctx.drawImage(componentCanvas, offsetX, offsetY, scaledWidth, scaledHeight);
+        // Prepare the element for capture
+        ensureStylesApplied(componentRef.current);
 
-        // Convert to blob and download
-        canvas.toBlob((blob) => {
-          if (blob) {
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${visual.slug}-${selectedPageSize.name.toLowerCase().replace(/\s+/g, '-')}.png`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            console.log('PNG export completed');
-          } else {
-            console.error('Failed to create blob for PNG');
+                const componentCanvas = await html2canvas(componentRef.current, {
+          backgroundColor: '#ffffff',
+          scale: 1, // Use scale 1 since we're already at target size
+          useCORS: true,
+          allowTaint: true,
+          logging: false,
+          imageTimeout: 10000,
+          removeContainer: true,
+          foreignObjectRendering: false,
+          width: renderWidth,
+          height: renderHeight,
+          ignoreElements: (element) => {
+            return element.tagName === 'SCRIPT' ||
+                   element.tagName === 'STYLE' ||
+                   element.classList?.contains('export-ignore');
+          },
+          onclone: (clonedDoc, element) => {
+            if (element) {
+              const originalStyleSheets = Array.from(document.styleSheets);
+              originalStyleSheets.forEach((sheet) => {
+                try {
+                  const clonedStyle = clonedDoc.createElement('style');
+                  clonedStyle.textContent = Array.from(sheet.cssRules || [])
+                    .map(rule => rule.cssText)
+                    .join('\n');
+                  clonedDoc.head.appendChild(clonedStyle);
+                } catch (e) {
+                  console.warn('Could not clone stylesheet:', e);
+                }
+              });
+
+              ensureStylesApplied(element);
+            }
           }
-        }, 'image/png', 1.0);
-
-      } else if (exportFormat === 'pdf') {
-        // PDF Export with high quality
-        const jsPDF = (await import('jspdf')).default;
-        
-        // Create PDF with the selected page size
-        const pdf = new jsPDF({
-          orientation: width > height ? 'landscape' : 'portrait',
-          unit: unit === 'mm' ? 'mm' : unit === 'in' ? 'in' : 'px',
-          format: selectedPageSize.name === 'Custom' ? [width, height] : undefined
         });
+
+        console.log('Canvas captured:', componentCanvas.width, 'x', componentCanvas.height);
+
+        // Check if canvas is empty (white screen issue)
+        if (componentCanvas.width === 0 || componentCanvas.height === 0) {
+          throw new Error('Canvas capture failed - component may not be visible');
+        }
+
+            if (exportFormat === 'png') {
+        // PNG Export - component is already rendered at target dimensions
+        // Just use the captured canvas directly for higher quality
+        const blob = await new Promise<Blob | null>((resolve) => {
+          componentCanvas.toBlob((blob) => {
+            resolve(blob);
+          }, 'image/png', 1.0);
+        });
+
+        if (blob) {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `${visual.slug}-${selectedPageSize.name.toLowerCase().replace(/\s+/g, '-')}.png`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+          console.log('PNG export completed');
+        } else {
+          console.error('Failed to create blob for PNG');
+        }
+
+            } else if (exportFormat === 'pdf') {
+        // PDF Export using @react-pdf/renderer
+        const { generatePDF } = await import('../utils/pdfRenderer');
 
         // Convert canvas to image data with maximum quality
         const imgData = componentCanvas.toDataURL('image/png', 1.0);
-        
-        // Calculate scaling to fit the component within the page with margins
-        const pageWidth = pdf.internal.pageSize.getWidth();
-        const pageHeight = pdf.internal.pageSize.getHeight();
-        
-        // Add margins (10mm on each side)
-        const margin = 10; // mm
-        const availableWidth = pageWidth - (2 * margin);
-        const availableHeight = pageHeight - (2 * margin);
-        
-        const imgWidth = componentCanvas.width;
-        const imgHeight = componentCanvas.height;
-        
-        const scaleX = availableWidth / imgWidth;
-        const scaleY = availableHeight / imgHeight;
-        const scale = Math.min(scaleX, scaleY);
-        
-        const scaledWidth = imgWidth * scale;
-        const scaledHeight = imgHeight * scale;
-        
-        // Center the image on the page with margins
-        const x = margin + (availableWidth - scaledWidth) / 2;
-        const y = margin + (availableHeight - scaledHeight) / 2;
-        
-        // Add the image to PDF with high quality
-        pdf.addImage(imgData, 'PNG', x, y, scaledWidth, scaledHeight, undefined, 'FAST');
-        
-        // Save the PDF
-        pdf.save(`${visual.slug}-${selectedPageSize.name.toLowerCase().replace(/\s+/g, '-')}.pdf`);
-        console.log('PDF export completed');
+
+        // Prepare page size for PDF renderer
+        const pageSize = {
+          width: selectedPageSize.name === 'Custom' ? customWidth : selectedPageSize.width,
+          height: selectedPageSize.name === 'Custom' ? customHeight : selectedPageSize.height,
+          unit: selectedPageSize.name === 'Custom' ? customUnit : selectedPageSize.unit
+        };
+
+        const filename = `${visual.slug}-${selectedPageSize.name.toLowerCase().replace(/\s+/g, '-')}.pdf`;
+
+        // Generate PDF using React PDF renderer
+        await generatePDF(
+          visual.name,
+          imgData,
+          pageSize,
+          filename
+        );
+
+        console.log('PDF export completed using @react-pdf/renderer');
+      }
+
+            } finally {
+        // Restore original component dimensions
+        componentRef.current.style.width = originalWidth;
+        componentRef.current.style.height = originalHeight;
+        componentRef.current.style.maxWidth = originalMaxWidth;
+        componentRef.current.style.maxHeight = originalMaxHeight;
+        componentRef.current.style.minWidth = originalMinWidth;
+        componentRef.current.style.minHeight = originalMinHeight;
+        componentRef.current.style.padding = originalPadding;
+        componentRef.current.style.position = originalPosition;
+        componentRef.current.style.transform = originalTransform;
+        componentRef.current.style.overflow = originalOverflow;
+
+        // Force layout recalculation to restore original view
+        componentRef.current.offsetHeight;
       }
 
     } catch (err) {
@@ -540,7 +589,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
                     className="block min-h-0 w-full flex-1 resize-none rounded-xl border border-gray-300 px-4 py-3 text-sm transition-all focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                   />
                 </div>
-                
+
                 {/* Status Messages */}
                 {jsonError && (
                   <div className="mt-4 flex items-center rounded-lg border border-red-200 bg-red-50 px-4 py-3">
@@ -559,7 +608,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
                   </div>
                 )}
               </div>
-              
+
               <div className="flex shrink-0 flex-wrap gap-3 pt-4">
                 <button
                   onClick={handleClearData}
@@ -587,7 +636,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
                       <p className="mt-1 text-sm text-gray-600">Rendering with custom data</p>
                     )}
                   </div>
-                  
+
                   {/* Export Button */}
                   <div className="relative" ref={exportPopoverRef}>
                     <button
@@ -626,7 +675,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
                               {isExporting ? 'Exporting...' : 'Export'}
                             </button>
                           </div>
-                          
+
                           {/* Format Selection */}
                           <div className="space-y-3">
                             <label className="block text-sm font-medium text-gray-700">Format</label>
@@ -659,7 +708,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
                               </button>
                             </div>
                           </div>
-                          
+
                           {/* Page Size Selection */}
                           <div className="space-y-3">
                             <label className="block text-sm font-medium text-gray-700">Page Size</label>
@@ -680,7 +729,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
                               ))}
                             </div>
                           </div>
-                          
+
                           {/* Custom Size Controls */}
                           {selectedPageSize.name === 'Custom' && (
                             <div className="grid grid-cols-3 gap-3">
@@ -716,7 +765,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
                               </div>
                             </div>
                           )}
-                          
+
                           {/* Resolution Setting - Only for PNG */}
                           {exportFormat === 'png' && (
                             <div>
@@ -739,10 +788,12 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="bg-white p-8" ref={componentRef} data-component-ref>
                 {Component ? (
-                  <Component schema={schema} data={userData} />
+                  <div data-component-content>
+                    <Component schema={schema} data={userData} />
+                  </div>
                 ) : (
                   <div className="flex h-96 items-center justify-center rounded-xl border-2 border-dashed border-gray-300 bg-gray-50">
                     <div className="text-center">
@@ -767,4 +818,4 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
   );
 };
 
-export default VisualRenderer; 
+export default VisualRenderer;
