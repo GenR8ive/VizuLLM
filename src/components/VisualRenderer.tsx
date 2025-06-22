@@ -453,7 +453,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
 
                 <div className="flex flex-1 flex-col overflow-auto p-6" ref={componentRef} data-component-ref>
                   {Component ? (
-                    <div className="flex-1 rounded-2xl bg-gradient-to-br from-slate-50 to-white p-6 shadow-inner ring-1 ring-slate-200/50" data-component-content>
+                    <div className="flex-1 rounded-2xl p-6" data-component-content>
                       <Component schema={schema} data={userData} />
                     </div>
                   ) : (
@@ -482,21 +482,21 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
 
       {/* Full Screen Modal */}
       {isFullScreen && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-sm">
-          <div className="relative size-full overflow-auto p-2 sm:p-4 lg:p-8">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm">
+          <div className="relative size-full overflow-auto">
             {/* Close Button */}
             <button
               onClick={toggleFullScreen}
-              className="absolute right-2 top-2 z-10 rounded-full bg-white/10 p-2 text-white backdrop-blur-sm transition-all hover:bg-white/20 sm:right-4 sm:top-4 sm:p-3"
+              className="absolute right-4 top-4 z-10 rounded-full bg-white/10 p-3 text-white backdrop-blur-sm transition-all hover:bg-white/20"
             >
-              <svg className="size-5 sm:size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
 
             {/* Component Content */}
             <div className="flex h-full items-center justify-center">
-              <div className="max-h-full max-w-full overflow-auto rounded-3xl bg-white p-4 shadow-2xl sm:p-6 lg:p-8" ref={fullScreenRef}>
+              <div className="max-h-full max-w-full overflow-auto rounded-3xl bg-white p-6 shadow-2xl" ref={fullScreenRef}>
                 {Component ? (
                   <div data-component-content>
                     <Component schema={schema} data={userData} />
@@ -512,8 +512,8 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
             </div>
 
             {/* Instructions */}
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 text-center text-white/70 sm:bottom-4">
-              <p className="text-xs sm:text-sm">Press ESC or click outside to exit full screen</p>
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center text-white/70">
+              <p className="text-sm">Press ESC or click outside to exit full screen</p>
             </div>
           </div>
         </div>

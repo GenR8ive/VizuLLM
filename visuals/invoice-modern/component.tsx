@@ -49,7 +49,7 @@ const InvoiceModern: React.FC<InvoiceModernProps> = ({ data }) => {
   const invoiceData = data && typeof data === 'object' ? (data as unknown as InvoiceData) : sampleData;
 
   return (
-    <div className="mx-auto max-w-4xl overflow-hidden rounded-lg bg-white p-4 shadow-lg">
+    <div className="mx-auto max-w-4xl overflow-hidden rounded-lg p-4">
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-8 text-black">
         <div className="flex items-start justify-between">
