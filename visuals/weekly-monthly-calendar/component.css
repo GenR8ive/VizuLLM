@@ -1,0 +1,270 @@
+/* Weekly Monthly Calendar Component Styles */
+
+.calendar-container {
+  margin: 0 auto;
+  max-width: 72rem;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  background-color: white;
+  padding: 1.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.calendar-header {
+  padding: 2rem;
+  color: black;
+}
+
+.calendar-header-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.calendar-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: black;
+}
+
+.calendar-subtitle {
+  margin-top: 0.5rem;
+  color: black;
+  opacity: 0.9;
+}
+
+.calendar-organization {
+  text-align: right;
+}
+
+.calendar-logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: black;
+}
+
+.calendar-org-name {
+  margin-top: 0.25rem;
+  color: black;
+  opacity: 0.9;
+}
+
+.calendar-contact {
+  font-size: 0.875rem;
+  color: black;
+  opacity: 0.75;
+}
+
+.calendar-content {
+  padding: 2rem;
+}
+
+/* Weekly View Styles */
+.weekly-table-container {
+  overflow-x: auto;
+}
+
+.weekly-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.weekly-table th {
+  border: 1px solid #d1d5db;
+  background-color: #f9fafb;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.weekly-table th.center {
+  text-align: center;
+}
+
+.weekly-day-header {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.weekly-date-header {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.weekly-time-cell {
+  border: 1px solid #d1d5db;
+  background-color: #f9fafb;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.weekly-event-cell {
+  min-height: 60px;
+  border: 1px solid #d1d5db;
+  padding: 0.25rem 0.5rem;
+  color: black;
+}
+
+.weekly-event {
+  margin-bottom: 0.25rem;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: black;
+}
+
+.weekly-event-title {
+  font-weight: 600;
+  color: black;
+}
+
+.weekly-event-time {
+  font-size: 0.75rem;
+  opacity: 0.75;
+}
+
+.weekly-event-location {
+  font-size: 0.75rem;
+  opacity: 0.75;
+}
+
+/* Monthly View Styles */
+.monthly-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+}
+
+.monthly-day-header {
+  background-color: #f9fafb;
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.monthly-day {
+  min-height: 120px;
+  border: 1px solid #e5e7eb;
+  padding: 0.5rem;
+  background-color: white;
+}
+
+.monthly-day.weekend {
+  background-color: #f3f4f6;
+}
+
+.monthly-day-number {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #111827;
+}
+
+.monthly-events {
+  margin-top: 0.25rem;
+}
+
+.monthly-events > * + * {
+  margin-top: 0.25rem;
+}
+
+.monthly-event {
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: black;
+}
+
+.monthly-event-title {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.monthly-event-time {
+  font-size: 0.75rem;
+  opacity: 0.75;
+}
+
+/* Event Legend Styles */
+.event-legend {
+  border-top: 1px solid #e5e7eb;
+  background-color: #f9fafb;
+  padding: 1.5rem 2rem;
+}
+
+.legend-title {
+  margin-bottom: 1rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.legend-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+}
+
+.legend-color {
+  margin-right: 0.5rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 0.25rem;
+}
+
+.legend-label {
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+/* Footer Styles */
+.calendar-footer {
+  background-color: #f3f4f6;
+  padding: 1.5rem 2rem;
+}
+
+.footer-content {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.footer-text {
+  margin-top: 0.25rem;
+}
+
+/* Gradient Backgrounds */
+.gradient-primary {
+  background: linear-gradient(to right, #3b82f6, #1d4ed8);
+}
+
+.gradient-meeting {
+  background-color: #ef4444;
+}
+
+.gradient-training {
+  background-color: #10b981;
+}
+
+.gradient-workshop {
+  background-color: #f59e0b;
+}
+
+.gradient-default {
+  background-color: #6b7280;
+} 

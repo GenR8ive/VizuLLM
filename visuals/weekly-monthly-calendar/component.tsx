@@ -111,9 +111,9 @@ const WeeklyMonthlyCalendar: React.FC<CalendarProps> = ({ data }) => {
               Time
             </th>
             {dates.map(date => (
-              <th key={date} className="border border-gray-300 bg-gray-50 px-4 py-2 text-center text-sm font-medium text-gray-700">
-                <div>{getDayName(date)}</div>
-                <div className="text-xs text-gray-500">{formatDate(date)}</div>
+              <th key={date} className="weekly-table th center">
+                <div className="weekly-day-header">{getDayName(date)}</div>
+                <div className="weekly-date-header">{formatDate(date)}</div>
               </th>
             ))}
           </tr>
