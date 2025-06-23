@@ -139,14 +139,14 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
 
         // Load schema
         try {
-          const schemaModule = await import(`/visuals/${slug}/schema.ts`);
+          const schemaModule = await import(`../../visuals/${slug}/schema.ts`);
           const schemaData = schemaModule.default || schemaModule;
           setSchema(schemaData);
         } catch (schemaError) {
           console.warn('Failed to load schema:', schemaError);
           // Fallback to JSON schema if Zod schema not available
           try {
-            const schemaResponse = await fetch(`/visuals/${slug}/schema.json`);
+            const schemaResponse = await fetch(`visuals/${slug}/schema.json`);
             if (schemaResponse.ok) {
               const jsonSchema = await schemaResponse.json();
               setSchema(jsonSchema);
@@ -158,7 +158,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
 
         // Load component
         try {
-          const componentModule = await import(`/visuals/${slug}/component.tsx`);
+          const componentModule = await import(`../../visuals/${slug}/component.tsx`);
           const Component = componentModule.default;
           setComponent(() => Component);
         } catch (componentError) {
