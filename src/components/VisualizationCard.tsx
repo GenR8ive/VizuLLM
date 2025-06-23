@@ -40,12 +40,12 @@ const VisualizationCard: React.FC<VisualizationCardProps> = ({ item, onSelect })
             <h3 className="mb-2 line-clamp-1 text-xl font-bold text-gunmetal-800 transition-colors duration-300 group-hover:text-bleu_de_france-700">
               {item.name}
             </h3>
-            <div 
+            <div
               className="flex cursor-pointer items-center space-x-3 transition-opacity duration-200 hover:opacity-80"
               onClick={handleAuthorClick}
             >
               <div className="flex size-7 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-bleu_de_france-500 to-keppel-600 shadow-lg">
-                <img 
+                <img
                   src={`https://github.com/${item.author}.png`}
                   alt={`${item.author}'s GitHub avatar`}
                   className="size-full object-cover"

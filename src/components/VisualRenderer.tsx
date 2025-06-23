@@ -40,7 +40,7 @@ window.__registerVisualComponent = registerComponent;
 
 const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
   const { slug } = useParams<{ slug: string }>();
-  
+
   const [visual, setVisual] = useState<VisualComponent | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -52,6 +52,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
   const [copied, setCopied] = useState(false);
   const [isPrinting, setIsPrinting] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const [showSchemaModal, setShowSchemaModal] = useState(false);
 
   const componentRef = useRef<HTMLDivElement>(null);
   const fullScreenRef = useRef<HTMLDivElement>(null);
@@ -59,8 +60,12 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
   // Handle escape key to close full screen
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && isFullScreen) {
-        setIsFullScreen(false);
+      if (event.key === 'Escape') {
+        if (isFullScreen) {
+          setIsFullScreen(false);
+        } else if (showSchemaModal) {
+          setShowSchemaModal(false);
+        }
       }
     };
 
@@ -75,6 +80,8 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
       document.addEventListener('mousedown', handleClickOutside);
       // Prevent body scroll when full screen is open
       document.body.style.overflow = 'hidden';
+    } else if (showSchemaModal) {
+      document.addEventListener('keydown', handleEscape);
     }
 
     return () => {
@@ -82,7 +89,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
       document.removeEventListener('mousedown', handleClickOutside);
       document.body.style.overflow = 'unset';
     };
-  }, [isFullScreen]);
+  }, [isFullScreen, showSchemaModal]);
 
   useEffect(() => {
     const loadVisual = async () => {
@@ -185,7 +192,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
   };
 
   const reactToPrintFn = useReactToPrint({ contentRef: componentRef });
-  
+
   const handlePrint = () => {
     if (!componentRef.current || !visual) {
       console.log('Print failed: componentRef or visual is null');
@@ -195,7 +202,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
     console.log('Starting print...');
     setIsPrinting(true);
     reactToPrintFn();
-    
+
     // Reset printing state after a short delay
     setTimeout(() => {
       setIsPrinting(false);
@@ -291,59 +298,50 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
         </div>
 
         {/* Main Content */}
-        <div className="mx-auto flex max-w-7xl flex-1 flex-col px-4 sm:px-6 lg:flex-row lg:overflow-hidden lg:px-8">
-          <div className="grid h-full gap-8 lg:grid-cols-2">
+        <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-4 pt-10 sm:px-6 lg:flex-row lg:overflow-hidden lg:px-8">
+          <div className="grid h-full gap-8 lg:grid-cols-2 lg:overflow-visible">
             {/* Left Panel - Input */}
             <div className="flex h-full flex-col space-y-6  pb-8">
-              {/* Schema Section */}
-              {schema && (
-                <div className="shrink-0 overflow-hidden rounded-3xl bg-white/80 shadow-xl ring-1 ring-white/20 backdrop-blur-xl">
-                  <div className="border-b border-slate-200/50 bg-gradient-to-r from-slate-50 to-blue-50/50 px-6 py-4">
-                    <div className="flex flex-col space-y-3 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
-                      <h2 className="text-lg font-bold text-slate-900 sm:text-xl">Schema</h2>
-                      <button
-                        onClick={copySchemaToClipboard}
-                        className="group inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 px-4 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl sm:w-auto"
-                      >
-                        {copied ? (
-                          <>
-                            <svg className="mr-2 size-4 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                            </svg>
-                            Copied!
-                          </>
-                        ) : (
-                          <>
-                            <svg className="mr-2 size-4 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                            </svg>
-                            Copy Schema
-                          </>
-                        )}
-                      </button>
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <div className="overflow-hidden rounded-2xl p-4 shadow-inner">
-                      <pre className="h-48 overflow-auto font-mono text-xs text-gray-400 sm:text-sm">
-                       
-                        {(() => {
-                          const simplifiedSchema = {
-                            properties: schema.properties || {},
-                            required: schema.required || []
-                          };
-                          return JSON.stringify(simplifiedSchema, null, 2);
-                        })()}
-                      </pre>
-                    </div>
-                  </div>
-                </div>
-              )}
-
               {/* Data Input Section */}
               <div className="flex flex-1 flex-col overflow-hidden rounded-3xl bg-white/80 shadow-xl ring-1 ring-white/20 backdrop-blur-xl">
                 <div className="shrink-0 border-b border-slate-200/50 bg-gradient-to-r from-slate-50 to-emerald-50/50 px-6 py-4">
-                  <h2 className="text-lg font-bold text-slate-900 sm:text-xl">Input Data</h2>
+                  <div className="flex flex-col space-y-3 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+                    <h2 className="text-lg font-bold text-slate-900 sm:text-xl">Input Data</h2>
+                    {schema && (
+                      <div className="flex flex-col space-y-2 sm:flex-row sm:space-x-2 sm:space-y-0">
+                        <button
+                          onClick={() => setShowSchemaModal(true)}
+                          className="group inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-purple-600 to-purple-700 px-4 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-purple-700 hover:to-purple-800 hover:shadow-xl sm:w-auto"
+                        >
+                          <svg className="mr-2 size-4 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                          </svg>
+                          View Schema
+                        </button>
+                        <button
+                          onClick={copySchemaToClipboard}
+                          className="group inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 px-4 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl sm:w-auto"
+                        >
+                          {copied ? (
+                            <>
+                              <svg className="mr-2 size-4 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                              Copied!
+                            </>
+                          ) : (
+                            <>
+                              <svg className="mr-2 size-4 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                              </svg>
+                              Copy Schema
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <div className="flex flex-1 flex-col space-y-4 overflow-y-auto p-6">
                   <div className="flex flex-1 flex-col">
@@ -398,8 +396,8 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
             </div>
 
             {/* Right Panel - Output */}
-            <div className="flex h-full flex-col space-y-6 overflow-hidden pb-8">
-              <div className="flex flex-1 flex-col overflow-hidden rounded-3xl bg-white/80 shadow-xl ring-1 ring-white/20 backdrop-blur-xl">
+            <div className="flex h-full flex-col space-y-6 pb-8 lg:min-h-0">
+              <div className="flex flex-1 flex-col overflow-hidden rounded-3xl bg-white/80 shadow-xl ring-1 ring-white/20 backdrop-blur-xl lg:min-h-0">
                 <div className="shrink-0 border-b border-slate-200/50 bg-gradient-to-r from-slate-50 to-purple-50/50 px-6 py-4">
                   <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
                     <div>
@@ -451,9 +449,9 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
                   </div>
                 </div>
 
-                <div className="flex flex-1 flex-col overflow-auto p-6" ref={componentRef} data-component-ref>
+                <div className="flex flex-1 flex-col overflow-auto p-6 pr-8" ref={componentRef} data-component-ref>
                   {Component ? (
-                    <div className="flex-1 rounded-2xl p-6" data-component-content>
+                    <div className="flex-1 rounded-2xl" data-component-content>
                       <Component schema={schema} data={userData} />
                     </div>
                   ) : (
@@ -514,6 +512,75 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
             {/* Instructions */}
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center text-white/70">
               <p className="text-sm">Press ESC or click outside to exit full screen</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Schema Modal */}
+      {showSchemaModal && schema && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+          <div className="relative max-h-[90vh] w-full max-w-4xl overflow-hidden rounded-3xl bg-white shadow-2xl">
+            {/* Modal Header */}
+            <div className="border-b border-slate-200/50 bg-gradient-to-r from-slate-50 to-blue-50/50 px-6 py-4">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-bold text-slate-900">Schema</h2>
+                <button
+                  onClick={() => setShowSchemaModal(false)}
+                  className="rounded-full p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700"
+                >
+                  <svg className="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Content */}
+            <div className="max-h-[calc(90vh-120px)] overflow-auto p-6">
+              <div className="overflow-hidden rounded-2xl bg-slate-50 p-4 shadow-inner">
+                <pre className="overflow-auto font-mono text-sm text-slate-700">
+                  {(() => {
+                    const simplifiedSchema = {
+                      properties: schema.properties || {},
+                      required: schema.required || []
+                    };
+                    return JSON.stringify(simplifiedSchema, null, 2);
+                  })()}
+                </pre>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="border-t border-slate-200/50 bg-slate-50/50 px-6 py-4">
+              <div className="flex flex-col space-y-3 sm:flex-row sm:justify-end sm:space-x-3 sm:space-y-0">
+                <button
+                  onClick={copySchemaToClipboard}
+                  className="group inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl"
+                >
+                  {copied ? (
+                    <>
+                      <svg className="mr-2 size-4 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      Copied!
+                    </>
+                  ) : (
+                    <>
+                      <svg className="mr-2 size-4 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                      </svg>
+                      Copy Schema
+                    </>
+                  )}
+                </button>
+                <button
+                  onClick={() => setShowSchemaModal(false)}
+                  className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-lg transition-all duration-300 hover:scale-105 hover:border-slate-400 hover:bg-slate-50 hover:shadow-xl"
+                >
+                  Close
+                </button>
+              </div>
             </div>
           </div>
         </div>
