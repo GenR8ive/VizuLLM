@@ -14,9 +14,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'index.html'),
-        'weekly-timetable': resolve(__dirname, 'visuals/weekly-timetable/component.tsx'),
-        'invoice-modern': resolve(__dirname, 'visuals/invoice-modern/component.tsx')
+        main: resolve(__dirname, 'index.html')
       },
       output: {
         entryFileNames: 'assets/[name].js',

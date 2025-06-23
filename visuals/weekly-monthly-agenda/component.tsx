@@ -402,4 +402,4 @@ export default WeeklyMonthlyAgenda;
 // Register component for dynamic loading
 if (typeof window !== 'undefined' && window.__registerVisualComponent) {
   window.__registerVisualComponent('weekly-monthly-agenda', WeeklyMonthlyAgenda);
-} 
+}
