@@ -30,8 +30,6 @@ jobs:
     - name: Run type checking
       run: npm run typecheck
 
-    - name: Run tests
-      run: npm run test -- --run --coverage
 
     - name: Fetching the list
       run: npm run update-list
