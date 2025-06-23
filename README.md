@@ -1,241 +1,227 @@
-# VisuLLM - Visual Component Renderer
+# VisuLLM - Visual Component Library
 
-A React-based visual component renderer that dynamically loads and displays visual components using path parameters with support for custom JSON data input.
+A modern, type-safe visual component library built with React, TypeScript, and Zod schemas. Create beautiful, customizable visual components with full type safety and validation.
 
-## Features
+## ✨ Features
 
-- **Dynamic Component Loading**: Load visual components based on URL slugs
-- **Path Parameter Routing**: Access components via `/v/visual-slug` URLs
-- **Custom JSON Data Input**: Insert structured JSON data to customize component rendering
-- **Schema Support**: Each component can have a JSON schema for configuration
-- **Sample Data Generation**: Auto-generate sample data based on component schemas
-- **Modern UI**: Built with React, TypeScript, and Tailwind CSS
-- **Responsive Design**: Works on desktop and mobile devices
+- **🔒 Type Safety**: Built with TypeScript and Zod schemas for runtime validation
+- **🎨 Modern UI**: Beautiful, responsive components using Tailwind CSS
+- **📱 Responsive**: Works perfectly on desktop, tablet, and mobile
+- **🖨️ Print Ready**: All components are optimized for printing
+- **⚡ Dynamic Loading**: Components load dynamically for better performance
+- **🔧 Easy Customization**: Simple JSON data input with schema validation
+- **📊 Multiple Categories**: Schedule, document, data, creative, and utility components
 
-## Getting Started
-
-### Prerequisites
-
-- Node.js (v16 or higher)
-- npm or pnpm
+## 🚀 Quick Start
 
 ### Installation
 
-1. Clone the repository
-2. Install dependencies:
-   ```bash
-   npm install
-   # or
-   pnpm install
-   ```
+```bash
+# Clone the repository
+git clone https://github.com/your-username/VisuLLM.git
+cd VisuLLM
 
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
+# Install dependencies
+npm install
+# or
+pnpm install
 
-4. Open your browser and navigate to `http://localhost:5174`
-
-## Usage
-
-### Viewing Visual Components
-
-1. **Home Page**: Visit the home page to see all available visual components
-2. **Direct Access**: Navigate directly to a component using the URL pattern:
-   - `/v/weekly-timetable` - Weekly class schedule
-   - `/v/invoice-modern` - Modern invoice template
-
-### Adding Custom Data
-
-1. **Click "Add Data"**: On any visual component page, click the "Add Data" button
-2. **Enter JSON**: Paste or type your JSON data in the text area
-3. **Apply Data**: Click "Apply Data" to render the component with your custom data
-4. **Generate Sample**: Use "Generate Sample" to create sample data based on the component's schema
-5. **Clear Data**: Use "Clear" to remove custom data and return to default rendering
-
-### Available Visual Components
-
-1. **Weekly Timetable** (`/v/weekly-timetable`)
-   - Displays a weekly class schedule
-   - Customizable time slots and subjects
-   - Color-coded for different activities
-   - **Sample Data Structure**:
-     ```json
-     {
-       "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-       "timeSlots": ["09:00", "10:00", "11:00", "12:00", "13:00"],
-       "subjects": {
-         "Monday": {
-           "09:00": "Mathematics",
-           "10:00": "Physics",
-           "11:00": "Chemistry"
-         }
-       }
-     }
-     ```
-
-2. **Modern Invoice** (`/v/invoice-modern`)
-   - Professional invoice template
-   - Gradient header design
-   - Itemized billing with totals
-   - **Sample Data Structure**:
-     ```json
-     {
-       "invoiceNumber": "INV-2024-001",
-       "date": "2024-01-15",
-       "company": {
-         "name": "Your Company",
-         "address": "123 Business St",
-         "city": "City, State 12345"
-       },
-       "client": {
-         "name": "Client Name",
-         "address": "456 Client Ave",
-         "city": "Client City, CC 67890"
-       },
-       "items": [
-         {
-           "description": "Service Description",
-           "quantity": 10,
-           "unit": "hours",
-           "rate": 100,
-           "amount": 1000
-         }
-       ],
-       "subtotal": 1000,
-       "tax": 100,
-       "total": 1100
-     }
-     ```
-
-## Project Structure
-
-```
-src/
-├── components/
-│   ├── VisualRenderer.tsx      # Main component renderer with JSON input
-│   ├── Router.tsx              # Routing configuration
-│   └── ...
-├── pages/
-│   ├── VisualViewerPage.tsx    # Page wrapper for visual renderer
-│   └── ...
-└── ...
-
-visuals/
-├── list.json                   # List of all available visuals
-├── weekly-timetable/
-│   ├── component.tsx           # Weekly timetable component
-│   ├── schema.json            # Component schema
-│   ├── sample-data.json       # Sample data for users
-│   └── preview.png            # Preview image
-└── invoice-modern/
-    ├── component.tsx           # Invoice component
-    ├── schema.json            # Component schema
-    ├── sample-data.json       # Sample data for users
-    └── preview.png            # Preview image
+# Start development server
+npm run dev
 ```
 
-## Adding New Visual Components
+### Usage
 
-1. **Create Component Directory**: Add a new folder in `visuals/` with your component name
-2. **Create Component File**: Add `component.tsx` with your React component that accepts `data` prop
-3. **Add Schema**: Create `schema.json` to define the component's data structure
-4. **Add Sample Data**: Create `sample-data.json` with example data for users
-5. **Add Preview**: Include a `preview.png` image
-6. **Update List**: Add your component to `visuals/list.json`
+1. **Browse Components**: Visit the home page to see all available components
+2. **Select a Component**: Click on any component to view it
+3. **Customize Data**: Input your JSON data in the left panel
+4. **Preview**: See your component render in real-time
+5. **Export**: Print to PDF or view in full screen
 
-### Component Template
+## 📁 Project Structure
 
-```tsx
+```
+VisuLLM/
+├── src/                    # Source code
+│   ├── components/         # React components
+│   ├── pages/             # Page components
+│   └── utils/             # Utility functions
+├── visuals/               # Visual components
+│   ├── component-template/ # Template for new components
+│   ├── weekly-timetable/  # Example component
+│   └── list.json          # Component registry
+├── public/                # Static assets
+└── package.json           # Dependencies and scripts
+```
+
+## 🛠️ Creating Components
+
+VisuLLM uses a **Zod-based schema system** for type safety and validation. Each component consists of:
+
+- **`component.tsx`** - React component with TypeScript
+- **`schema.ts`** - Zod schema definition
+- **`sample-data.json`** - Sample data for testing
+- **`preview.png`** - Preview image
+
+### Example Component
+
+```typescript
+// schema.ts
+import { z } from 'zod';
+
+export const MyComponentSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  items: z.array(z.object({
+    name: z.string(),
+    value: z.number().positive(),
+  })),
+  theme: z.object({
+    primaryColor: z.enum(['blue', 'green', 'purple']).default('blue'),
+  }).optional(),
+});
+
+export type MyComponentData = z.infer<typeof MyComponentSchema>;
+```
+
+```typescript
+// component.tsx
 import React from 'react';
+import { MyComponentSchema, type MyComponentData } from './schema';
 
-interface YourComponentProps {
-  schema: Record<string, unknown> | null;
-  data?: Record<string, unknown> | null;
-}
-
-const YourComponent: React.FC<YourComponentProps> = ({ schema, data }) => {
-  // Use data if provided, otherwise use default data
-  const componentData = data || defaultData;
-
+const MyComponent: React.FC<{ data?: MyComponentData }> = ({ data }) => {
+  const validatedData = MyComponentSchema.parse(data || sampleData);
+  
   return (
-    <div>
-      {/* Your component content using componentData */}
-      {data && (
-        <div>
-          <h4>Using Custom Data:</h4>
-          <pre>{JSON.stringify(data, null, 2)}</pre>
+    <div className="p-6">
+      <h1>{validatedData.title}</h1>
+      {validatedData.items.map((item, index) => (
+        <div key={index}>
+          <span>{item.name}</span>
+          <span>{item.value}</span>
         </div>
-      )}
+      ))}
     </div>
   );
 };
-
-export default YourComponent;
 ```
 
-### List Entry Format
+## 📊 Available Components
 
-```json
-{
-  "name": "Your Component Name",
-  "slug": "your-component-slug",
-  "author": "Your Name",
-  "description": "Brief description of your component",
-  "preview": "visuals/your-component/preview.png",
-  "schema": "visuals/your-component/schema.json",
-  "componentPath": "visuals/your-component/component.tsx"
-}
+### Schedule Components
+- **Weekly Timetable** - Class schedule with customizable time slots
+- **Weekly/Monthly Calendar** - Event calendar with program scheduling
+
+### Document Components
+- **Invoice (Modern)** - Professional invoice with company branding
+- **Cover Letter** - Job application cover letter template
+
+### Data Components
+- **Coming Soon** - Charts, tables, and analytics components
+
+### Creative Components
+- **Coming Soon** - Cards, presentations, and graphics
+
+### Utility Components
+- **Coming Soon** - Tools, calculators, and converters
+
+## 🎨 Design System
+
+### Color Schemes
+- **Blue** - Professional, trustworthy
+- **Green** - Growth, success
+- **Purple** - Creative, innovative
+- **Red** - Attention, urgency
+
+### Typography
+- **Font Family**: System fonts with fallbacks
+- **Font Sizes**: Responsive scale (12px - 48px)
+- **Line Heights**: Readable ratios (1.5 - 1.7)
+
+### Spacing
+- **Consistent Grid**: 4px base unit
+- **Responsive**: Mobile-first approach
+- **Print Optimized**: Clean layouts for PDF export
+
+## 🔧 Development
+
+### Prerequisites
+- Node.js 18+ 
+- npm or pnpm
+- Modern browser with ES6+ support
+
+### Scripts
+
+```bash
+# Development
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run preview      # Preview production build
+
+# Code Quality
+npm run lint         # Run ESLint
+npm run type-check   # Run TypeScript checks
+npm run test         # Run tests
 ```
 
-## JSON Data Input Features
+### Adding New Components
 
-### Supported Actions
+1. **Generate Visual**: `npm run generate-visual` (recommended)
+2. **Or copy template**: Use `visuals/component-template/` as a starting point
+3. **Define Schema**: Create your Zod schema in `schema.ts`
+4. **Build Component**: Implement your React component
+5. **Add Sample Data**: Create `sample-data.json` for testing
+6. **Update Registry**: Add to `visuals/list.json` (auto-generated)
+7. **Test**: Verify functionality and responsiveness
+8. **Document**: Add README and examples
 
-- **Apply Data**: Parse and apply JSON data to the component
-- **Generate Sample**: Create sample data based on the component's schema
-- **Clear Data**: Remove custom data and return to default rendering
-- **Validation**: Automatic JSON validation with error messages
+## 🤝 Contributing
 
-### Data Persistence
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for detailed information.
 
-- Custom data is stored in component state during the session
-- Data persists when navigating between different sections of the component
-- Data is cleared when navigating to a different component
+### Quick Contribution Steps
 
-### Error Handling
+1. **Fork** the repository
+2. **Create** a feature branch
+3. **Add** your component following the template
+4. **Test** thoroughly
+5. **Submit** a pull request
 
-- Invalid JSON format detection
-- Clear error messages for malformed data
-- Graceful fallback to default data on errors
+### Component Guidelines
 
-## Development
+- ✅ Use TypeScript and Zod schemas
+- ✅ Follow responsive design principles
+- ✅ Ensure accessibility compliance
+- ✅ Optimize for print functionality
+- ✅ Include comprehensive documentation
+- ✅ Add proper error handling
 
-### Available Scripts
+## 📝 Documentation
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run test` - Run tests
-- `npm run lint` - Run ESLint
+- **[Contributing Guide](CONTRIBUTING.md)** - How to create components
+- **[Component Template](visuals/component-template/)** - Template for new components
+- **[API Reference](docs/api.md)** - Component API documentation
+- **[Design System](docs/design-system.md)** - Design guidelines and patterns
 
-### Technology Stack
+## 🐛 Issues & Support
 
-- **React 18** - UI framework
+- **Bug Reports**: [GitHub Issues](https://github.com/your-username/VisuLLM/issues)
+- **Feature Requests**: [GitHub Discussions](https://github.com/your-username/VisuLLM/discussions)
+- **Questions**: [GitHub Discussions](https://github.com/your-username/VisuLLM/discussions)
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- **React** - UI library
 - **TypeScript** - Type safety
-- **Vite** - Build tool and dev server
-- **React Router** - Client-side routing
+- **Zod** - Schema validation
 - **Tailwind CSS** - Styling
-- **Vitest** - Testing framework
+- **Vite** - Build tool
+- **React Router** - Navigation
+- **React To Print** - PDF export
 
-## Contributing
+---
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-## License
-
-This project is licensed under the MIT License.
+**Made with ❤️ by the VisuLLM community**

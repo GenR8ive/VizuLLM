@@ -16,19 +16,23 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "serve": "vite preview",
+    "preview": "vite preview",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "lint": "eslint src --max-warnings=0",
-    "typecheck": "tsc --project tsconfig.json --noEmit"
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "typecheck": "tsc --project tsconfig.json --noEmit",
+    "generate-visual": "node scripts/generate-visual.mjs",
+    "update-list": "node scripts/update-list.mjs"
   },
   "dependencies": {
     "html2canvas": "^1.4.1",
     "jspdf": "^3.0.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^7.6.2",
-    "react-to-print": "^3.1.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.1",
+    "react-to-print": "^2.14.15",
+    "zod": "^3.22.4",
+    "zod-to-json-schema": "^3.24.5"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",

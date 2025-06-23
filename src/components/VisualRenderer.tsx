@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
+import { z } from 'zod';
+import { zodToJsonSchema } from "zod-to-json-schema";
 
 interface VisualComponent {
   name: string;
@@ -17,7 +19,7 @@ interface VisualRendererProps {
 }
 
 interface ComponentProps {
-  schema: Record<string, unknown> | null;
+  schema: z.ZodSchema | null;
   data?: Record<string, unknown> | null;
 }
 
@@ -45,7 +47,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [Component, setComponent] = useState<React.ComponentType<ComponentProps> | null>(null);
-  const [schema, setSchema] = useState<Record<string, unknown> | null>(null);
+  const [schema, setSchema] = useState<z.ZodSchema | null>(null);
   const [userData, setUserData] = useState<Record<string, unknown> | null>(null);
   const [jsonInput, setJsonInput] = useState<string>('');
   const [jsonError, setJsonError] = useState<string | null>(null);
@@ -53,6 +55,31 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
   const [isPrinting, setIsPrinting] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [showSchemaModal, setShowSchemaModal] = useState(false);
+  const [jsonOutput, setJsonOutput] = useState<string>('');
+  const [copiedIcon, setCopiedIcon] = useState(false);
+  // Set JSON output when schema changes
+  useEffect(() => {
+    if (schema) {
+      try {
+        const jsonSchema = zodToJsonSchema(schema, "Schema");
+        const properties = (jsonSchema.definitions!.Schema as Record<string, unknown>).properties || {};
+        const required = (jsonSchema.definitions!.Schema as Record<string, unknown>).required || [];
+        setJsonOutput(JSON.stringify({ properties, required }, null, 2));
+      } catch (error) {
+        console.error('Error converting schema to JSON:', error);
+        setJsonOutput('');
+      }
+    } else {
+      setJsonOutput('');
+    }
+  }, [schema]);
+
+  useEffect(() => {
+    if (schema) {
+      console.log(zodToJsonSchema(schema, "Schema"));
+    }
+    console.log("h");
+  }, [schema]);
 
   const componentRef = useRef<HTMLDivElement>(null);
   const fullScreenRef = useRef<HTMLDivElement>(null);
@@ -116,13 +143,21 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
 
         // Load schema
         try {
-          const schemaResponse = await fetch(`/visuals/${slug}/schema.json`);
-          if (schemaResponse.ok) {
-            const schemaData = await schemaResponse.json();
-            setSchema(schemaData);
-          }
+          const schemaModule = await import(`/visuals/${slug}/schema.ts`);
+          const schemaData = schemaModule.default || schemaModule;
+          setSchema(schemaData);
         } catch (schemaError) {
           console.warn('Failed to load schema:', schemaError);
+          // Fallback to JSON schema if Zod schema not available
+          try {
+            const schemaResponse = await fetch(`/visuals/${slug}/schema.json`);
+            if (schemaResponse.ok) {
+              const jsonSchema = await schemaResponse.json();
+              setSchema(jsonSchema);
+            }
+          } catch (jsonSchemaError) {
+            console.warn('Failed to load JSON schema:', jsonSchemaError);
+          }
         }
 
         // Load component
@@ -175,15 +210,21 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
     if (!schema) return;
 
     try {
-      // Extract only properties and required fields
-      const simplifiedSchema = {
-        properties: schema.properties || {},
-        required: schema.required || []
-      };
 
-      const prompt = `Output as JSON following this schema:\n\n${JSON.stringify(simplifiedSchema, null, 2)}`;
+      await navigator.clipboard.writeText(jsonOutput);
+      setCopiedIcon(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy schema:', err);
+    }
+  };
 
-      await navigator.clipboard.writeText(prompt);
+  const copyAsPrompt = async () => {
+    if (!schema) return;
+
+    try {
+
+      await navigator.clipboard.writeText(`Output as following JSON Schema:\n\n${jsonOutput}`);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
@@ -191,7 +232,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
     }
   };
 
-  const reactToPrintFn = useReactToPrint({ contentRef: componentRef });
+  const reactToPrintFn = useReactToPrint({ content: () => componentRef.current });
 
   const handlePrint = () => {
     if (!componentRef.current || !visual) {
@@ -299,7 +340,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
 
         {/* Main Content */}
         <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-4 pt-10 sm:px-6 lg:flex-row lg:overflow-hidden lg:px-8">
-          <div className="grid h-full gap-8 lg:grid-cols-2 lg:overflow-visible">
+          <div className="grid size-full gap-8 lg:grid-cols-2 lg:overflow-visible">
             {/* Left Panel - Input */}
             <div className="flex h-full flex-col space-y-6  pb-8">
               {/* Data Input Section */}
@@ -320,7 +361,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
                           View Schema
                         </button>
                         <button
-                          onClick={copySchemaToClipboard}
+                          onClick={copyAsPrompt}
                           className="group inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 px-4 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl sm:w-auto"
                         >
                           {copied ? (
@@ -335,7 +376,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
                               <svg className="mr-2 size-4 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                               </svg>
-                              Copy Schema
+                              Copy Schema as Prompt
                             </>
                           )}
                         </button>
@@ -538,15 +579,24 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
 
             {/* Modal Content */}
             <div className="max-h-[calc(90vh-120px)] overflow-auto p-6">
-              <div className="overflow-hidden rounded-2xl bg-slate-50 p-4 shadow-inner">
-                <pre className="overflow-auto font-mono text-sm text-slate-700">
-                  {(() => {
-                    const simplifiedSchema = {
-                      properties: schema.properties || {},
-                      required: schema.required || []
-                    };
-                    return JSON.stringify(simplifiedSchema, null, 2);
-                  })()}
+              <div className="relative overflow-hidden rounded-2xl bg-slate-50 p-4 shadow-inner">
+                <button
+                  onClick={copySchemaToClipboard}
+                  className="absolute right-2 top-2 rounded-lg p-2 text-slate-500 transition-colors hover:bg-slate-200 hover:text-slate-700"
+                  title="Copy schema"
+                >
+                  {copiedIcon ? (
+                    <svg className="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  ) : (
+                    <svg className="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                  )}
+                </button>
+                <pre className="overflow-auto pr-12 font-mono text-sm text-slate-700">
+                  {jsonOutput || 'No schema available'}
                 </pre>
               </div>
             </div>
@@ -570,7 +620,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
                       <svg className="mr-2 size-4 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                       </svg>
-                      Copy Schema
+                      Copy Schema as Prompt
                     </>
                   )}
                 </button>

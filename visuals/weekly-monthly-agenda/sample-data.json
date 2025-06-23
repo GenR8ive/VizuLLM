@@ -1,0 +1,183 @@
+{
+  "title": "Weekly Agenda - December 2024",
+  "timePeriod": "weekly",
+  "startDate": "2024-12-16",
+  "endDate": "2024-12-22",
+  "events": [
+    {
+      "id": "1",
+      "title": "Team Standup Meeting",
+      "description": "Daily standup with the development team",
+      "date": "2024-12-16",
+      "time": "09:00",
+      "duration": 30,
+      "category": "meeting",
+      "priority": "high",
+      "completed": false,
+      "attendees": ["John", "Sarah", "Mike", "Lisa"]
+    },
+    {
+      "id": "2",
+      "title": "Code Review",
+      "description": "Review pull requests for the new feature",
+      "date": "2024-12-16",
+      "time": "11:00",
+      "duration": 60,
+      "category": "task",
+      "priority": "medium",
+      "completed": false
+    },
+    {
+      "id": "3",
+      "title": "Lunch Break",
+      "description": "Take a break and grab lunch",
+      "date": "2024-12-16",
+      "time": "12:30",
+      "duration": 60,
+      "category": "break",
+      "priority": "low",
+      "completed": false
+    },
+    {
+      "id": "4",
+      "title": "Client Presentation",
+      "description": "Present project progress to client",
+      "date": "2024-12-16",
+      "time": "14:00",
+      "duration": 90,
+      "category": "meeting",
+      "priority": "high",
+      "completed": false,
+      "location": "Conference Room A",
+      "attendees": ["Client Team", "Project Manager"]
+    },
+    {
+      "id": "5",
+      "title": "Gym Session",
+      "description": "Evening workout at the gym",
+      "date": "2024-12-16",
+      "time": "18:00",
+      "duration": 60,
+      "category": "personal",
+      "priority": "medium",
+      "completed": false,
+      "location": "Fitness Center"
+    },
+    {
+      "id": "6",
+      "title": "Database Migration",
+      "description": "Migrate production database to new version",
+      "date": "2024-12-17",
+      "time": "10:00",
+      "duration": 120,
+      "category": "task",
+      "priority": "high",
+      "completed": false
+    },
+    {
+      "id": "7",
+      "title": "Coffee with Mentor",
+      "description": "Weekly mentoring session",
+      "date": "2024-12-17",
+      "time": "15:00",
+      "duration": 45,
+      "category": "meeting",
+      "priority": "medium",
+      "completed": false,
+      "location": "Coffee Shop",
+      "attendees": ["Mentor"]
+    },
+    {
+      "id": "8",
+      "title": "Dentist Appointment",
+      "description": "Regular dental checkup",
+      "date": "2024-12-18",
+      "time": "13:00",
+      "duration": 60,
+      "category": "personal",
+      "priority": "medium",
+      "completed": false,
+      "location": "Dental Clinic"
+    },
+    {
+      "id": "9",
+      "title": "Sprint Planning",
+      "description": "Plan tasks for the next sprint",
+      "date": "2024-12-18",
+      "time": "16:00",
+      "duration": 90,
+      "category": "meeting",
+      "priority": "high",
+      "completed": false,
+      "attendees": ["Development Team", "Product Manager"]
+    },
+    {
+      "id": "10",
+      "title": "Documentation Update",
+      "description": "Update API documentation",
+      "date": "2024-12-19",
+      "time": "09:00",
+      "duration": 120,
+      "category": "task",
+      "priority": "medium",
+      "completed": false
+    },
+    {
+      "id": "11",
+      "title": "Team Building Event",
+      "description": "Virtual team building activity",
+      "date": "2024-12-19",
+      "time": "14:00",
+      "duration": 60,
+      "category": "meeting",
+      "priority": "low",
+      "completed": false,
+      "attendees": ["Entire Team"]
+    },
+    {
+      "id": "12",
+      "title": "Shopping",
+      "description": "Grocery shopping for the week",
+      "date": "2024-12-20",
+      "time": "17:00",
+      "duration": 45,
+      "category": "personal",
+      "priority": "low",
+      "completed": false,
+      "location": "Supermarket"
+    },
+    {
+      "id": "13",
+      "title": "Code Deployment",
+      "description": "Deploy new features to production",
+      "date": "2024-12-20",
+      "time": "20:00",
+      "duration": 60,
+      "category": "task",
+      "priority": "high",
+      "completed": false
+    },
+    {
+      "id": "14",
+      "title": "Weekend Planning",
+      "description": "Plan activities for the weekend",
+      "date": "2024-12-21",
+      "time": "10:00",
+      "duration": 30,
+      "category": "personal",
+      "priority": "low",
+      "completed": false
+    },
+    {
+      "id": "15",
+      "title": "Weekly Review",
+      "description": "Review accomplishments and plan next week",
+      "date": "2024-12-22",
+      "time": "16:00",
+      "duration": 60,
+      "category": "task",
+      "priority": "medium",
+      "completed": false
+    }
+  ]
+} 
