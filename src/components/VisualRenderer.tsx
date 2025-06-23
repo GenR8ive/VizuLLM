@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
 import { z } from 'zod';
 import { zodToJsonSchema } from "zod-to-json-schema";
+import visuals from '../../visuals/list.json';
 
 interface VisualComponent {
   name: string;
@@ -127,13 +128,8 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
       }
 
       try {
-        // Load visual metadata
-        const visualsResponse = await fetch('/visuals/list.json');
-        if (!visualsResponse.ok) {
-          throw new Error('Failed to load visuals list');
-        }
-        const visuals = await visualsResponse.json();
-        const visualData = visuals.find((v: VisualComponent) => v.slug === slug);
+        // Load visual metadata from imported JSON
+        const visualData = (visuals as VisualComponent[]).find((v: VisualComponent) => v.slug === slug);
 
         if (!visualData) {
           throw new Error(`Visual component '${slug}' not found`);
@@ -143,21 +139,23 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
 
         // Load schema
         try {
-          const schemaModule = await import(`/visuals/${slug}/schema.ts`);
-          const schemaData = schemaModule.default || schemaModule;
-          setSchema(schemaData);
+          const schemaResponse = await fetch(`./visuals/${slug}/schema.json`);
+          if (schemaResponse.ok) {
+            const jsonSchema = await schemaResponse.json();
+            setSchema(jsonSchema);
+          } else {
+            console.warn('Schema JSON not found, trying TypeScript schema...');
+            // Try to import TypeScript schema as fallback
+            try {
+              const schemaModule = await import(`/visuals/${slug}/schema.ts`);
+              const schemaData = schemaModule.default || schemaModule;
+              setSchema(schemaData);
+            } catch (tsSchemaError) {
+              console.warn('Failed to load TypeScript schema:', tsSchemaError);
+            }
+          }
         } catch (schemaError) {
           console.warn('Failed to load schema:', schemaError);
-          // Fallback to JSON schema if Zod schema not available
-          try {
-            const schemaResponse = await fetch(`/visuals/${slug}/schema.json`);
-            if (schemaResponse.ok) {
-              const jsonSchema = await schemaResponse.json();
-              setSchema(jsonSchema);
-            }
-          } catch (jsonSchemaError) {
-            console.warn('Failed to load JSON schema:', jsonSchemaError);
-          }
         }
 
         // Load component
