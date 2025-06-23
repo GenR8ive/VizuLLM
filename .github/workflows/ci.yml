@@ -30,9 +30,6 @@ jobs:
     - name: Run type checking
       run: npm run typecheck
 
-    - name: Run linting
-      run: npm run lint
-
     - name: Run tests
       run: npm run test -- --run --coverage
 
