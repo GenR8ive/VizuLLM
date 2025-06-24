@@ -95,12 +95,12 @@ const VisualizationGrid: React.FC<VisualizationGridProps> = ({ items, onItemSele
       </div>
 
       {/* Results Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
         <div className="flex items-center space-x-4">
           <h2 className="text-2xl font-semibold text-gunmetal-800">
             Templates
           </h2>
-          <div className="inline-flex items-center rounded-xl bg-gunmetal-100 px-3 py-1 text-sm font-medium text-gunmetal-700 shadow-sm">
+          <div className="inline-flex items-center rounded-xl bg-gray-100 px-3 py-1 text-sm font-medium text-gunmetal-700 shadow-sm">
             {filteredItems.length} of {items.length}
           </div>
         </div>
@@ -121,6 +121,40 @@ const VisualizationGrid: React.FC<VisualizationGridProps> = ({ items, onItemSele
       {/* Grid */}
       {filteredItems.length > 0 ? (
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {/* Add New Template Card */}
+          <a
+            href="https://github.com/GenR8ive/VizuLLM/blob/main/CONTRIBUTING.md"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="from-saffron-50 group relative overflow-hidden rounded-3xl border-2 border-dashed border-saffron-300 bg-gradient-to-br to-saffron-100 p-6 shadow-md transition-all duration-500 hover:-translate-y-2 hover:border-saffron-400 hover:shadow-2xl hover:shadow-saffron-500/10"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-saffron-400/10 to-keppel-400/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+
+            <div className="relative z-10 flex h-full flex-col items-center justify-center space-y-4 text-center">
+              <div className="flex size-16 items-center justify-center rounded-2xl bg-gradient-to-br from-saffron-500 to-keppel-600 shadow-lg transition-all duration-300 group-hover:shadow-xl">
+                <svg className="size-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+              </div>
+
+              <div className="space-y-2">
+                <h3 className="text-xl font-bold text-gunmetal-800 transition-colors group-hover:text-gunmetal-900">
+                  Add New Template
+                </h3>
+                <p className="text-sm leading-relaxed text-gunmetal-600">
+                  Contribute to the community by creating your own visualization template
+                </p>
+              </div>
+
+              <div className="inline-flex items-center space-x-2 text-sm font-medium text-saffron-700 transition-colors group-hover:text-saffron-800">
+                <span>Learn how to contribute</span>
+                <svg className="size-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </div>
+          </a>
+
           {filteredItems.map((item) => (
             <VisualizationCard
               key={item.slug}

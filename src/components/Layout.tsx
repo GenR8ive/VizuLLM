@@ -102,54 +102,85 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                       </svg>
                     </div>
-                    
-                      <a href="/"> <h3 className="text-lg font-bold text-gunmetal-800">VizuLLM</h3></a>
+
+                      <Link to="/"> <h3 className="text-lg font-bold text-gunmetal-800">VizuLLM</h3></Link>
                   </div>
                   <p className="max-w-md text-sm leading-relaxed text-gunmetal-600">
-                    A powerful visualization platform for large language models,
-                    helping you understand and interact with AI systems more effectively.
+                    An open-source platform for visualizing LLM outputs using structured templates.
+                    Built by the community, for the community. Create and share custom visualization
+                    components to make AI interactions more intuitive and beautiful.
                   </p>
                 </div>
                 <div>
                   <h4 className="mb-4 text-sm font-semibold text-gunmetal-800">
-                    Quick Links
+                    Project
                   </h4>
                   <ul className="space-y-3">
                     <li>
-                      <a href="#" className="text-sm text-gunmetal-600 transition-colors hover:text-bleu_de_france-600">
+                      <a
+                        href="https://github.com/GenR8ive/VizuLLM/blob/main/README.md"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-gunmetal-600 transition-colors hover:text-bleu_de_france-600"
+                      >
                         Documentation
                       </a>
                     </li>
                     <li>
-                      <a href="#" className="text-sm text-gunmetal-600 transition-colors hover:text-bleu_de_france-600">
-                        API Reference
+                      <a
+                        href="https://github.com/GenR8ive/VizuLLM/blob/main/CONTRIBUTING.md"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-gunmetal-600 transition-colors hover:text-bleu_de_france-600"
+                      >
+                        Contributing Guide
                       </a>
                     </li>
                     <li>
-                      <a href="#" className="text-sm text-gunmetal-600 transition-colors hover:text-bleu_de_france-600">
-                        Examples
+                      <a
+                        href="https://github.com/GenR8ive/VizuLLM/tree/main/visuals"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-gunmetal-600 transition-colors hover:text-bleu_de_france-600"
+                      >
+                        Template Examples
                       </a>
                     </li>
                   </ul>
                 </div>
                 <div>
                   <h4 className="mb-4 text-sm font-semibold text-gunmetal-800">
-                    Support
+                    Community
                   </h4>
                   <ul className="space-y-3">
                     <li>
-                      <a href="#" className="text-sm text-gunmetal-600 transition-colors hover:text-bleu_de_france-600">
-                        Help Center
+                      <a
+                        href="https://github.com/GenR8ive/VizuLLM/issues"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-gunmetal-600 transition-colors hover:text-bleu_de_france-600"
+                      >
+                        Issues & Bugs
                       </a>
                     </li>
                     <li>
-                      <a href="#" className="text-sm text-gunmetal-600 transition-colors hover:text-bleu_de_france-600">
-                        Contact Us
+                      <a
+                        href="https://github.com/GenR8ive/VizuLLM/discussions"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-gunmetal-600 transition-colors hover:text-bleu_de_france-600"
+                      >
+                        Discussions
                       </a>
                     </li>
                     <li>
-                      <a href="#" className="text-sm text-gunmetal-600 transition-colors hover:text-bleu_de_france-600">
-                        Community
+                      <a
+                        href="https://github.com/GenR8ive/VizuLLM/pulls"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-gunmetal-600 transition-colors hover:text-bleu_de_france-600"
+                      >
+                        Pull Requests
                       </a>
                     </li>
                   </ul>
@@ -158,14 +189,24 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <div className="mt-8 border-t border-gunmetal-200/50 pt-8">
                 <div className="flex flex-col items-center justify-between md:flex-row">
                   <p className="text-sm text-gunmetal-600">
-                    © 2024 VisuLLM. All rights reserved.
+                    © 2025 VizuLLM. Open source project licensed under MIT.
                   </p>
                   <div className="mt-4 flex space-x-6 md:mt-0">
-                    <a href="#" className="text-sm text-gunmetal-600 transition-colors hover:text-bleu_de_france-600">
-                      Privacy Policy
+                    <a
+                      href="https://github.com/GenR8ive/VizuLLM/blob/main/LICENSE"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-gunmetal-600 transition-colors hover:text-bleu_de_france-600"
+                    >
+                      MIT License
                     </a>
-                    <a href="#" className="text-sm text-gunmetal-600 transition-colors hover:text-bleu_de_france-600">
-                      Terms of Service
+                    <a
+                      href="https://github.com/GenR8ive/VizuLLM"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-gunmetal-600 transition-colors hover:text-bleu_de_france-600"
+                    >
+                      Star on GitHub
                     </a>
                   </div>
                 </div>

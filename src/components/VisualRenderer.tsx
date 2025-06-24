@@ -128,7 +128,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
       }
 
       try {
-        
+
         const visualData = visuals.find((v: VisualComponent) => v.slug === slug);
 
         if (!visualData) {
@@ -390,7 +390,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
                       value={jsonInput}
                       onChange={(e) => setJsonInput(e.target.value)}
                       placeholder="Enter JSON data here based on the schema above..."
-                      className="flex-1 resize-none rounded-2xl border-0 bg-slate-50 p-4 text-sm text-slate-900 shadow-inner transition-all duration-300 placeholder:text-slate-500 focus:bg-white focus:shadow-lg focus:ring-2 focus:ring-blue-500/20"
+                      className="min-h-[calc(150px)] flex-1 resize-none rounded-2xl border-0 bg-slate-50 p-4 text-sm text-slate-900 shadow-inner transition-all duration-300 placeholder:text-slate-500 focus:bg-white focus:shadow-lg focus:ring-2 focus:ring-blue-500/20"
                     />
                   </div>
 
@@ -518,28 +518,44 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
       {/* Full Screen Modal */}
       {isFullScreen && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm">
-          <div className="relative size-full overflow-auto">
-            {/* Close Button */}
-            <button
-              onClick={toggleFullScreen}
-              className="absolute right-4 top-4 z-10 rounded-full bg-white/10 p-3 text-white backdrop-blur-sm transition-all hover:bg-white/20"
-            >
-              <svg className="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
+          <div className="relative flex size-full max-h-[calc(100vh-160px)] w-fit flex-col overflow-hidden rounded-3xl bg-white shadow-2xl">
+
+            {/* Modal Header */}
+            <div className="flex shrink-0 items-center justify-between border-b border-slate-200/50 bg-gradient-to-r from-slate-50 to-purple-50/50 px-6 py-4">
+              <div>
+                <h2 className="text-xl font-bold text-slate-900">Full Screen Preview</h2>
+                {userData && (
+                  <p className="mt-1 text-sm font-medium text-purple-600">Rendering with custom data</p>
+                )}
+              </div>
+              <button
+                onClick={toggleFullScreen}
+                className="rounded-full p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700"
+                title="Close full screen"
+              >
+                <svg className="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
 
             {/* Component Content */}
-            <div className="flex h-full items-center justify-center">
-              <div className="max-h-full max-w-full overflow-auto rounded-3xl bg-white p-6 shadow-2xl" ref={fullScreenRef}>
+            <div className="flex flex-1 items-center justify-center overflow-hidden p-6">
+              <div className="size-full overflow-auto rounded-2xl" ref={fullScreenRef}>
                 {Component ? (
-                  <div data-component-content>
+                  <div className="flex size-full items-center justify-center" data-component-content>
                     <Component schema={schema} data={userData} />
                   </div>
                 ) : (
                   <div className="flex h-64 items-center justify-center sm:h-96">
                     <div className="text-center">
-                      <p className="text-gray-600">Component not available</p>
+                      <div className="mx-auto size-12 rounded-2xl bg-gradient-to-br from-slate-200 to-slate-300 p-3 shadow-lg sm:size-16">
+                        <svg className="size-full text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                      </div>
+                      <h3 className="mt-4 text-lg font-bold text-slate-900 sm:text-xl">Component not available</h3>
+                      <p className="mt-2 text-sm font-medium text-slate-600">Please try again later</p>
                     </div>
                   </div>
                 )}
@@ -547,8 +563,8 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
             </div>
 
             {/* Instructions */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center text-white/70">
-              <p className="text-sm">Press ESC or click outside to exit full screen</p>
+            <div className="shrink-0 border-t border-slate-200/50 bg-slate-50/50 px-6 py-3">
+              <p className="text-center text-sm text-slate-600">Press ESC or click the close button to exit full screen</p>
             </div>
           </div>
         </div>
@@ -557,7 +573,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
       {/* Schema Modal */}
       {showSchemaModal && schema && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
-          <div className="relative max-h-[90vh] w-full max-w-4xl overflow-hidden rounded-3xl bg-white shadow-2xl">
+          <div className="relative flex max-h-[calc(100vh-150px)] w-full max-w-4xl flex-col overflow-hidden rounded-3xl bg-white shadow-2xl">
             {/* Modal Header */}
             <div className="border-b border-slate-200/50 bg-gradient-to-r from-slate-50 to-blue-50/50 px-6 py-4">
               <div className="flex items-center justify-between">
@@ -574,7 +590,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
             </div>
 
             {/* Modal Content */}
-            <div className="max-h-[calc(90vh-120px)] overflow-auto p-6">
+            <div className="max-h-[calc(90vh-250px)] overflow-hidden p-6 ">
               <div className="relative overflow-hidden rounded-2xl bg-slate-50 p-4 shadow-inner">
                 <button
                   onClick={copySchemaToClipboard}
