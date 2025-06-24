@@ -7,5 +7,14 @@
     "preview": "visuals/weekly-monthly-agenda/preview.png",
     "schema": "visuals/weekly-monthly-agenda/schema.ts",
     "componentPath": "visuals/weekly-monthly-agenda/component.tsx"
+  },
+  {
+    "name": "Gantt Chart",
+    "slug": "gantt-chart",
+    "author": "tscburak",
+    "description": "Gantt Chart for project planning with elegant ui",
+    "preview": "visuals/gantt-chart/preview.png",
+    "schema": "visuals/gantt-chart/schema.ts",
+    "componentPath": "visuals/gantt-chart/component.tsx"
   }
 ]
