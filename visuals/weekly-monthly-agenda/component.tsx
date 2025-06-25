@@ -78,7 +78,6 @@ const WeeklyMonthlyAgenda: React.FC<ComponentProps> = ({ data }) => {
             color: black;
             font-size: 14px;
             line-height: 1.5;
-            max-width: 800px;
             margin: 0 auto;
             padding: 40px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
@@ -276,7 +275,7 @@ const WeeklyMonthlyAgenda: React.FC<ComponentProps> = ({ data }) => {
         `
       }} />
 
-      <div className="print-container">
+      <div className="print-container w-full">
         {/* Header */}
         <div className="print-header">
           <h1 className="mb-2 text-3xl font-bold text-gray-900">{title}</h1>
@@ -398,8 +397,3 @@ const WeeklyMonthlyAgenda: React.FC<ComponentProps> = ({ data }) => {
 
 // Export for dynamic loading
 export default WeeklyMonthlyAgenda;
-
-// Register component for dynamic loading
-if (typeof window !== 'undefined' && window.__registerVisualComponent) {
-  window.__registerVisualComponent('weekly-monthly-agenda', WeeklyMonthlyAgenda);
-}

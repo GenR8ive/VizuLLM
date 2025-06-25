@@ -1,6 +1,8 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef, useEffect } from 'react';
 import { GanttChartSchema, type GanttChartData } from './schema';
 import sampleData from './sample-data.json';
+import { Gantt } from 'wx-react-gantt';
+import "wx-react-gantt/dist/gantt.css";
 
 interface GanttChartProps {
   schema: typeof GanttChartSchema | null;
@@ -8,13 +10,25 @@ interface GanttChartProps {
 }
 
 // Extend Window interface for global function
-declare global {
-  interface Window {
-    __registerVisualComponent: (slug: string, component: React.ComponentType<GanttChartProps>) => void;
-  }
+
+// Task interface for wx-react-gantt
+interface GanttTask {
+  id: string;
+  name: string;
+  start: string;
+  end: string;
+  progress: number;
+  type: 'task' | 'milestone';
+  level: number;
+  parentId?: string;
+  expanded: boolean;
+  dependencies: string[];
+  customColor: string;
+  assignee?: string;
+  milestone: boolean;
 }
 
-// Print-friendly color palette with good contrast
+// Print-friendly color palette
 const TASK_COLORS = [
   '#1E40AF', // Blue
   '#DC2626', // Red
@@ -24,104 +38,205 @@ const TASK_COLORS = [
   '#BE185D', // Pink
   '#0891B2', // Cyan
   '#65A30D', // Lime
-  '#DC2626', // Red variant
-  '#1F2937', // Gray
+  '#F97316', // Orange variant
+  '#6B7280', // Gray
 ];
 
 const GanttChart: React.FC<GanttChartProps> = ({ data }) => {
   const chartData = data || (sampleData as GanttChartData);
+  const ganttRef = useRef<HTMLDivElement>(null);
 
-  // Calculate timeline dates
-  const { timelineDates, totalDays } = useMemo(() => {
-    if (!chartData.tasks.length) return { timelineDates: [] as Date[], totalDays: 0 };
+  // Transform data for wx-react-gantt
+  const transformedData = useMemo((): GanttTask[] => {
+    return chartData.tasks.map((task, index) => ({
+      id: task.id,
+      name: task.name,
+      start: task.startDate,
+      end: task.endDate,
+      progress: task.progress,
+      type: task.type,
+      level: task.level,
+      parentId: task.parentId,
+      expanded: task.expanded,
+      dependencies: task.dependencies || [],
+      // Custom properties for styling
+      customColor: task.color || TASK_COLORS[index % TASK_COLORS.length],
+      assignee: task.assignee,
+      milestone: task.milestone
+    }));
+  }, [chartData.tasks]);
 
-    const startDate = new Date(
-      chartData.startDate ||
-      Math.min(...chartData.tasks.map(task => new Date(task.startDate).getTime()))
-    );
-    const endDate = new Date(
-      chartData.endDate ||
-      Math.max(...chartData.tasks.map(task => new Date(task.endDate).getTime()))
-    );
-
-    const dates: Date[] = [];
-    const currentDate = new Date(startDate);
-
-    while (currentDate <= endDate) {
-      if (chartData.showWeekends || (currentDate.getDay() !== 0 && currentDate.getDay() !== 6)) {
-        dates.push(new Date(currentDate));
+  // Gantt chart configuration
+  const ganttConfig = useMemo(() => ({
+    // Read-only mode
+    readonly: true,
+    
+    // Display options
+    showProgress: chartData.showProgress,
+    showWeekends: chartData.showWeekends,
+    showToday: chartData.displayOptions?.showToday ?? true,
+    showWeekNumbers: chartData.displayOptions?.showWeekNumbers ?? false,
+    showTaskNames: chartData.displayOptions?.showTaskNames ?? true,
+    showDependencies: chartData.displayOptions?.showDependencies ?? true,
+    
+    // Styling
+    rowHeight: chartData.displayOptions?.rowHeight ?? 40,
+    columnWidth: chartData.displayOptions?.columnWidth ?? 30,
+    
+    // Custom styling for print
+    customStyles: {
+      taskBar: {
+        borderRadius: '4px',
+        border: '2px solid',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+        '@media print': {
+          borderRadius: '2px',
+          border: '1px solid',
+          boxShadow: 'none'
+        }
+      },
+      milestone: {
+        borderRadius: '50%',
+        border: '3px solid',
+        '@media print': {
+          border: '2px solid'
+        }
       }
-      currentDate.setDate(currentDate.getDate() + 1);
+    },
+    
+    // Event handlers (disabled for read-only)
+    onTaskClick: () => {},
+    onTaskDoubleClick: () => {},
+    onTaskRightClick: () => {},
+    onDateChange: () => {},
+    onProgressChange: () => {},
+    onDependencyChange: () => {},
+    
+    // Custom renderers for better print support
+    renderTaskBar: (task: GanttTask) => {
+      const color = task.customColor || TASK_COLORS[0];
+      const isMilestone = task.milestone || task.type === 'milestone';
+      
+      if (isMilestone) {
+        return (
+          <div
+            style={{
+              width: '12px',
+              height: '12px',
+              backgroundColor: color,
+              border: `2px solid ${color}`,
+              borderRadius: '50%',
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)'
+            }}
+          />
+        );
+      }
+      
+      return (
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: color,
+            border: `2px solid ${color}`,
+            borderRadius: '4px',
+            position: 'relative',
+            overflow: 'hidden'
+          }}
+        >
+          {/* Progress indicator */}
+          {task.progress > 0 && chartData.showProgress && (
+            <div
+              style={{
+                width: `${task.progress}%`,
+                height: '100%',
+                backgroundColor: 'rgba(255,255,255,0.3)',
+                position: 'absolute',
+                left: 0,
+                top: 0
+              }}
+            />
+          )}
+          
+          {/* Task name inside bar */}
+          {chartData.displayOptions?.showTaskNames && (
+            <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '8px',
+                transform: 'translateY(-50%)',
+                color: 'white',
+                fontSize: '11px',
+                fontWeight: 'bold',
+                textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                maxWidth: 'calc(100% - 16px)'
+              }}
+            >
+              {task.name}
+            </div>
+          )}
+        </div>
+      );
+    },
+    
+    renderTaskList: (task: GanttTask) => {
+      return (
+        <div style={{ padding: '4px 8px' }}>
+          <div style={{ 
+            fontSize: '12px', 
+            fontWeight: 'bold',
+            color: '#333',
+            marginBottom: '2px'
+          }}>
+            {task.name}
+          </div>
+          {task.assignee && (
+            <div style={{ 
+              fontSize: '10px', 
+              color: '#666',
+              marginBottom: '2px'
+            }}>
+              {task.assignee}
+            </div>
+          )}
+          <div style={{ 
+            fontSize: '10px', 
+            color: '#888'
+          }}>
+            {task.progress}% complete
+          </div>
+        </div>
+      );
     }
+  }), [chartData, transformedData]);
 
-    return {
-      timelineDates: dates,
-      totalDays: dates.length
-    };
-  }, [chartData]);
-
-  // Calculate task position and width
-  const getTaskStyle = (task: GanttChartData['tasks'][0]) => {
-    const taskStart = new Date(task.startDate);
-    const taskEnd = new Date(task.endDate);
-
-    const startIndex = timelineDates.findIndex(date =>
-      date.toDateString() === taskStart.toDateString()
-    );
-    const endIndex = timelineDates.findIndex(date =>
-      date.toDateString() === taskEnd.toDateString()
-    );
-
-    if (startIndex === -1 || endIndex === -1) return { left: '0%', width: '0%' };
-
-    const left = (startIndex / totalDays) * 100;
-    const width = ((endIndex - startIndex + 1) / totalDays) * 100;
-
-    return { left: `${left}%`, width: `${width}%` };
-  };
-
-  // Get task color with fallback to palette
-  const getTaskColor = (task: GanttChartData['tasks'][0], index: number) => {
-    return task.color || TASK_COLORS[index % TASK_COLORS.length];
-  };
-
-  // Format date for display
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: date.getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined
-    });
-  };
-
-  // Calculate task duration in days
-  const getTaskDuration = (task: GanttChartData['tasks'][0]) => {
-    const start = new Date(task.startDate);
-    const end = new Date(task.endDate);
-    const diffTime = Math.abs(end.getTime() - start.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-    return diffDays;
-  };
-
-  // Generate month headers
-  const monthHeaders = useMemo(() => {
-    const months = new Map<string, { month: string; startIndex: number; count: number }>();
-    timelineDates.forEach((date, index) => {
-      const monthKey = `${date.getFullYear()}-${date.getMonth()}`;
-      if (!months.has(monthKey)) {
-        months.set(monthKey, {
-          month: date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
-          startIndex: index,
-          count: 1
-        });
-      } else {
-        months.get(monthKey)!.count++;
+  // Handle print functionality
+  useEffect(() => {
+    const handlePrint = () => {
+      if (ganttRef.current) {
+        // Trigger print when component is ready
+        setTimeout(() => {
+          window.print();
+        }, 100);
       }
-    });
-    return Array.from(months.values());
-  }, [timelineDates]);
+    };
 
-  if (!chartData.tasks.length) {
+    // Add print event listener
+    window.addEventListener('beforeprint', handlePrint);
+    
+    return () => {
+      window.removeEventListener('beforeprint', handlePrint);
+    };
+  }, []);
+
+  if (!transformedData.length) {
     return (
       <div className="flex h-64 items-center justify-center text-gray-500 print:text-black">
         No tasks to display
@@ -132,182 +247,49 @@ const GanttChart: React.FC<GanttChartProps> = ({ data }) => {
   return (
     <div className="w-full bg-white print:bg-white">
       {/* Header */}
-      <div className="mb-4 sm:mb-6 print:mb-4">
+      <div className="mb-4 sm:mb-6 print:mb-4 print:break-inside-avoid">
         <h1 className="text-xl font-bold text-gray-900 sm:text-2xl lg:text-3xl print:text-2xl print:text-black">
           {chartData.title}
         </h1>
         <p className="mt-1 text-sm text-gray-600 sm:text-base print:text-gray-800">
-          {timelineDates.length > 0 && formatDate(timelineDates[0])} - {timelineDates.length > 0 && formatDate(timelineDates[timelineDates.length - 1])}
+          {chartData.startDate && chartData.endDate && (
+            <>
+              {new Date(chartData.startDate).toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+              })} - {new Date(chartData.endDate).toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+              })}
+            </>
+          )}
         </p>
       </div>
 
-      {/* Mobile Notice */}
-      <div className="mb-4 rounded-lg bg-blue-50 p-3 sm:hidden print:hidden">
-        <p className="text-xs text-blue-700">
-          Swipe horizontally to view the full timeline →
-        </p>
-      </div>
-
+      {/* Gantt Chart Container */}
       <div className="overflow-auto rounded-lg border border-gray-200 print:overflow-visible print:rounded-none print:border-gray-400">
-        <div className="min-w-[800px]">
-          {/* Timeline Header */}
-          <div className="border-b border-gray-200 bg-gray-50 print:border-gray-400 print:bg-gray-100">
-            {/* Month Headers */}
-            <div className="relative flex h-8 border-b border-gray-200 print:border-gray-300">
-              <div className="w-48 shrink-0 border-r border-gray-200 bg-gray-100 sm:w-56 lg:w-64 xl:w-80 print:w-72 print:border-gray-400 print:bg-gray-200"></div>
-              <div className="relative flex-1">
-                {monthHeaders.map((month, index) => (
-                  <div
-                    key={index}
-                    className="absolute top-0 flex h-full items-center justify-center border-r border-gray-200 text-xs font-medium text-gray-700 sm:text-sm print:border-gray-300 print:text-black"
+        <div 
+          ref={ganttRef}
+          className="gantt-container print:break-inside-avoid"
                     style={{
-                      left: `${(month.startIndex / totalDays) * 100}%`,
-                      width: `${(month.count / totalDays) * 100}%`
-                    }}
-                  >
-                    {month.month}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Day Headers */}
-            <div className="flex h-8">
-              <div className="flex w-48 shrink-0 items-center border-r border-gray-200 bg-gray-100 px-2 sm:w-56 sm:px-3 lg:w-64 lg:px-4 xl:w-80 print:w-72 print:border-gray-400 print:bg-gray-200">
-                <span className="text-xs font-medium text-gray-700 sm:text-sm print:text-black">Tasks</span>
-              </div>
-              <div className="flex flex-1">
-                {timelineDates.map((date, index) => (
-                  <div
-                    key={index}
-                    className={`flex h-full min-w-0 flex-1 items-center justify-center border-r border-gray-200 text-xs print:border-gray-300 ${
-                      date.getDay() === 0 || date.getDay() === 6
-                        ? 'bg-gray-100 print:bg-gray-200'
-                        : 'bg-white print:bg-white'
-                    }`}
-                    title={formatDate(date)}
-                  >
-                    <span className="text-gray-600 print:text-black">
-                      {date.getDate()}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Task Rows */}
-          <div className="divide-y divide-gray-200 print:divide-gray-400">
-            {chartData.tasks.map((task, taskIndex) => {
-              const taskStyle = getTaskStyle(task);
-              const taskColor = getTaskColor(task, taskIndex);
-              const duration = getTaskDuration(task);
-              return (
-                <div key={task.id} className="flex h-14 sm:h-16 print:h-14">
-                  {/* Task Info */}
-                  <div className="flex w-48 shrink-0 items-center border-r border-gray-200 bg-white px-2 sm:w-56 sm:px-3 lg:w-64 lg:px-4 xl:w-80 print:w-72 print:border-gray-400 print:bg-white">
-                    <div className="min-w-0 flex-1">
-                      <div className="text-xs font-medium text-gray-900 sm:text-sm print:text-black" title={task.name}>
-                        <div className="line-clamp-2 sm:line-clamp-1">
-                          {task.name}
-                        </div>
-                      </div>
-                      <div className="mt-1 flex flex-wrap items-center gap-1 text-xs text-gray-500 sm:gap-2 print:text-gray-700">
-                        {task.assignee && (
-                          <span className="rounded bg-gray-100 px-1 py-0.5 text-xs sm:px-2 sm:py-1 print:bg-gray-200" title={task.assignee}>
-                            <span className="hidden sm:inline">{task.assignee}</span>
-                            <span className="sm:hidden">{task.assignee.split(' ')[0]}</span>
-                          </span>
-                        )}
-                        <span className="text-gray-400 print:text-gray-600">
-                          {duration}d
-                        </span>
-                        {task.progress > 0 && chartData.showProgress && (
-                          <span className="font-medium text-gray-600 print:text-gray-800">
-                            {task.progress}%
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Timeline */}
-                  <div className="relative flex-1 bg-white print:bg-white">
-                    {/* Task Bar */}
-                    <div
-                      className="absolute top-2 flex h-10 items-center rounded border shadow-sm sm:top-3 print:top-2 print:h-10 print:rounded-sm print:border-2 print:shadow-none"
-                      style={{
-                        ...taskStyle,
-                        backgroundColor: taskColor,
-                        borderColor: taskColor,
-                        minWidth: '8px'
-                      }}
-                    >
-                      {/* Progress Bar */}
-                      {chartData.showProgress && task.progress > 0 && (
-                        <div
-                          className="h-full rounded-l bg-white bg-opacity-40 print:rounded-l-sm print:bg-opacity-50"
-                          style={{ width: `${task.progress}%` }}
-                        ></div>
-                      )}
-
-                      {/* Milestone Indicator */}
-                      {task.milestone && (
-                        <div
-                          className="absolute -right-1 -top-1 size-3 rotate-45 border-2 bg-yellow-400 sm:-right-2 sm:-top-2 sm:size-4 print:size-4 print:border-2 print:border-yellow-700 print:bg-yellow-500"
-                          style={{ borderColor: '#92400e' }}
-                        ></div>
-                      )}
-
-                      {/* Task Label Inside Bar */}
-                      <div className="flex-1 px-1 text-xs font-medium text-white sm:px-2 lg:px-3 print:px-2 print:text-white">
-                        <div className="truncate">
-                          <span className="hidden sm:inline">
-                            {task.name.length > 20 ? `${task.name.substring(0, 17)}...` : task.name}
-                          </span>
-                          <span className="sm:hidden">
-                            {task.name.length > 10 ? `${task.name.substring(0, 7)}...` : task.name}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Weekend Background */}
-                    {timelineDates.map((date, dateIndex) => {
-                      if (date.getDay() === 0 || date.getDay() === 6) {
-                        return (
-                          <div
-                            key={dateIndex}
-                            className="absolute top-0 h-full border-r border-gray-100 bg-gray-50 print:border-gray-200 print:bg-gray-100"
-                            style={{
-                              left: `${(dateIndex / totalDays) * 100}%`,
-                              width: `${(1 / totalDays) * 100}%`
-                            }}
-                          ></div>
-                        );
-                      }
-                      return null;
-                    })}
-
-                    {/* Vertical Day Lines */}
-                    {timelineDates.map((_, dateIndex) => (
-                      <div
-                        key={dateIndex}
-                        className="absolute top-0 h-full border-r border-gray-100 print:border-gray-200"
-                        style={{ left: `${((dateIndex + 1) / totalDays) * 100}%` }}
-                      ></div>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+            minHeight: `${transformedData.length * (chartData.displayOptions?.rowHeight || 40) + 100}px`
+          }}
+        >
+          <Gantt
+            data={transformedData}
+            config={ganttConfig}
+          />
         </div>
       </div>
 
       {/* Legend */}
+      {chartData.printOptions?.showLegend && (
       <div className="mt-4 sm:mt-6 print:mt-4 print:break-inside-avoid">
-        <h3 className="mb-2 text-base font-semibold text-gray-900 sm:mb-3 sm:text-lg print:mb-2 print:text-black">Legend</h3>
+          <h3 className="mb-2 text-base font-semibold text-gray-900 sm:mb-3 sm:text-lg print:mb-2 print:text-black">
+            Legend
+          </h3>
         <div className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4 print:grid-cols-2 print:gap-2 print:text-xs">
           <div className="space-y-2">
             <div className="flex items-center">
@@ -321,10 +303,7 @@ const GanttChart: React.FC<GanttChartProps> = ({ data }) => {
           </div>
           <div className="space-y-2">
             <div className="flex items-center">
-              <div
-                className="mr-2 size-4 rotate-45 border-2 bg-yellow-400 print:mr-1 print:border-yellow-700 print:bg-yellow-500"
-                style={{ borderColor: '#92400e' }}
-              ></div>
+                <div className="mr-2 size-4 rounded-full border-2 bg-yellow-400 print:mr-1 print:border-yellow-700 print:bg-yellow-500"></div>
               <span className="text-gray-700 print:text-black">Milestone</span>
             </div>
             <div className="flex items-center">
@@ -338,13 +317,13 @@ const GanttChart: React.FC<GanttChartProps> = ({ data }) => {
         <div className="mt-4 print:mt-3">
           <h4 className="mb-2 text-sm font-medium text-gray-800 print:text-black">Task Colors</h4>
           <div className="grid grid-cols-1 gap-1 text-xs sm:grid-cols-2 lg:grid-cols-3 print:grid-cols-3 print:text-xs">
-            {chartData.tasks.map((task, index) => (
+              {transformedData.map((task) => (
               <div key={task.id} className="flex items-center">
                 <div
                   className="mr-2 h-3 w-4 shrink-0 rounded border print:mr-1 print:border"
                   style={{
-                    backgroundColor: getTaskColor(task, index),
-                    borderColor: getTaskColor(task, index)
+                      backgroundColor: task.customColor,
+                      borderColor: task.customColor
                   }}
                 ></div>
                 <span className="truncate text-gray-700 print:text-black" title={task.name}>
@@ -360,6 +339,7 @@ const GanttChart: React.FC<GanttChartProps> = ({ data }) => {
           </div>
         </div>
       </div>
+      )}
 
       {/* Print Styles */}
       <style dangerouslySetInnerHTML={{
@@ -367,7 +347,7 @@ const GanttChart: React.FC<GanttChartProps> = ({ data }) => {
           @media print {
             @page {
               margin: 0.5in;
-              size: landscape;
+              size: ${chartData.printOptions?.orientation || 'landscape'};
             }
 
             .print\\:break-inside-avoid {
@@ -385,21 +365,30 @@ const GanttChart: React.FC<GanttChartProps> = ({ data }) => {
               -webkit-print-color-adjust: exact !important;
               color-adjust: exact !important;
             }
+
+            /* Hide scrollbars in print */
+            .gantt-container {
+              overflow: visible !important;
+            }
+
+            /* Adjust font sizes for print */
+            .gantt-container {
+              font-size: ${chartData.printOptions?.fontSize === 'small' ? '10px' : 
+                         chartData.printOptions?.fontSize === 'large' ? '14px' : '12px'} !important;
+            }
           }
 
-          /* Custom utility for line clamping */
-          .line-clamp-1 {
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 1;
+          /* Custom styles for wx-react-gantt */
+          .gantt-container {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
           }
 
-          .line-clamp-2 {
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
+          /* Ensure proper spacing in print */
+          @media print {
+            .gantt-container > div {
+              margin: 0 !important;
+              padding: 0 !important;
+            }
           }
         `
       }} />
@@ -409,8 +398,3 @@ const GanttChart: React.FC<GanttChartProps> = ({ data }) => {
 
 // Export for dynamic loading
 export default GanttChart;
-
-// Register component for dynamic loading
-if (typeof window !== 'undefined' && window.__registerVisualComponent) {
-  window.__registerVisualComponent('gantt-chart', GanttChart);
-}

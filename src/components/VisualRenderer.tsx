@@ -58,6 +58,8 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
   const [showSchemaModal, setShowSchemaModal] = useState(false);
   const [jsonOutput, setJsonOutput] = useState<string>('');
   const [copiedIcon, setCopiedIcon] = useState(false);
+  const [componentSize, setComponentSize] = useState({ width: '100%', height: '100%' });
+
   // Set JSON output when schema changes
   useEffect(() => {
     if (schema) {
@@ -91,21 +93,16 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
       if (event.key === 'Escape') {
         if (isFullScreen) {
           setIsFullScreen(false);
+          setComponentSize({ width: '100%', height: '100%' });
         } else if (showSchemaModal) {
           setShowSchemaModal(false);
+          setComponentSize({ width: '100%', height: '100%' });
         }
-      }
-    };
-
-    const handleClickOutside = (event: MouseEvent) => {
-      if (isFullScreen && fullScreenRef.current && !fullScreenRef.current.contains(event.target as Node)) {
-        setIsFullScreen(false);
       }
     };
 
     if (isFullScreen) {
       document.addEventListener('keydown', handleEscape);
-      document.addEventListener('mousedown', handleClickOutside);
       // Prevent body scroll when full screen is open
       document.body.style.overflow = 'hidden';
     } else if (showSchemaModal) {
@@ -114,7 +111,6 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
 
     return () => {
       document.removeEventListener('keydown', handleEscape);
-      document.removeEventListener('mousedown', handleClickOutside);
       document.body.style.overflow = 'unset';
     };
   }, [isFullScreen, showSchemaModal]);
@@ -209,7 +205,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
 
       await navigator.clipboard.writeText(jsonOutput);
       setCopiedIcon(true);
-      setTimeout(() => setCopied(false), 2000);
+      setTimeout(() => setCopiedIcon(false), 2000);
     } catch (err) {
       console.error('Failed to copy schema:', err);
     }
@@ -248,6 +244,10 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
 
   const toggleFullScreen = () => {
     setIsFullScreen(!isFullScreen);
+    if (!isFullScreen) {
+      // Reset size when entering full screen
+      setComponentSize({ width: '100%', height: '100%' });
+    }
   };
 
   if (loading) {
@@ -293,6 +293,54 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
       <div className="flex h-96 items-center justify-center">
         <div className="text-center">
           <p className="text-gray-600">Visual component not found</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Full screen view
+  if (isFullScreen) {
+    return (
+      <div className="fixed inset-0 z-[9999] bg-white">
+        {/* Close Button - fixed at the top right of the fullscreen overlay */}
+        <button 
+          onClick={toggleFullScreen}
+          className="fixed right-20 top-20 z-[10000] rounded-lg bg-blue-100 p-2 text-gray-600 transition-colors hover:bg-gray-200 hover:text-gray-800"
+          title="Exit full screen"
+        >
+          <svg className="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        {/* Resizable Component Container */}
+        <div 
+          className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden p-4 pt-16"
+          ref={fullScreenRef}
+        >
+          <div className='relative w-full' style={{resize: 'both', overflow: 'auto', width: componentSize.width, height: componentSize.height}}>
+            {/* Component Content */}
+            <div className="size-full">
+              {Component ? (
+                <Component schema={schema} data={userData} />
+              ) : (
+                <div className="flex h-full items-center justify-center">
+                  <div className="text-center">
+                    <div className="mx-auto size-12 rounded-2xl bg-gradient-to-br from-slate-200 to-slate-300 p-3 shadow-lg">
+                      <svg className="size-full text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                      </svg>
+                    </div>
+                    <h3 className="mt-4 text-lg font-bold text-slate-900">Component not available</h3>
+                    <p className="mt-2 text-sm font-medium text-slate-600">Please try again later</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+          {/* Instructions */}
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-lg bg-black/50 px-4 py-2 text-sm text-white">
+            <p>Drag corners or sides to resize • Press ESC to exit</p>
+          </div>
         </div>
       </div>
     );
@@ -486,7 +534,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
                   </div>
                 </div>
 
-                <div className="flex flex-1 flex-col overflow-auto p-6 pr-8" ref={componentRef} data-component-ref>
+                <div className="flex flex-1 flex-col overflow-scroll p-6 pr-8"  ref={componentRef} data-component-ref>
                   {Component ? (
                     <div className="flex-1 rounded-2xl" data-component-content>
                       <Component schema={schema} data={userData} />
@@ -515,61 +563,6 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
         </div>
       </div>
 
-      {/* Full Screen Modal */}
-      {isFullScreen && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm">
-          <div className="relative flex size-full max-h-[calc(100vh-160px)] w-fit flex-col overflow-hidden rounded-3xl bg-white shadow-2xl">
-
-            {/* Modal Header */}
-            <div className="flex shrink-0 items-center justify-between border-b border-slate-200/50 bg-gradient-to-r from-slate-50 to-purple-50/50 px-6 py-4">
-              <div>
-                <h2 className="text-xl font-bold text-slate-900">Full Screen Preview</h2>
-                {userData && (
-                  <p className="mt-1 text-sm font-medium text-purple-600">Rendering with custom data</p>
-                )}
-              </div>
-              <button
-                onClick={toggleFullScreen}
-                className="rounded-full p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700"
-                title="Close full screen"
-              >
-                <svg className="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-
-            {/* Component Content */}
-            <div className="flex flex-1 items-center justify-center overflow-hidden p-6">
-              <div className="size-full overflow-auto rounded-2xl" ref={fullScreenRef}>
-                {Component ? (
-                  <div className="flex size-full items-center justify-center" data-component-content>
-                    <Component schema={schema} data={userData} />
-                  </div>
-                ) : (
-                  <div className="flex h-64 items-center justify-center sm:h-96">
-                    <div className="text-center">
-                      <div className="mx-auto size-12 rounded-2xl bg-gradient-to-br from-slate-200 to-slate-300 p-3 shadow-lg sm:size-16">
-                        <svg className="size-full text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                        </svg>
-                      </div>
-                      <h3 className="mt-4 text-lg font-bold text-slate-900 sm:text-xl">Component not available</h3>
-                      <p className="mt-2 text-sm font-medium text-slate-600">Please try again later</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Instructions */}
-            <div className="shrink-0 border-t border-slate-200/50 bg-slate-50/50 px-6 py-3">
-              <p className="text-center text-sm text-slate-600">Press ESC or click the close button to exit full screen</p>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Schema Modal */}
       {showSchemaModal && schema && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
@@ -588,13 +581,12 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
                 </button>
               </div>
             </div>
-
             {/* Modal Content */}
-            <div className="max-h-[calc(90vh-250px)] overflow-hidden p-6 ">
-              <div className="relative overflow-hidden rounded-2xl bg-slate-50 p-4 shadow-inner">
+            <div className="max-h-[calc(90vh-300px)] overflow-hidden">
+              <div className="relative m-4 overflow-hidden rounded-2xl bg-slate-50 p-4 shadow-inner">
                 <button
                   onClick={copySchemaToClipboard}
-                  className="absolute right-2 top-2 rounded-lg p-2 text-slate-500 transition-colors hover:bg-slate-200 hover:text-slate-700"
+                  className="absolute right-10 top-4 z-10 rounded-lg p-2 text-slate-500 transition-colors hover:bg-slate-200 hover:text-slate-700"
                   title="Copy schema"
                 >
                   {copiedIcon ? (
@@ -607,7 +599,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
                     </svg>
                   )}
                 </button>
-                <pre className="overflow-auto pr-12 font-mono text-sm text-slate-700">
+                <pre className="max-h-[calc(90vh-370px)] overflow-y-scroll pr-20 font-mono text-sm  text-slate-700">
                   {jsonOutput || 'No schema available'}
                 </pre>
               </div>
@@ -617,7 +609,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
             <div className="border-t border-slate-200/50 bg-slate-50/50 px-6 py-4">
               <div className="flex flex-col space-y-3 sm:flex-row sm:justify-end sm:space-x-3 sm:space-y-0">
                 <button
-                  onClick={copySchemaToClipboard}
+                  onClick={copyAsPrompt}
                   className="group inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl"
                 >
                   {copied ? (
