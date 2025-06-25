@@ -31,10 +31,10 @@ const VisualizationCard: React.FC<VisualizationCardProps> = ({ item, onSelect })
   return (
     <div className="group relative cursor-pointer">
       {/* Main Card */}
-      <div className="relative h-full overflow-hidden rounded-3xl bg-white shadow-md transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-bleu_de_france-500/10">
+      <div onClick={handleClick} className="relative h-full overflow-hidden rounded-3xl bg-white shadow-md transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-bleu_de_france-500/10">
 
         {/* Card Content */}
-        <div className="relative p-7" onClick={handleClick}>
+        <div className="relative p-7">
           {/* Header */}
           <div className="mb-4">
             <h3 className="mb-2 line-clamp-1 text-xl font-bold text-gunmetal-800 transition-colors duration-300 group-hover:text-bleu_de_france-700">

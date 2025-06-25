@@ -1,0 +1,7 @@
+{
+  "name": "Cover Letter",
+  "version": "1.0.0",
+  "description": "A clean, print-ready layout that organizes LLM-generated cover letters into well-defined sections: header, body, and closing.",
+  "author": "tscburak",
+  "slug": "cover-letter"
+}

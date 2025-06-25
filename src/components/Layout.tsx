@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-
+import logo from '../assets/favicon.svg';
 interface LayoutProps {
   children: React.ReactNode;
 }
@@ -34,12 +34,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
             <div className="flex items-center">
-              <div className="flex items-center space-x-3">
-                <div className="flex size-8 items-center justify-center rounded-lg bg-gradient-to-br from-bleu_de_france-500 to-keppel-600 shadow-lg">
-                  <svg className="size-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                </div>
+              <div className="flex items-center gap-1">
+                <img src={logo} alt="VizuLLM" className="size-10" />
                 <h1 className="text-xl font-bold text-gunmetal-800">
                   <Link to="/" className="transition-colors hover:text-bleu_de_france-600">
                     VizuLLM
@@ -96,15 +92,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div className="py-12">
               <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
                 <div className="col-span-1 md:col-span-2">
-                  <div className="mb-4 flex items-center space-x-3">
-                    <div className="flex size-8 items-center justify-center rounded-lg bg-gradient-to-br from-bleu_de_france-500 to-keppel-600 shadow-lg">
-                      <svg className="size-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                      </svg>
-                    </div>
-
-                      <Link to="/"> <h3 className="text-lg font-bold text-gunmetal-800">VizuLLM</h3></Link>
-                  </div>
+                <div className="flex items-center gap-1">
+                <img src={logo} alt="VizuLLM" className="size-10" />
+                <h1 className="text-xl font-bold text-gunmetal-800">
+                  <Link to="/" className="transition-colors hover:text-bleu_de_france-600">
+                    VizuLLM
+                  </Link>
+                </h1>
+              </div>
                   <p className="max-w-md text-sm leading-relaxed text-gunmetal-600">
                     An open-source platform for visualizing LLM outputs using structured templates.
                     Built by the community, for the community. Create and share custom visualization

@@ -9,12 +9,12 @@
     "componentPath": "visuals/weekly-monthly-agenda/component.tsx"
   },
   {
-    "name": "Gantt Chart",
-    "slug": "gantt-chart",
+    "name": "Cover Letter",
+    "slug": "cover-letter",
     "author": "tscburak",
-    "description": "Gantt Chart for project planning with elegant ui",
-    "preview": "visuals/gantt-chart/preview.png",
-    "schema": "visuals/gantt-chart/schema.ts",
-    "componentPath": "visuals/gantt-chart/component.tsx"
+    "description": "A clean, print-ready layout that organizes LLM-generated cover letters into well-defined sections: header, body, and closing.",
+    "preview": "visuals/cover-letter/preview.png",
+    "schema": "visuals/cover-letter/schema.ts",
+    "componentPath": "visuals/cover-letter/component.tsx"
   }
 ]

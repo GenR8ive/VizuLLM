@@ -534,9 +534,9 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
                   </div>
                 </div>
 
-                <div className="flex flex-1 flex-col overflow-scroll p-6 pr-8"  ref={componentRef} data-component-ref>
+                <div className="flex flex-1 flex-col overflow-scroll pr-8" data-component-ref>
                   {Component ? (
-                    <div className="flex-1 rounded-2xl" data-component-content>
+                    <div ref={componentRef} className="flex-1 rounded-2xl p-6" data-component-content>
                       <Component schema={schema} data={userData} />
                     </div>
                   ) : (
