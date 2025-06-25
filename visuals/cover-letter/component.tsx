@@ -24,9 +24,8 @@ const CoverLetter: React.FC<ComponentProps> = ({ data }) => {
                 {coverLetterData.fullName}
               </h1>
               <div className="space-y-1 text-sm text-gray-600">
-                <p>{coverLetterData.email}</p>
-                <p>{coverLetterData.phone}</p>
-                <p className="whitespace-pre-line">{coverLetterData.address}</p>
+                {coverLetterData.email && <p>{coverLetterData.email}</p>}
+                {coverLetterData.phone && <p>{coverLetterData.phone}</p>}
               </div>
             </div>
             
@@ -40,42 +39,19 @@ const CoverLetter: React.FC<ComponentProps> = ({ data }) => {
         {/* Company Information */}
         <div className="mb-6">
           <div className="space-y-1 text-sm text-gray-600">
-            <p className="font-semibold">{coverLetterData.hiringManager}</p>
             <p className="font-semibold">{coverLetterData.companyName}</p>
-            <p className="whitespace-pre-line">{coverLetterData.companyAddress}</p>
           </div>
-        </div>
-
-        {/* Greeting */}
-        <div className="mb-4">
-          <p className="text-base">{coverLetterData.greeting}</p>
         </div>
 
         {/* Content */}
         <div className="space-y-4 text-base leading-relaxed">
-          {/* Opening Paragraph */}
-          <p className="text-justify">
-            {coverLetterData.opening}
-          </p>
-
-          {/* Body Paragraphs */}
           <div className="text-justify">
-            {coverLetterData.body.split('\n\n').map((paragraph, index) => (
-              <p key={index} className="mb-4">
-                {paragraph}
+            {coverLetterData.content.split('\n').map((line, index) => (
+              <p key={index} className={line.trim() === '' ? 'mb-4' : 'mb-2'}>
+                {line}
               </p>
             ))}
           </div>
-
-          {/* Closing Paragraph */}
-          <p className="text-justify">
-            {coverLetterData.closing}
-          </p>
-        </div>
-
-        {/* Signature */}
-        <div className="mt-8">
-          <p className="whitespace-pre-line text-base">{coverLetterData.signature}</p>
         </div>
       </div>
     </div>

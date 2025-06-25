@@ -2,15 +2,8 @@
   "fullName": "Sarah Johnson",
   "email": "sarah.johnson@email.com",
   "phone": "(555) 123-4567",
-  "address": "123 Main Street, Apt 4B\nNew York, NY 10001",
   "date": "December 15, 2024",
   "companyName": "TechCorp Solutions",
-  "hiringManager": "Michael Rodriguez",
-  "companyAddress": "456 Business Avenue, Suite 200\nSan Francisco, CA 94105",
   "jobTitle": "Senior Software Engineer",
-  "greeting": "Dear Mr. Rodriguez,",
-  "opening": "I am writing to express my strong interest in the Senior Software Engineer position at TechCorp Solutions. With over 5 years of experience in full-stack development and a passion for creating innovative solutions, I am excited about the opportunity to contribute to your team's success.",
-  "body": "In my current role at InnovateTech, I have successfully led the development of multiple web applications using React, Node.js, and Python. I have experience with cloud platforms like AWS and Azure, and I am proficient in implementing CI/CD pipelines. My ability to collaborate with cross-functional teams and mentor junior developers has been instrumental in delivering high-quality products on time and within budget.\n\nI am particularly drawn to TechCorp Solutions' commitment to cutting-edge technology and your focus on solving real-world problems. Your recent work on AI-powered analytics platforms aligns perfectly with my experience in machine learning integration and data processing.",
-  "closing": "I am confident that my technical skills, leadership experience, and passion for innovation would make me a valuable addition to your team. I would welcome the opportunity to discuss how my background and skills can contribute to TechCorp Solutions' continued success.",
-  "signature": "Sincerely,\n\nSarah Johnson"
+  "content": "Dear Hiring Manager,\n\nI am writing to express my strong interest in the Senior Software Engineer position at TechCorp Solutions. With over 5 years of experience in full-stack development and a passion for creating innovative solutions, I am excited about the opportunity to contribute to your team's success.\n\nIn my current role at InnovateTech, I have successfully led the development of multiple web applications using React, Node.js, and Python. I have experience with cloud platforms like AWS and Azure, and I am proficient in implementing CI/CD pipelines. My ability to collaborate with cross-functional teams and mentor junior developers has been instrumental in delivering high-quality products on time and within budget.\n\nI am particularly drawn to TechCorp Solutions' commitment to cutting-edge technology and your focus on solving real-world problems. Your recent work on AI-powered analytics platforms aligns perfectly with my experience in machine learning integration and data processing.\n\nI am confident that my technical skills, leadership experience, and passion for innovation would make me a valuable addition to your team. I would welcome the opportunity to discuss how my background and skills can contribute to TechCorp Solutions' continued success.\n\nSincerely,\n\nSarah Johnson"
 } 
