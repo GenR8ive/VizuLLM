@@ -1,0 +1,142 @@
+{
+  "title": "Weekly Fitness & Wellness Plan",
+  "subtitle": "Transform your week with intentional habits",
+  "theme": "gradient",
+  "rows": [
+    {
+      "id": "morning-workout",
+      "label": "Morning Workout",
+      "icon": "💪",
+      "color": "#ff6b6b",
+      "time": "6:30 AM - 7:30 AM",
+      "category": "Fitness"
+    },
+    {
+      "id": "healthy-meals",
+      "label": "Healthy Meals",
+      "icon": "🥗",
+      "color": "#4ecdc4",
+      "time": "Throughout day",
+      "category": "Nutrition"
+    },
+    {
+      "id": "meditation",
+      "label": "Meditation",
+      "icon": "🧘‍♀️",
+      "color": "#45b7d1",
+      "time": "8:00 PM - 8:20 PM",
+      "category": "Mindfulness"
+    },
+    {
+      "id": "learning",
+      "label": "Learning Time",
+      "icon": "📚",
+      "color": "#f9ca24",
+      "time": "7:00 PM - 8:00 PM",
+      "category": "Growth"
+    }
+  ],
+  "items": {
+    "monday": {
+      "morning-workout": {
+        "content": "Full body strength training",
+        "notes": "Focus on form and breathing"
+      },
+      "healthy-meals": {
+        "content": "Green smoothie, quinoa bowl, grilled salmon"
+      },
+      "meditation": {
+        "content": "10 min breathing exercise"
+      },
+      "learning": {
+        "content": "React hooks deep dive"
+      }
+    },
+    "tuesday": {
+      "morning-workout": {
+        "content": "Cardio + yoga flow"
+      },
+      "healthy-meals": {
+        "content": "Oatmeal, salad wrap, stir-fry"
+      },
+      "meditation": {
+        "content": "Guided mindfulness"
+      },
+      "learning": {
+        "content": "TypeScript patterns"
+      }
+    },
+    "wednesday": {
+      "morning-workout": {
+        "content": "Upper body focus",
+        "notes": "Don't forget to stretch afterwards"
+      },
+      "healthy-meals": {
+        "content": "Protein smoothie, Buddha bowl"
+      },
+      "meditation": {
+        "content": "Walking meditation"
+      },
+      "learning": {
+        "content": "Design patterns study"
+      }
+    },
+    "thursday": {
+      "morning-workout": {
+        "content": "HIIT workout"
+      },
+      "healthy-meals": {
+        "content": "Avocado toast, poke bowl"
+      },
+      "meditation": {
+        "content": "Body scan meditation"
+      },
+      "learning": {
+        "content": "Algorithm practice"
+      }
+    },
+    "friday": {
+      "morning-workout": {
+        "content": "Active recovery - light yoga"
+      },
+      "healthy-meals": {
+        "content": "Treat day with balance"
+      },
+      "meditation": {
+        "content": "Gratitude practice"
+      },
+      "learning": {
+        "content": "Weekend project planning"
+      }
+    },
+    "saturday": {
+      "morning-workout": {
+        "content": "Outdoor adventure"
+      },
+      "healthy-meals": {
+        "content": "Farmers market fresh"
+      },
+      "meditation": {
+        "content": "Nature meditation"
+      },
+      "learning": {
+        "content": "Side project work"
+      }
+    },
+    "sunday": {
+      "morning-workout": {
+        "content": "Gentle stretching"
+      },
+      "healthy-meals": {
+        "content": "Meal prep for the week",
+        "notes": "Prepare containers and portions"
+      },
+      "meditation": {
+        "content": "Week reflection"
+      },
+      "learning": {
+        "content": "Week review and planning"
+      }
+    }
+  }
+}

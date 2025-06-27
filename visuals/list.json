@@ -16,5 +16,14 @@
     "preview": "visuals/cover-letter/preview.png",
     "schema": "visuals/cover-letter/schema.ts",
     "componentPath": "visuals/cover-letter/component.tsx"
+  },
+  {
+    "name": "Weekly Table",
+    "slug": "weekly-table",
+    "author": "tscburak",
+    "description": "A clear, flexible table to plan and track your week perfect for meal plans, workouts, study routines, chores and more.",
+    "preview": "visuals/weekly-table/preview.png",
+    "schema": "visuals/weekly-table/schema.ts",
+    "componentPath": "visuals/weekly-table/component.tsx"
   }
 ]
