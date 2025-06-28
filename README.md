@@ -1,10 +1,10 @@
-# VisuLLM - Visual Component Library for LLM Outputs
+# VizuLLM - Visual Component Library for LLM Outputs
 
 A modern, type-safe visual component library built with React, TypeScript, and Zod schemas. Transform your LLM outputs into beautiful, printable visualizations with just a few clicks.
 
-## ✨ What is VisuLLM?
+## ✨ What is VizuLLM?
 
-VisuLLM provides pre-defined visual components that can render LLM outputs into beautiful, professional visualizations. Whether you need to create schedules, documents, charts, or any other visual representation of your LLM data, VisuLLM makes it easy with its schema-based approach.
+VizuLLM provides pre-defined visual components that can render LLM outputs into beautiful, professional visualizations. Whether you need to create schedules, documents, charts, or any other visual representation of your LLM data, VizuLLM makes it easy with its schema-based approach.
 
 ## 🚀 How to Use
 
@@ -16,9 +16,9 @@ VisuLLM provides pre-defined visual components that can render LLM outputs into 
 4. **Use with LLM**: 
    - Go to your preferred LLM (ChatGPT, Claude, etc.)
    - Describe what you want to visualize
-   - Paste the schema you copied from VisuLLM
+   - Paste the schema you copied from VizuLLM
    - Ask the LLM to generate data in that format
-5. **Visualize**: Copy the LLM's JSON output and paste it into VisuLLM
+5. **Visualize**: Copy the LLM's JSON output and paste it into VizuLLM
 6. **Export**: Your visualization is ready to print or download as PDF!
 
 ### Example Workflow
@@ -29,7 +29,7 @@ VisuLLM provides pre-defined visual components that can render LLM outputs into 
 3. Ask LLM: "Create a weekly schedule for a software developer"
 4. Paste the schema: "Generate data in this format: { schema here }"
 5. Copy LLM's JSON response
-6. Paste into VisuLLM → Beautiful timetable ready to print!
+6. Paste into VizuLLM → Beautiful timetable ready to print!
 ```
 
 ## 🛠️ For Developers - Creating New Components
@@ -38,8 +38,8 @@ VisuLLM provides pre-defined visual components that can render LLM outputs into 
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/VisuLLM.git
-cd VisuLLM
+git clone https://github.com/your-username/VizuLLM.git
+cd VizuLLM
 
 # Install dependencies
 npm install
@@ -185,7 +185,7 @@ npm run update-list
 ## 📁 Project Structure
 
 ```
-VisuLLM/
+VizuLLM/
 ├── src/                    # Source code
 │   ├── components/         # React components
 │   ├── pages/             # Page components
@@ -200,9 +200,9 @@ VisuLLM/
 
 ## 🐛 Issues & Support
 
-- **Bug Reports**: [GitHub Issues](https://github.com/your-username/VisuLLM/issues)
-- **Feature Requests**: [GitHub Discussions](https://github.com/your-username/VisuLLM/discussions)
-- **Questions**: [GitHub Discussions](https://github.com/your-username/VisuLLM/discussions)
+- **Bug Reports**: [GitHub Issues](https://github.com/your-username/VizuLLM/issues)
+- **Feature Requests**: [GitHub Discussions](https://github.com/your-username/VizuLLM/discussions)
+- **Questions**: [GitHub Discussions](https://github.com/your-username/VizuLLM/discussions)
 
 ## 📄 License
 
@@ -220,4 +220,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Made with ❤️ by the VisuLLM community**
+**Made with ❤️ by the VizuLLM community**
