@@ -9,7 +9,6 @@ interface VisualComponent {
   slug: string;
   author: string;
   description: string;
-  preview: string;
   schema: string;
   componentPath: string;
 }
