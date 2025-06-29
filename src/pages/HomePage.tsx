@@ -1,5 +1,5 @@
 import VisualizationGrid from 'components/VisualizationGrid';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import visuals from '../../visuals/list.json';
 
@@ -16,6 +16,11 @@ interface VisualizationItem {
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
+
+  // Set page title
+  useEffect(() => {
+    document.title = 'VizuLLM - Visual Component Library for LLM Outputs';
+  }, []);
 
   const handleVisualSelect = (item: VisualizationItem) => {
     navigate(`/v/${item.slug}`);
