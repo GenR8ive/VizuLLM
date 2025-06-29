@@ -1,0 +1,116 @@
+{
+  "title": "My Epic Daily Checklist",
+  "subtitle": "Because adulting is hard, but checkboxes make it fun! ✨",
+  "theme": {
+    "primaryColor": "purple",
+    "style": "funny",
+    "showEmojis": true
+  },
+  "header": {
+    "showDate": true,
+    "showTime": true,
+    "showAuthor": true,
+    "author": "Your Future Self",
+    "customHeader": "Remember: You're doing great, even if you only check off one thing! 🎯"
+  },
+  "items": [
+    {
+      "text": "Actually get out of bed (not just sit up)",
+      "emoji": "🛏️",
+      "category": "Morning Routine",
+      "priority": "high",
+      "isCompleted": true,
+      "notes": "This is already a win!",
+      "dueDate": "9:00 AM"
+    },
+    {
+      "text": "Drink water (not coffee first)",
+      "emoji": "💧",
+      "category": "Health",
+      "priority": "medium",
+      "isCompleted": false,
+      "notes": "Your body will thank you later",
+      "dueDate": "9:30 AM"
+    },
+    {
+      "text": "Check emails (but don't get lost in the void)",
+      "emoji": "📧",
+      "category": "Work",
+      "priority": "high",
+      "isCompleted": false,
+      "notes": "Set a timer! Email black holes are real",
+      "dueDate": "10:00 AM"
+    },
+    {
+      "text": "Take a lunch break (away from your desk)",
+      "emoji": "🍕",
+      "category": "Self Care",
+      "priority": "medium",
+      "isCompleted": false,
+      "notes": "Your brain needs a break too!",
+      "dueDate": "12:30 PM"
+    },
+    {
+      "text": "Do that thing you've been procrastinating",
+      "emoji": "🎯",
+      "category": "Important",
+      "priority": "urgent",
+      "isCompleted": false,
+      "notes": "You know what it is. Just do it!",
+      "dueDate": "3:00 PM"
+    },
+    {
+      "text": "Move your body (dance counts!)",
+      "emoji": "💃",
+      "category": "Health",
+      "priority": "medium",
+      "isCompleted": false,
+      "notes": "Even 10 minutes of dancing in your room counts",
+      "dueDate": "5:00 PM"
+    },
+    {
+      "text": "Call someone you love",
+      "emoji": "📞",
+      "category": "Relationships",
+      "priority": "low",
+      "isCompleted": false,
+      "notes": "Spread some love and good vibes",
+      "dueDate": "7:00 PM"
+    },
+    {
+      "text": "Plan tomorrow (but don't overthink it)",
+      "emoji": "📝",
+      "category": "Planning",
+      "priority": "medium",
+      "isCompleted": false,
+      "notes": "Future you will be grateful",
+      "dueDate": "8:00 PM"
+    },
+    {
+      "text": "Do something that makes you smile",
+      "emoji": "😊",
+      "category": "Joy",
+      "priority": "high",
+      "isCompleted": false,
+      "notes": "Life is too short to be serious all the time",
+      "dueDate": "9:00 PM"
+    },
+    {
+      "text": "Go to bed at a reasonable hour",
+      "emoji": "😴",
+      "category": "Sleep",
+      "priority": "high",
+      "isCompleted": false,
+      "notes": "Your future self will thank you (and so will your alarm)",
+      "dueDate": "11:00 PM"
+    }
+  ],
+  "footer": {
+    "customFooter": "Remember: Progress, not perfection! Every checked box is a victory! 🏆"
+  },
+  "printSettings": {
+    "showPageNumbers": true,
+    "showPrintDate": true,
+    "compactMode": false
+  }
+} 

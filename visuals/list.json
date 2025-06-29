@@ -22,5 +22,13 @@
     "description": "A clear, flexible table to plan and track your week perfect for meal plans, workouts, study routines, chores and more.",
     "schema": "visuals/weekly-table/schema.ts",
     "componentPath": "visuals/weekly-table/component.tsx"
+  },
+  {
+    "name": "Check List",
+    "slug": "check-list",
+    "author": "tscburak",
+    "description": "Make sure you did/collect what did you plan earlier.",
+    "schema": "visuals/check-list/schema.ts",
+    "componentPath": "visuals/check-list/component.tsx"
   }
 ]
