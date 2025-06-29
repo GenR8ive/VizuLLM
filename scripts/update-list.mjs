@@ -30,9 +30,36 @@ function updateVisualsList() {
 
     console.log(`📁 Found ${componentDirs.length} component directories: ${componentDirs.join(', ')}\n`);
 
-    const updatedList = [];
+    // Create a map of existing components by slug for quick lookup
+    const existingComponentsMap = new Map();
+    existingList.forEach(component => {
+      existingComponentsMap.set(component.slug, component);
+    });
 
+    // Track which components we've processed
+    const processedSlugs = new Set();
+    const newComponents = [];
+
+    // First, process existing components to maintain their order
+    for (const existingComponent of existingList) {
+      const dirName = existingComponent.slug;
+      const componentDir = path.join(visualsDir, dirName);
+      
+      if (fs.existsSync(componentDir)) {
+        // Component still exists, keep it in the same position
+        processedSlugs.add(dirName);
+        console.log(`✅ Kept existing component: ${existingComponent.name} (${dirName})`);
+      } else {
+        console.log(`⚠️  Component directory removed: ${dirName}`);
+      }
+    }
+
+    // Then, process new components and add them to the beginning
     for (const dirName of componentDirs) {
+      if (processedSlugs.has(dirName)) {
+        continue; // Already processed
+      }
+
       const componentDir = path.join(visualsDir, dirName);
       const metadataPath = path.join(componentDir, 'metadata.json');
       
@@ -79,9 +106,10 @@ function updateVisualsList() {
           componentPath: `visuals/${dirName}/component.tsx`
         };
 
-        updatedList.push(componentEntry);
+        newComponents.push(componentEntry);
+        processedSlugs.add(dirName);
         
-        console.log(`✅ Processed ${dirName}:`);
+        console.log(`🆕 Added new component: ${dirName}:`);
         console.log(`   Name: ${componentEntry.name}`);
         console.log(`   Author: ${componentEntry.author}`);
         console.log(`   Preview: ${previewExists ? '✅' : '❌'} (${previewExists ? 'exists' : 'missing'})`);
@@ -92,8 +120,10 @@ function updateVisualsList() {
       }
     }
 
-    // Sort by name for consistent ordering
-    updatedList.sort((a, b) => a.name.localeCompare(b.name));
+    // Combine new components (at beginning) with existing components (maintaining order)
+    const updatedList = [...newComponents, ...existingList.filter(component => 
+      fs.existsSync(path.join(visualsDir, component.slug))
+    )];
 
     // Write updated list
     fs.writeFileSync(listPath, JSON.stringify(updatedList, null, 2));
@@ -104,8 +134,14 @@ function updateVisualsList() {
     // Show summary
     console.log('\n📋 Final list:');
     updatedList.forEach((component, index) => {
-      console.log(`${index + 1}. ${component.name} (${component.slug}) - by ${component.author}`);
+      const isNew = newComponents.some(newComp => newComp.slug === component.slug);
+      const marker = isNew ? '🆕' : '✅';
+      console.log(`${index + 1}. ${marker} ${component.name} (${component.slug}) - by ${component.author}`);
     });
+
+    if (newComponents.length > 0) {
+      console.log(`\n✨ Added ${newComponents.length} new component(s) to the beginning of the list`);
+    }
 
   } catch (error) {
     console.error('❌ Error updating visuals list:', error.message);
