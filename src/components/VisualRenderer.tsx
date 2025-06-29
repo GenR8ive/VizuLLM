@@ -480,7 +480,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
             </div>
 
             {/* Right Panel - Output */}
-            <div className="flex h-full flex-col space-y-6 pb-8 lg:min-h-0">
+            <div className="flex h-full max-w-[calc(100vw-47px)] flex-col space-y-6 pb-8 lg:min-h-0">
               <div className="flex flex-1 flex-col overflow-hidden rounded-3xl bg-white/80 shadow-xl ring-1 ring-white/20 backdrop-blur-xl lg:min-h-0">
                 <div className="shrink-0 border-b border-slate-200/50 bg-gradient-to-r from-slate-50 to-purple-50/50 px-6 py-4">
                   <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
