@@ -103,18 +103,6 @@ const VisualizationGrid: React.FC<VisualizationGridProps> = ({ items, onItemSele
             {filteredItems.length} of {items.length}
           </div>
         </div>
-
-        {filteredItems.length > 0 && (
-          <div className="flex items-center space-x-3">
-            <span className="text-sm font-medium text-gunmetal-600">Sort by:</span>
-            <select className="rounded-xl bg-white px-4 py-2 text-sm font-medium text-gunmetal-700 shadow-md transition-all hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-4 focus:ring-bleu_de_france-500/20">
-              <option>Recently Added</option>
-              <option>Name A-Z</option>
-              <option>Author</option>
-              <option>Most Popular</option>
-            </select>
-          </div>
-        )}
       </div>
 
       {/* Grid */}
