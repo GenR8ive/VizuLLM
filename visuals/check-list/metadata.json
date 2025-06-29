@@ -1,7 +1,7 @@
 {
   "name": "Check List",
   "version": "1.0.0",
-  "description": "Make sure you did/collect what did you plan earlier.",
+  "description": "Make sure you complete or collect everything you planned earlier.",
   "author": "tscburak",
   "slug": "check-list"
 }
