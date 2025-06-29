@@ -6,7 +6,6 @@ interface VisualizationItem {
   author: string;
   tags?: string[];
   description: string;
-  preview: string;
   schema: string;
   componentPath: string;
 }
