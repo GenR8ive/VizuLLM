@@ -20,7 +20,6 @@ visuals/your-component-name/
 ├── component.tsx      # Main React component
 ├── schema.ts          # Zod schema definition
 ├── sample-data.json   # Sample data for testing
-├── preview.png        # Preview image (800x600px)
 └── README.md          # Component documentation
 ```
 
@@ -75,9 +74,8 @@ Proceed with generation? (y/N): y
 2. Customize the schema in schema.ts
 3. Implement your visual in component.tsx
 4. Update sample-data.json with realistic data
-5. Add a preview.png image (800x600px recommended)
-6. Test your visual: npm run dev
-7. Visit: http://localhost:5173/visual/invoice-generator
+5. Test your visual: npm run dev
+6. Visit: http://localhost:5173/visual/invoice-generator
 ```
 
 ### Option 2: Manual Creation
@@ -122,12 +120,8 @@ export type YourComponentData = z.infer<typeof YourComponentSchema>;
 // Export component metadata
 export const componentMetadata = {
   name: 'Your Component Name',
-  version: '1.0.0',
   description: 'Brief description of what this component does',
   author: 'your-username',
-  slug: 'your-component-slug',
-  category: 'category-name',
-  tags: ['tag1', 'tag2', 'tag3'],
 } as const;
 ```
 
@@ -288,7 +282,6 @@ Add your component to `visuals/list.json`:
   "slug": "your-component-slug",
   "author": "your-username",
   "description": "Brief description of what this component does",
-  "preview": "visuals/your-component-slug/preview.png",
   "schema": "visuals/your-component-slug/schema.ts",
   "componentPath": "visuals/your-component-slug/component.tsx"
 }

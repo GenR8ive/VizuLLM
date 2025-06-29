@@ -92,16 +92,12 @@ function updateVisualsList() {
           continue;
         }
 
-        // Check if preview image exists
-        const previewPath = path.join(componentDir, 'preview.png');
-        const previewExists = fs.existsSync(previewPath);
 
         const componentEntry = {
           name: metadata.name || dirName,
           slug: metadata.slug || dirName,
           author: metadata.author || 'unknown',
           description: metadata.description || 'No description available',
-          preview: `visuals/${dirName}/preview.png`,
           schema: schemaPath,
           componentPath: `visuals/${dirName}/component.tsx`
         };
@@ -112,7 +108,6 @@ function updateVisualsList() {
         console.log(`🆕 Added new component: ${dirName}:`);
         console.log(`   Name: ${componentEntry.name}`);
         console.log(`   Author: ${componentEntry.author}`);
-        console.log(`   Preview: ${previewExists ? '✅' : '❌'} (${previewExists ? 'exists' : 'missing'})`);
         console.log('');
 
       } catch (error) {

@@ -126,7 +126,6 @@ async function generateVisual() {
       slug: slug,
       author: author,
       description: description,
-      preview: `visuals/${slug}/preview.png`,
       schema: `visuals/${slug}/schema.ts`,
       componentPath: `visuals/${slug}/component.tsx`
     };

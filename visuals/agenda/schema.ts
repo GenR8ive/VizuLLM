@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 // Define your schema using Zod
-export const WeeklyMonthlyAgendaSchema = z.object({
+export const AgendaSchema = z.object({
   title: z.string().optional().default('My Agenda'),
   timePeriod: z.enum(['weekly', 'monthly']).default('weekly'),
   startDate: z.string().optional(),
@@ -33,6 +33,6 @@ export const WeeklyMonthlyAgendaSchema = z.object({
 });
 
 // Export the type for TypeScript
-export type WeeklyMonthlyAgendaData = z.infer<typeof WeeklyMonthlyAgendaSchema>;
+export type AgendaData = z.infer<typeof AgendaSchema>;
 
-export default WeeklyMonthlyAgendaSchema;
+export default AgendaSchema;

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { type WeeklyMonthlyAgendaData } from './schema';
+import { type AgendaData } from './schema';
 import { z } from 'zod';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import sampleData from './sample-data.json';
@@ -9,8 +9,8 @@ interface ComponentProps {
   data?: Record<string, unknown> | null;
 }
 
-const WeeklyMonthlyAgenda: React.FC<ComponentProps> = ({ data }) => {
-  const agendaData = (data || sampleData) as WeeklyMonthlyAgendaData;
+const Agenda: React.FC<ComponentProps> = ({ data }) => {
+  const agendaData = (data || sampleData) as AgendaData;
   const { events = [], categories = [], title = 'My Agenda', timePeriod = 'weekly' } = agendaData;
 
   // Group events by date
@@ -396,4 +396,4 @@ const WeeklyMonthlyAgenda: React.FC<ComponentProps> = ({ data }) => {
 };
 
 // Export for dynamic loading
-export default WeeklyMonthlyAgenda;
+export default Agenda;

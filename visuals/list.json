@@ -1,10 +1,9 @@
 [
   {
-    "name": "Weekly/Monthly Agenda",
-    "slug": "weekly-monthly-agenda",
+    "name": "Agenda",
+    "slug": "agenda",
     "author": "tscburak",
     "description": "To keep your day organized, good ui to be motivated.",
-    "preview": "visuals/weekly-monthly-agenda/preview.png",
     "schema": "visuals/weekly-monthly-agenda/schema.ts",
     "componentPath": "visuals/weekly-monthly-agenda/component.tsx"
   },
@@ -13,7 +12,6 @@
     "slug": "cover-letter",
     "author": "tscburak",
     "description": "A clean, print-ready layout that organizes LLM-generated cover letters into well-defined sections: header, body, and closing.",
-    "preview": "visuals/cover-letter/preview.png",
     "schema": "visuals/cover-letter/schema.ts",
     "componentPath": "visuals/cover-letter/component.tsx"
   },
@@ -22,7 +20,6 @@
     "slug": "weekly-table",
     "author": "tscburak",
     "description": "A clear, flexible table to plan and track your week perfect for meal plans, workouts, study routines, chores and more.",
-    "preview": "visuals/weekly-table/preview.png",
     "schema": "visuals/weekly-table/schema.ts",
     "componentPath": "visuals/weekly-table/component.tsx"
   }
