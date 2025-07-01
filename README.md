@@ -45,7 +45,7 @@ cd VizuLLM
 npm install
 
 # Create a new visual component
-npm run create-visual
+npm run generate-visual
 ```
 
 The script will guide you through:
