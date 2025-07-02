@@ -8,7 +8,7 @@ on:
 
 # Add permissions for the workflow
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -23,6 +23,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Setup Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
@@ -38,6 +40,14 @@ jobs:
 
     - name: Fetching the list
       run: npm run update-list
+
+    - name: Commit and push updated list.json
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add visuals/list.json
+        git diff --quiet && git diff --staged --quiet || (git commit -m "Update visuals list from CI" && git push)
 
     - name: Build application
       run: npm run build
