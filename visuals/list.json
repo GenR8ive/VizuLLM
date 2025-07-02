@@ -4,8 +4,8 @@
     "slug": "agenda",
     "author": "tscburak",
     "description": "To keep your day organized, good ui to be motivated.",
-    "schema": "visuals/weekly-monthly-agenda/schema.ts",
-    "componentPath": "visuals/weekly-monthly-agenda/component.tsx"
+    "schema": "visuals/agenda/schema.ts",
+    "componentPath": "visuals/agenda/component.tsx"
   },
   {
     "name": "Cover Letter",
@@ -27,7 +27,7 @@
     "name": "Check List",
     "slug": "check-list",
     "author": "tscburak",
-    "description": "Make sure you did/collect what did you plan earlier.",
+    "description": "Make sure you complete or collect everything you planned earlier.",
     "schema": "visuals/check-list/schema.ts",
     "componentPath": "visuals/check-list/component.tsx"
   }
