@@ -21,17 +21,6 @@ jobs:
         node-version: [22.x]
 
     steps:
-    - name: Fetching the list
-      run: npm run update-list
-
-    - name: Commit and push updated list.json
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add visuals/list.json
-        git diff --quiet && git diff --staged --quiet || (git commit -m "feat: update visuals list from CI" && git push)
-
     - name: Checkout code
       uses: actions/checkout@v4
       with:
@@ -48,6 +37,17 @@ jobs:
 
     - name: Run type checking
       run: npm run typecheck
+
+    - name: Fetching the list
+      run: npm run update-list
+
+    - name: Commit and push updated list.json
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add visuals/list.json
+        git diff --quiet && git diff --staged --quiet || (git commit -m "feat: update visuals list from CI" && git push)
 
     - name: Build application
       run: npm run build
@@ -79,6 +79,9 @@ jobs:
 
     - name: Install dependencies
       run: npm ci
+
+    - name: Update visuals list
+      run: npm run update-list
 
     - name: Build application
       run: npm run build
