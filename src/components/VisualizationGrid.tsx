@@ -133,12 +133,7 @@ const VisualizationGrid: React.FC<VisualizationGridProps> = ({ items, onItemSele
                 </p>
               </div>
 
-              <div className="inline-flex items-center space-x-2 text-sm font-medium text-saffron-700 transition-colors group-hover:text-saffron-800">
-                <span>Learn how to contribute</span>
-                <svg className="size-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
+              
             </div>
           </a>
 

@@ -1,7 +1,8 @@
 import React from 'react';
-import { ApiDocumentationSchema, type ApiDocumentationData, type EndpointData, type ParameterData, type ResponseData, type RequestBodyData, type AuthenticationData } from './schema';
+import { ApiDocumentationSchema, type ApiDocumentationData, type EndpointData, type ParameterData, type ResponseData, type RequestBodyData, type AuthenticationData } from './schema.ts';
 import sampleData from './sample-data.json';
 
+// Type for component registration
 interface ApiDocumentationProps {
   schema: typeof ApiDocumentationSchema | null;
   data?: ApiDocumentationData | null;
@@ -328,8 +329,3 @@ const ApiDocumentation: React.FC<ApiDocumentationProps> = ({ data }) => {
 
 // Export for dynamic loading
 export default ApiDocumentation;
-
-// Register component for dynamic loading
-if (typeof window !== 'undefined' && window.__registerVisualComponent) {
-  window.__registerVisualComponent('api-documentation', ApiDocumentation);
-} 

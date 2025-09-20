@@ -275,9 +275,9 @@ const Agenda: React.FC<ComponentProps> = ({ data }) => {
         `
       }} />
 
-      <div className="print-container w-full">
+      <div className="w-full print:break-inside-avoid">
         {/* Header */}
-        <div className="print-header">
+        <div className="mb-6 print:mb-4">
           <h1 className="mb-2 text-3xl font-bold text-gray-900">{title}</h1>
           <p className="text-lg capitalize text-gray-600">{timePeriod} Agenda</p>
           <p className="mt-2 text-sm text-gray-500">
@@ -295,8 +295,8 @@ const Agenda: React.FC<ComponentProps> = ({ data }) => {
           {Object.entries(eventsByDate)
             .sort(([a], [b]) => new Date(a).getTime() - new Date(b).getTime())
             .map(([date, dayEvents]) => (
-              <div key={date} className="print-day-section">
-                <div className="print-day-header">
+              <div key={date} className="mb-6 print:mb-4 print:break-inside-avoid">
+                <div className="mb-3 print:mb-2">
                   <h2 className="text-lg font-semibold">{formatDate(date)}</h2>
                   <p className="text-sm text-gray-600">{dayEvents.length} events</p>
                 </div>
@@ -309,13 +309,13 @@ const Agenda: React.FC<ComponentProps> = ({ data }) => {
                       return (
                         <div
                           key={event.id}
-                          className={`print-event-card ${
-                            event.completed ? 'print-completed' : ''
+                          className={`mb-3 rounded-lg border border-gray-200 p-3 print:mb-2 print:p-2 ${
+                            event.completed ? 'opacity-60 print:opacity-100' : ''
                           }`}
                         >
                           <div className="flex items-start">
                             <div 
-                              className="print-category-indicator"
+                              className="mr-3 h-6 w-1 rounded-sm print:h-4 print:w-0.5"
                               style={{ backgroundColor: categoryInfo.color }}
                             />
                             <div className="flex-1">
@@ -327,10 +327,10 @@ const Agenda: React.FC<ComponentProps> = ({ data }) => {
                               </div>
                               
                               {event.description && (
-                                <p className="print-description">{event.description}</p>
+                                <p className="text-sm text-gray-600 print:text-xs">{event.description}</p>
                               )}
                               
-                              <div className="print-time-info flex flex-wrap items-center gap-3">
+                              <div className="flex flex-wrap items-center gap-3 text-sm print:text-xs">
                                 {event.time && (
                                   <span>🕐 {formatTime(event.time)}</span>
                                 )}
@@ -338,9 +338,9 @@ const Agenda: React.FC<ComponentProps> = ({ data }) => {
                                   <span>⏱️ {formatDuration(event.duration)}</span>
                                 )}
                                 {event.location && (
-                                  <span className="print-location">📍 {event.location}</span>
+                                  <span>📍 {event.location}</span>
                                 )}
-                                <div className={`print-priority-badge ${getPriorityColor(event.priority)}`}>
+                                <div className={`rounded-full px-2 py-1 text-xs font-medium ${getPriorityColor(event.priority)}`}>
                                   {event.priority.charAt(0).toUpperCase() + event.priority.slice(1)} Priority
                                 </div>
                               </div>
@@ -351,7 +351,7 @@ const Agenda: React.FC<ComponentProps> = ({ data }) => {
                                   {event.attendees.map((attendee, index) => (
                                     <span
                                       key={index}
-                                      className="print-attendee-tag"
+                                      className="mr-1 inline-block rounded bg-gray-100 px-2 py-1 text-xs text-gray-700 print:px-1 print:py-0.5"
                                     >
                                       {attendee}
                                     </span>
@@ -369,7 +369,7 @@ const Agenda: React.FC<ComponentProps> = ({ data }) => {
         </div>
 
         {/* Summary Section */}
-        <div className="print-summary">
+        <div className="mt-8 border-t border-gray-200 pt-4 print:mt-6 print:pt-3">
           <h3 className="mb-3 text-lg font-semibold text-gray-900">Summary</h3>
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
@@ -386,7 +386,7 @@ const Agenda: React.FC<ComponentProps> = ({ data }) => {
         </div>
 
         {/* Footer */}
-        <div className="print-footer">
+        <div className="mt-6 pt-3 text-xs text-gray-500 print:mt-4 print:pt-2">
           <p>Weekly/Monthly Agenda - {title}</p>
           <p>Page 1 of 1</p>
         </div>

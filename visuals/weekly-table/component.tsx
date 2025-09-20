@@ -84,7 +84,7 @@ const WeeklyTable: React.FC<WeeklyTableProps> = ({ data }) => {
               {tableData.rows.map((row, rowIndex) => (
                 <tr
                   key={row.id}
-                  className={rowIndex % 2 === 0 ? 'bg-white' : 'bg-gray-25 print:bg-white'}
+                  className={rowIndex % 2 === 0 ? 'bg-white' : 'bg-gray-50 print:bg-white'}
                 >
                   {/* Row Header */}
                   <td

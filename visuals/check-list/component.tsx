@@ -2,16 +2,11 @@ import React, { useState } from 'react';
 import { CheckListSchema, type CheckListData } from './schema';
 import sampleData from './sample-data.json';
 
+// Type for component registration
+
 interface CheckListProps {
   schema: typeof CheckListSchema | null;
   data?: CheckListData | null;
-}
-
-// Extend Window interface for global function
-declare global {
-  interface Window {
-    __registerVisualComponent: (slug: string, component: React.ComponentType<CheckListProps>) => void;
-  }
 }
 
 const CheckList: React.FC<CheckListProps> = ({ data }) => {
@@ -120,7 +115,13 @@ const CheckList: React.FC<CheckListProps> = ({ data }) => {
                   onClick={() => handleCheckboxToggle(index)}
                   className={`mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full border-2 transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
                     isChecked 
-                      ? `${colors.primary} focus:ring- border-transparent${validatedData.theme?.primaryColor || 'blue'}-500` 
+                      ? `${colors.primary} border-transparent ${
+                          validatedData.theme?.primaryColor === 'blue' ? 'focus:ring-blue-500' :
+                          validatedData.theme?.primaryColor === 'green' ? 'focus:ring-green-500' :
+                          validatedData.theme?.primaryColor === 'purple' ? 'focus:ring-purple-500' :
+                          validatedData.theme?.primaryColor === 'red' ? 'focus:ring-red-500' :
+                          'focus:ring-blue-500'
+                        }` 
                       : 'border-gray-300 hover:border-gray-400 focus:ring-gray-500'
                   } print:pointer-events-none`}
                   aria-label={`Toggle ${item.text}`}
@@ -202,8 +203,3 @@ const CheckList: React.FC<CheckListProps> = ({ data }) => {
 
 // Export for dynamic loading
 export default CheckList;
-
-// Register component for dynamic loading
-if (typeof window !== 'undefined' && window.__registerVisualComponent) {
-  window.__registerVisualComponent('check-list', CheckList);
-} 

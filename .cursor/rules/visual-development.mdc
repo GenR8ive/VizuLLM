@@ -32,9 +32,7 @@ Every visual component MUST follow this exact structure:
 
 4. **Metadata** (`metadata.json`):
    - Include component name, description, and author information
-   - Specify component category (schedule, document, data, creative, utility)
-   - Add relevant tags for searchability
-   - Include version information and last updated date
+   - Include version information
 
 
 ## Required Props Interface

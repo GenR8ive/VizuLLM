@@ -3,8 +3,5 @@
   "version": "1.0.0",
   "description": "Comprehensive API documentation component for displaying REST API endpoints, request/response schemas, authentication methods, and code examples. Perfect for API reference guides, developer documentation, and technical specifications.",
   "author": "tscburak",
-  "slug": "api-documentation",
-  "category": "document",
-  "tags": ["api", "documentation", "rest", "endpoints", "developer", "reference", "technical", "swagger", "openapi"],
-  "lastUpdated": "2024-01-25"
+  "slug": "api-documentation"
 }
