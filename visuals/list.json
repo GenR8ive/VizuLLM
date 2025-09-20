@@ -1,5 +1,13 @@
 [
   {
+    "name": "API Documentation",
+    "slug": "api-documentation",
+    "author": "assistant",
+    "description": "Comprehensive API documentation component for displaying REST API endpoints, request/response schemas, authentication methods, and code examples. Perfect for API reference guides, developer documentation, and technical specifications.",
+    "schema": "visuals/api-documentation/schema.ts",
+    "componentPath": "visuals/api-documentation/component.tsx"
+  },
+  {
     "name": "Agenda",
     "slug": "agenda",
     "author": "tscburak",
