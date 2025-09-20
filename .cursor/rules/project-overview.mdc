@@ -1,0 +1,46 @@
+---
+alwaysApply: true
+---
+
+# VizuLLM Project Overview
+
+VizuLLM is a visual component library for LLM outputs built with React, TypeScript, and Zod schemas. The project transforms LLM-generated JSON data into beautiful, printable visualizations.
+
+## Key Architecture
+
+- **Main Entry**: [src/index.tsx](mdc:src/index.tsx) - React app entry point
+- **Component Registry**: [visuals/list.json](mdc:visuals/list.json) - Registry of all visual components
+- **Visual Components**: Located in `visuals/` directory, each with:
+  - `component.tsx` - React component
+  - `schema.ts` - Zod schema definition
+  - `sample-data.json` - Sample data
+  - `metadata.json` - Component metadata
+
+## Component Structure Pattern
+
+Each visual component follows this structure:
+```
+visuals/component-name/
+├── component.tsx      # Main React component
+├── schema.ts          # Zod schema definition  
+├── sample-data.json   # Sample data for testing
+├── metadata.json      # Component metadata
+└── README.md          # Component documentation
+```
+
+## Component Categories
+
+- **schedule** - Timetables, calendars, planners
+- **document** - Invoices, reports, forms, letters  
+- **data** - Charts, tables, analytics, dashboards
+- **creative** - Cards, presentations, graphics, portfolios
+- **utility** - Tools, calculators, converters, generators
+
+## Key Technologies
+
+- React with TypeScript
+- Zod for schema validation
+- Tailwind CSS for styling
+- Vite for build tooling
+- React Router for navigation
+- React To Print for PDF export

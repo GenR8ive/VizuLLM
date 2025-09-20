@@ -1,0 +1,281 @@
+---
+globs: *.ts,*.tsx
+---
+
+# TypeScript Development Guidelines
+
+## Type Safety Requirements
+
+### 1. Strict Type Definitions
+```typescript
+// Always define explicit types for props
+interface ComponentProps {
+  data: ComponentData | null;
+  schema: ZodSchema | null;
+  onUpdate?: (data: ComponentData) => void;
+  className?: string;
+}
+
+// Use strict typing for function parameters
+const processData = (data: ComponentData): ProcessedData => {
+  // Implementation
+};
+```
+
+### 2. Zod Schema Integration
+```typescript
+// Always use Zod for runtime validation
+import { z } from 'zod';
+
+export const ComponentSchema = z.object({
+  title: z.string().min(1),
+  items: z.array(z.object({
+    name: z.string(),
+    value: z.number().positive(),
+  })),
+});
+
+// Export inferred TypeScript type
+export type ComponentData = z.infer<typeof ComponentSchema>;
+```
+
+## Component Type Patterns
+
+### 1. React Component Types
+```typescript
+// Use React.FC for functional components
+const MyComponent: React.FC<ComponentProps> = ({ data, schema }) => {
+  // Implementation
+};
+
+// Use proper event handler types
+const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  event.preventDefault();
+  // Handle click
+};
+
+// Use proper ref types
+const inputRef = useRef<HTMLInputElement>(null);
+```
+
+### 2. Generic Types
+```typescript
+// Use generics for reusable components
+interface DataTableProps<T> {
+  data: T[];
+  columns: Column<T>[];
+  onRowClick?: (row: T) => void;
+}
+
+const DataTable = <T,>({ data, columns, onRowClick }: DataTableProps<T>) => {
+  // Implementation
+};
+```
+
+## Error Handling Types
+
+### 1. Error Type Definitions
+```typescript
+// Define specific error types
+interface ValidationError {
+  field: string;
+  message: string;
+  code: 'REQUIRED' | 'INVALID_FORMAT' | 'OUT_OF_RANGE';
+}
+
+interface ComponentError {
+  type: 'VALIDATION' | 'NETWORK' | 'RENDER';
+  message: string;
+  details?: ValidationError[];
+}
+```
+
+### 2. Result Pattern
+```typescript
+// Use Result pattern for error handling
+type Result<T, E = Error> = 
+  | { success: true; data: T }
+  | { success: false; error: E };
+
+const validateData = (data: unknown): Result<ComponentData, ValidationError[]> => {
+  try {
+    const validated = ComponentSchema.parse(data);
+    return { success: true, data: validated };
+  } catch (error) {
+    return { success: false, error: error.issues };
+  }
+};
+```
+
+## Utility Types
+
+### 1. Common Utility Types
+```typescript
+// Use built-in utility types
+type PartialData = Partial<ComponentData>;
+type RequiredFields = Required<Pick<ComponentData, 'title' | 'items'>>;
+type OptionalFields = Omit<ComponentData, 'title'>;
+
+// Create custom utility types
+type ThemeColors = 'blue' | 'green' | 'purple' | 'red';
+type ComponentSize = 'sm' | 'md' | 'lg' | 'xl';
+```
+
+### 2. Conditional Types
+```typescript
+// Use conditional types for complex logic
+type ThemeConfig<T extends ThemeColors> = T extends 'blue' 
+  ? { primary: 'blue-500'; secondary: 'blue-100' }
+  : T extends 'green'
+  ? { primary: 'green-500'; secondary: 'green-100' }
+  : { primary: 'gray-500'; secondary: 'gray-100' };
+```
+
+## API and Data Types
+
+### 1. API Response Types
+```typescript
+// Define API response types
+interface ApiResponse<T> {
+  data: T;
+  status: 'success' | 'error';
+  message?: string;
+  timestamp: string;
+}
+
+interface PaginatedResponse<T> extends ApiResponse<T[]> {
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    hasNext: boolean;
+  };
+}
+```
+
+### 2. Form Data Types
+```typescript
+// Use discriminated unions for form states
+type FormState = 
+  | { status: 'idle' }
+  | { status: 'loading' }
+  | { status: 'success'; data: ComponentData }
+  | { status: 'error'; error: string };
+```
+
+## Hook Type Patterns
+
+### 1. Custom Hook Types
+```typescript
+// Type custom hooks properly
+const useComponentData = (initialData?: ComponentData) => {
+  const [data, setData] = useState<ComponentData | null>(initialData || null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  
+  return { data, setData, loading, setLoading, error, setError };
+};
+```
+
+### 2. Event Handler Types
+```typescript
+// Define event handler types
+type InputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => void;
+type ButtonClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => void;
+type FormSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => void;
+```
+
+## Configuration Types
+
+### 1. Component Configuration
+```typescript
+// Define configuration types
+interface ComponentConfig {
+  theme: {
+    primaryColor: ThemeColors;
+    fontSize: number;
+    showBorder: boolean;
+  };
+  layout: {
+    columns: number;
+    spacing: 'sm' | 'md' | 'lg';
+    responsive: boolean;
+  };
+  features: {
+    printEnabled: boolean;
+    exportEnabled: boolean;
+    editEnabled: boolean;
+  };
+}
+```
+
+### 2. Environment Types
+```typescript
+// Define environment-specific types
+interface AppConfig {
+  apiUrl: string;
+  environment: 'development' | 'staging' | 'production';
+  features: {
+    analytics: boolean;
+    debugMode: boolean;
+  };
+}
+
+// Use environment variables with proper typing
+const config: AppConfig = {
+  apiUrl: import.meta.env.VITE_API_URL,
+  environment: import.meta.env.MODE as AppConfig['environment'],
+  features: {
+    analytics: import.meta.env.VITE_ANALYTICS === 'true',
+    debugMode: import.meta.env.DEV,
+  },
+};
+```
+
+## Type Guards and Assertions
+
+### 1. Type Guards
+```typescript
+// Create type guards for runtime type checking
+const isComponentData = (data: unknown): data is ComponentData => {
+  return ComponentSchema.safeParse(data).success;
+};
+
+const isThemeColor = (color: string): color is ThemeColors => {
+  return ['blue', 'green', 'purple', 'red'].includes(color);
+};
+```
+
+### 2. Assertion Functions
+```typescript
+// Use assertion functions for type narrowing
+const assertIsComponentData = (data: unknown): asserts data is ComponentData => {
+  const result = ComponentSchema.safeParse(data);
+  if (!result.success) {
+    throw new Error('Invalid component data');
+  }
+};
+```
+
+## Import/Export Types
+
+### 1. Type-Only Imports
+```typescript
+// Use type-only imports for types
+import type { ComponentData, ComponentProps } from './types';
+import type { ZodSchema } from 'zod';
+
+// Separate type and value imports
+import { z } from 'zod';
+import type { ZodType } from 'zod';
+```
+
+### 2. Re-export Types
+```typescript
+// Re-export types from schema files
+export type { ComponentData } from './schema';
+export type { ComponentProps } from './types';
+
+// Re-export with different names
+export type { ComponentData as VisualData } from './schema';
+```

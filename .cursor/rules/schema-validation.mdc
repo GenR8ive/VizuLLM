@@ -1,0 +1,91 @@
+---
+globs: visuals/**/schema.ts
+---
+
+# Zod Schema Development Rules
+
+## Schema Structure Requirements
+
+Every schema MUST include:
+
+1. **Required Fields**: Use `.min(1)` for strings, `.positive()` for numbers
+2. **Optional Fields**: Use `.optional()` with sensible defaults
+3. **Complex Objects**: Define nested schemas for complex data structures
+4. **Type Export**: Always export TypeScript type using `z.infer<typeof Schema>`
+5. **Metadata Export**: Export `componentMetadata` object
+
+## Schema Patterns
+
+### Basic Field Types
+```typescript
+// Required string with validation
+title: z.string().min(1, "Title is required")
+
+// Optional string
+subtitle: z.string().optional()
+
+// Number with constraints  
+value: z.number().positive()
+fontSize: z.number().min(12).max(48).default(16)
+
+// Boolean with default
+showBorder: z.boolean().default(true)
+
+// Enum with default
+primaryColor: z.enum(['blue', 'green', 'purple', 'red']).default('blue')
+```
+
+### Complex Object Patterns
+```typescript
+// Array of objects
+items: z.array(z.object({
+  name: z.string(),
+  value: z.number().positive(),
+  description: z.string().optional(),
+}))
+
+// Nested optional objects
+theme: z.object({
+  primaryColor: z.enum(['blue', 'green', 'purple', 'red']).default('blue'),
+  fontSize: z.number().min(12).max(48).default(16),
+  showBorder: z.boolean().default(true),
+}).optional()
+
+// Metadata objects
+metadata: z.object({
+  author: z.string(),
+  date: z.string().datetime().optional(),
+}).optional()
+```
+
+## Required Exports
+
+Every schema file MUST export:
+
+```typescript
+// 1. The main schema
+export const YourComponentSchema = z.object({...});
+
+// 2. TypeScript type
+export type YourComponentData = z.infer<typeof YourComponentSchema>;
+
+// 3. Component metadata
+export const componentMetadata = {
+  name: 'Your Component Name',
+  description: 'Brief description of what this component does',
+  author: 'your-username',
+} as const;
+```
+
+## Validation Error Messages
+
+- Provide clear, user-friendly error messages
+- Use descriptive field names in error messages
+- Include context about what the field should contain
+- Example: `"Title is required and must be at least 1 character"`
+
+## Schema Naming Conventions
+
+- Schema: `YourComponentSchema` (PascalCase + Schema suffix)
+- Type: `YourComponentData` (PascalCase + Data suffix)  
+- Metadata: `componentMetadata` (camelCase)

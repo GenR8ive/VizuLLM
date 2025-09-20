@@ -1,0 +1,189 @@
+---
+globs: *.tsx,*.ts
+---
+
+# Error Handling and Validation Rules
+
+## Schema Validation Pattern
+
+Every component MUST implement robust error handling for data validation:
+
+```typescript
+// Required error handling pattern
+let validatedData: YourComponentData;
+
+try {
+  if (data) {
+    validatedData = YourComponentSchema.parse(data);
+  } else {
+    validatedData = YourComponentSchema.parse(sampleData);
+  }
+} catch (error) {
+  console.error('Data validation failed:', error);
+  // Always provide fallback to sample data
+  validatedData = YourComponentSchema.parse(sampleData);
+}
+```
+
+## Error Handling Requirements
+
+### 1. Schema Validation
+- **Always** wrap schema parsing in try/catch
+- **Log errors** to console for debugging
+- **Provide fallback** to sample data on validation failure
+- **Never** let the component crash due to invalid data
+
+### 2. Data Access Safety
+```typescript
+// Safe property access with fallbacks
+const primaryColor = theme?.primaryColor || 'blue';
+const fontSize = theme?.fontSize || 16;
+const showBorder = theme?.showBorder !== false;
+
+// Safe array access
+const items = validatedData.items || [];
+```
+
+### 3. Component Error Boundaries
+```typescript
+// Implement error boundaries for component trees
+const ErrorFallback = ({ error }: { error: Error }) => (
+  <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+    <h3 className="text-red-800 font-semibold">Something went wrong</h3>
+    <p className="text-red-600 text-sm">{error.message}</p>
+  </div>
+);
+```
+
+## Validation Error Messages
+
+### Schema Error Messages
+- Use **descriptive error messages** in Zod schemas
+- Provide **context** about what the field should contain
+- Include **validation rules** in error messages
+
+```typescript
+// Good error messages
+title: z.string().min(1, "Title is required and must be at least 1 character"),
+value: z.number().positive("Value must be a positive number"),
+email: z.string().email("Please provide a valid email address"),
+```
+
+### User-Facing Error States
+```typescript
+// Graceful error display
+if (!validatedData) {
+  return (
+    <div className="p-6 text-center">
+      <p className="text-gray-500">Unable to load data. Please try again.</p>
+    </div>
+  );
+}
+```
+
+## Performance Error Handling
+
+### 1. Lazy Loading Errors
+```typescript
+// Handle dynamic import errors
+const loadComponent = async (componentPath: string) => {
+  try {
+    const module = await import(componentPath);
+    return module.default;
+  } catch (error) {
+    console.error('Failed to load component:', error);
+    return ErrorFallback;
+  }
+};
+```
+
+### 2. Memory Leak Prevention
+```typescript
+// Cleanup in useEffect
+useEffect(() => {
+  const timer = setTimeout(() => {
+    // Some operation
+  }, 1000);
+
+  return () => clearTimeout(timer);
+}, []);
+```
+
+## Network Error Handling
+
+### 1. API Error Handling
+```typescript
+// Handle fetch errors
+const fetchData = async (url: string) => {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Network error:', error);
+    return null;
+  }
+};
+```
+
+### 2. Timeout Handling
+```typescript
+// Implement timeouts for long operations
+const withTimeout = <T>(promise: Promise<T>, timeout: number): Promise<T> => {
+  return Promise.race([
+    promise,
+    new Promise<T>((_, reject) => 
+      setTimeout(() => reject(new Error('Operation timed out')), timeout)
+    )
+  ]);
+};
+```
+
+## Development Error Handling
+
+### 1. Development Warnings
+```typescript
+// Warn about deprecated patterns
+if (process.env.NODE_ENV === 'development') {
+  console.warn('Deprecated prop used:', deprecatedProp);
+}
+```
+
+### 2. Debug Information
+```typescript
+// Provide debug information in development
+if (process.env.NODE_ENV === 'development') {
+  console.log('Component props:', { schema, data });
+  console.log('Validated data:', validatedData);
+}
+```
+
+## Error Recovery Strategies
+
+### 1. Retry Logic
+```typescript
+// Implement retry for failed operations
+const retryOperation = async (operation: () => Promise<any>, maxRetries = 3) => {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      return await operation();
+    } catch (error) {
+      if (i === maxRetries - 1) throw error;
+      await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
+    }
+  }
+};
+```
+
+### 2. Graceful Degradation
+```typescript
+// Provide fallback functionality
+const renderWithFallback = (data: any) => {
+  if (data?.advancedFeature) {
+    return <AdvancedComponent data={data} />;
+  }
+  return <BasicComponent data={data} />;
+};
+```

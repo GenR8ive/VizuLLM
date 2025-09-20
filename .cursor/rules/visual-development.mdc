@@ -1,0 +1,97 @@
+---
+globs: visuals/**/*.tsx,visuals/**/*.ts
+alwaysApply: false
+---
+# Visual Component Development Rules
+
+## Component Structure Requirements
+
+Use 'npm run generate-visual -- --name "Visual Name" --description "Visual Desc" --author "user github username"' script to create new visual component.
+
+Make sure description is expalaining the visual component well. not just for ui, focusing the use-cases as well.
+
+After creating the visual component, just edit the inside of the files. do not change the structure. keep export defaults are same.
+
+Every visual component MUST follow this exact structure:
+
+1. **Schema Definition** (`schema.ts`):
+   - Use Zod for all data validation
+   - use 'optional' props if it needs.
+
+2. **Component Implementation** (`component.tsx`):
+   - Use React.FC with proper TypeScript interfaces
+   - Implement error handling with try/catch for schema validation
+   - Always provide fallback to sample data on validation failure
+   - Register component globally: `window.__registerVisualComponent(slug, component)`
+
+3. **Sample Data** (`sample-data.json`):
+   - Provide realistic, comprehensive sample data that demonstrates all component features
+   - Data must validate against the component's Zod schema
+   - Include edge cases and various data scenarios
+   - Use meaningful, realistic content (not placeholder text like "Lorem ipsum")
+
+4. **Metadata** (`metadata.json`):
+   - Include component name, description, and author information
+   - Specify component category (schedule, document, data, creative, utility)
+   - Add relevant tags for searchability
+   - Include version information and last updated date
+
+
+## Required Props Interface
+
+```typescript
+interface YourComponentProps {
+  schema: typeof YourComponentSchema | null;
+  data?: YourComponentData | null;
+}
+```
+
+## Error Handling Pattern
+
+```typescript
+let validatedData: YourComponentData;
+try {
+  if (data) {
+    validatedData = YourComponentSchema.parse(data);
+  } else {
+    validatedData = YourComponentSchema.parse(sampleData);
+  }
+} catch (error) {
+  console.error('Data validation failed:', error);
+  validatedData = YourComponentSchema.parse(sampleData);
+}
+```
+
+## Styling Requirements
+
+- Use **Tailwind CSS** 3.4.17 exclusively for styling
+- Follow responsive design principles (mobile-first)
+- Use semantic HTML elements
+- Ensure accessibility with proper ARIA labels
+- Optimize for print functionality
+- if the color is not determined, make background color is transparent because it will be ready-to-print document.
+
+
+## Constraints
+- Do not put Vizullm brand on the component.
+- Visual components must have only 4 files (component.tsx, metadata.json, sample-data.json, schema.ts) So do not put Readme.md for each visual. Also do not create several sample-data for other usecases. make sure just one sample-data.json
+- Because of this component will be printed, do not put anything to change the screen or visual structure such as tabs or acordions.
+
+## Validation
+- Use 'npm run update-list' script to make sure visual components are updating the list so user can list them.
+- Visual component does not have any lint errors.
+
+## Performance Best Practices
+
+- Use React.memo for expensive components
+- Implement proper key props for mapped elements
+- Avoid inline object creation in render methods
+- Use useMemo/useCallback when appropriate
+
+## Accessibility Requirements
+
+- Use semantic HTML elements (`main`, `section`, `header`, etc.)
+- Add proper ARIA labels and roles
+- Ensure keyboard navigation support
+- Maintain proper contrast ratios
+- Use descriptive button labels

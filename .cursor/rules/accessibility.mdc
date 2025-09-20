@@ -1,0 +1,245 @@
+---
+globs: *.tsx,*.ts
+---
+
+# Accessibility Guidelines and Requirements
+
+## Semantic HTML Requirements
+
+### 1. Proper HTML Structure
+```typescript
+// Use semantic HTML elements
+<main role="main" aria-label="Component content">
+  <header>
+    <h1 id="main-title">{title}</h1>
+    {subtitle && <p className="text-lg text-gray-600">{subtitle}</p>}
+  </header>
+  
+  <section aria-labelledby="main-title">
+    <h2 className="sr-only">Content</h2>
+    {/* Main content */}
+  </section>
+</main>
+```
+
+### 2. Heading Hierarchy
+- Use **proper heading hierarchy** (h1 → h2 → h3, etc.)
+- **Never skip heading levels**
+- Use **unique IDs** for headings that are referenced by aria-labelledby
+- Include **screen reader only text** when needed
+
+```typescript
+// Proper heading structure
+<h1 id="page-title">{pageTitle}</h1>
+<h2 id="section-title">{sectionTitle}</h2>
+<h3>{subsectionTitle}</h3>
+
+// Screen reader only text
+<h2 className="sr-only">Data visualization</h2>
+```
+
+## ARIA Labels and Roles
+
+### 1. Interactive Elements
+```typescript
+// Buttons with descriptive labels
+<button 
+  aria-label="Print this component"
+  onClick={handlePrint}
+  className="p-2 rounded hover:bg-gray-100"
+>
+  <PrintIcon aria-hidden="true" />
+</button>
+
+// Form controls
+<input
+  type="text"
+  aria-label="Search components"
+  placeholder="Search..."
+  className="w-full p-2 border rounded"
+/>
+
+// Custom interactive elements
+<div 
+  role="button"
+  tabIndex={0}
+  aria-label="Expand details"
+  onKeyDown={handleKeyDown}
+  onClick={handleClick}
+>
+  Click to expand
+</div>
+```
+
+### 2. Data Tables
+```typescript
+// Accessible table structure
+<table role="table" aria-label="Component data">
+  <caption className="sr-only">Data table with component information</caption>
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Value</th>
+      <th scope="col">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    {items.map((item, index) => (
+      <tr key={index}>
+        <th scope="row">{item.name}</th>
+        <td>{item.value}</td>
+        <td>{item.description}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+```
+
+## Keyboard Navigation
+
+### 1. Focus Management
+```typescript
+// Ensure all interactive elements are focusable
+const focusableElements = [
+  'button',
+  'input',
+  'select',
+  'textarea',
+  'a[href]',
+  '[tabindex]:not([tabindex="-1"])'
+];
+
+// Handle keyboard navigation
+const handleKeyDown = (event: KeyboardEvent) => {
+  if (event.key === 'Enter' || event.key === ' ') {
+    event.preventDefault();
+    handleClick();
+  }
+};
+```
+
+### 2. Skip Links
+```typescript
+// Provide skip links for long content
+<a 
+  href="#main-content"
+  className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 bg-blue-600 text-white p-2 z-50"
+>
+  Skip to main content
+</a>
+```
+
+## Color and Contrast
+
+### 1. Color Contrast Requirements
+- Ensure **WCAG AA compliance** (4.5:1 contrast ratio for normal text)
+- Use **color AND other indicators** (not just color)
+- Test with **color blindness simulators**
+
+```typescript
+// Good contrast examples
+className="text-gray-900 bg-white"        // High contrast
+className="text-blue-600 bg-blue-50"      // Good contrast
+className="text-red-600 bg-red-50"        // Good contrast
+
+// Avoid low contrast
+className="text-gray-400 bg-gray-300"     // Poor contrast
+```
+
+### 2. Color-Independent Information
+```typescript
+// Use icons, text, or patterns in addition to color
+<div className="flex items-center">
+  <div className={`w-3 h-3 rounded-full ${status === 'active' ? 'bg-green-500' : 'bg-red-500'}`} />
+  <span className="ml-2">{status === 'active' ? 'Active' : 'Inactive'}</span>
+</div>
+```
+
+## Screen Reader Support
+
+### 1. Live Regions
+```typescript
+// Announce dynamic content changes
+<div 
+  aria-live="polite" 
+  aria-atomic="true"
+  className="sr-only"
+>
+  {announcement}
+</div>
+
+// For urgent updates
+<div 
+  aria-live="assertive" 
+  aria-atomic="true"
+  className="sr-only"
+>
+  {urgentMessage}
+</div>
+```
+
+### 2. Descriptive Text
+```typescript
+// Provide context for screen readers
+<div aria-describedby="help-text">
+  <input 
+    type="text" 
+    aria-invalid={hasError}
+    aria-describedby={hasError ? "error-message" : "help-text"}
+  />
+  <div id="help-text" className="text-sm text-gray-600">
+    Enter your email address
+  </div>
+  {hasError && (
+    <div id="error-message" className="text-sm text-red-600">
+      Please enter a valid email address
+    </div>
+  )}
+</div>
+```
+
+## Motion and Animation
+
+### 1. Respect Reduced Motion
+```typescript
+// Respect user's motion preferences
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const animationClass = prefersReducedMotion 
+  ? '' 
+  : 'transition-all duration-300 hover:scale-105';
+```
+
+### 2. Focus Indicators
+```typescript
+// Ensure focus is visible
+className="focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+
+// Custom focus styles
+className="focus:outline-none focus:border-blue-500 focus:shadow-lg"
+```
+
+## Testing Accessibility
+
+### 1. Manual Testing Checklist
+- [ ] **Keyboard navigation** works for all interactive elements
+- [ ] **Screen reader** can read all content logically
+- [ ] **Color contrast** meets WCAG AA standards
+- [ ] **Focus indicators** are visible and clear
+- [ ] **Form labels** are properly associated
+- [ ] **Error messages** are announced to screen readers
+
+### 2. Automated Testing
+```typescript
+// Use testing library for accessibility tests
+import { render, screen } from '@testing-library/react';
+import { axe, toHaveNoViolations } from 'jest-axe';
+
+expect.extend(toHaveNoViolations);
+
+test('should not have accessibility violations', async () => {
+  const { container } = render(<MyComponent />);
+  const results = await axe(container);
+  expect(results).toHaveNoViolations();
+});
+```
