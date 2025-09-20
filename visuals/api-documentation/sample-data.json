@@ -1,0 +1,518 @@
+{
+  "title": "E-Commerce API",
+  "version": "2.1.0",
+  "description": "A comprehensive REST API for managing e-commerce operations including products, orders, customers, and payments. This API provides full CRUD operations with advanced filtering, pagination, and real-time updates.",
+  "baseUrl": "https://api.ecommerce.example.com/v2",
+  "authentication": {
+    "type": "bearer",
+    "name": "JWT Token",
+    "description": "Include your JWT token in the Authorization header",
+    "location": "header",
+    "scheme": "Bearer"
+  },
+  "contact": {
+    "name": "API Support Team",
+    "email": "api-support@ecommerce.example.com",
+    "url": "https://support.ecommerce.example.com"
+  },
+  "license": {
+    "name": "MIT",
+    "url": "https://opensource.org/licenses/MIT"
+  },
+  "tags": [
+    {
+      "name": "Products",
+      "description": "Operations related to product management"
+    },
+    {
+      "name": "Orders",
+      "description": "Order processing and management"
+    },
+    {
+      "name": "Customers",
+      "description": "Customer account management"
+    },
+    {
+      "name": "Payments",
+      "description": "Payment processing and transactions"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/products",
+      "method": "GET",
+      "summary": "List all products",
+      "description": "Retrieve a paginated list of all products with optional filtering and sorting capabilities.",
+      "tags": ["Products"],
+      "parameters": [
+        {
+          "name": "page",
+          "type": "integer",
+          "required": false,
+          "description": "Page number for pagination",
+          "example": "1",
+          "location": "query"
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "required": false,
+          "description": "Number of items per page",
+          "example": "20",
+          "location": "query"
+        },
+        {
+          "name": "category",
+          "type": "string",
+          "required": false,
+          "description": "Filter by product category",
+          "example": "electronics",
+          "location": "query"
+        },
+        {
+          "name": "min_price",
+          "type": "number",
+          "required": false,
+          "description": "Minimum price filter",
+          "example": "10.00",
+          "location": "query"
+        },
+        {
+          "name": "max_price",
+          "type": "number",
+          "required": false,
+          "description": "Maximum price filter",
+          "example": "500.00",
+          "location": "query"
+        },
+        {
+          "name": "sort",
+          "type": "string",
+          "required": false,
+          "description": "Sort field and direction",
+          "example": "price:asc",
+          "location": "query"
+        }
+      ],
+      "responses": [
+        {
+          "status": 200,
+          "description": "Successful response with product list",
+          "example": {
+            "data": [
+              {
+                "id": "prod_123",
+                "name": "Wireless Headphones",
+                "description": "High-quality wireless headphones with noise cancellation",
+                "price": 199.99,
+                "category": "electronics",
+                "stock": 50,
+                "images": ["https://example.com/headphones1.jpg"],
+                "created_at": "2024-01-15T10:30:00Z"
+              }
+            ],
+            "pagination": {
+              "page": 1,
+              "limit": 20,
+              "total": 150,
+              "pages": 8
+            }
+          }
+        },
+        {
+          "status": 400,
+          "description": "Bad request - invalid parameters",
+          "example": {
+            "error": "Invalid parameter: min_price must be a positive number"
+          }
+        },
+        {
+          "status": 401,
+          "description": "Unauthorized - invalid or missing token"
+        }
+      ]
+    },
+    {
+      "path": "/products/{id}",
+      "method": "GET",
+      "summary": "Get product by ID",
+      "description": "Retrieve detailed information about a specific product including reviews and related products.",
+      "tags": ["Products"],
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "description": "Unique product identifier",
+          "example": "prod_123",
+          "location": "path"
+        }
+      ],
+      "responses": [
+        {
+          "status": 200,
+          "description": "Product details retrieved successfully",
+          "example": {
+            "id": "prod_123",
+            "name": "Wireless Headphones",
+            "description": "High-quality wireless headphones with noise cancellation",
+            "price": 199.99,
+            "category": "electronics",
+            "stock": 50,
+            "images": ["https://example.com/headphones1.jpg", "https://example.com/headphones2.jpg"],
+            "specifications": {
+              "battery_life": "30 hours",
+              "connectivity": "Bluetooth 5.0",
+              "weight": "250g"
+            },
+            "reviews": {
+              "average_rating": 4.5,
+              "total_reviews": 128
+            },
+            "created_at": "2024-01-15T10:30:00Z",
+            "updated_at": "2024-01-20T14:22:00Z"
+          }
+        },
+        {
+          "status": 404,
+          "description": "Product not found",
+          "example": {
+            "error": "Product with ID 'prod_123' not found"
+          }
+        }
+      ]
+    },
+    {
+      "path": "/products",
+      "method": "POST",
+      "summary": "Create new product",
+      "description": "Create a new product in the catalog. Requires admin privileges.",
+      "tags": ["Products"],
+      "security": ["admin"],
+      "requestBody": {
+        "description": "Product data for creation",
+        "required": true,
+        "example": {
+          "name": "New Product",
+          "description": "Product description",
+          "price": 99.99,
+          "category": "electronics",
+          "stock": 100,
+          "images": ["https://example.com/image1.jpg"],
+          "specifications": {
+            "weight": "1kg",
+            "dimensions": "10x10x5cm"
+          }
+        }
+      },
+      "responses": [
+        {
+          "status": 201,
+          "description": "Product created successfully",
+          "example": {
+            "id": "prod_456",
+            "name": "New Product",
+            "description": "Product description",
+            "price": 99.99,
+            "category": "electronics",
+            "stock": 100,
+            "created_at": "2024-01-25T09:15:00Z"
+          }
+        },
+        {
+          "status": 400,
+          "description": "Validation error",
+          "example": {
+            "error": "Validation failed",
+            "details": {
+              "name": "Name is required",
+              "price": "Price must be a positive number"
+            }
+          }
+        },
+        {
+          "status": 403,
+          "description": "Forbidden - admin privileges required"
+        }
+      ]
+    },
+    {
+      "path": "/products/{id}",
+      "method": "PUT",
+      "summary": "Update product",
+      "description": "Update an existing product. Requires admin privileges.",
+      "tags": ["Products"],
+      "security": ["admin"],
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "description": "Product ID to update",
+          "example": "prod_123",
+          "location": "path"
+        }
+      ],
+      "requestBody": {
+        "description": "Updated product data",
+        "required": true,
+        "example": {
+          "name": "Updated Product Name",
+          "price": 149.99,
+          "stock": 75
+        }
+      },
+      "responses": [
+        {
+          "status": 200,
+          "description": "Product updated successfully",
+          "example": {
+            "id": "prod_123",
+            "name": "Updated Product Name",
+            "price": 149.99,
+            "stock": 75,
+            "updated_at": "2024-01-25T11:30:00Z"
+          }
+        },
+        {
+          "status": 404,
+          "description": "Product not found"
+        }
+      ]
+    },
+    {
+      "path": "/products/{id}",
+      "method": "DELETE",
+      "summary": "Delete product",
+      "description": "Permanently delete a product from the catalog. Requires admin privileges.",
+      "tags": ["Products"],
+      "security": ["admin"],
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "description": "Product ID to delete",
+          "example": "prod_123",
+          "location": "path"
+        }
+      ],
+      "responses": [
+        {
+          "status": 204,
+          "description": "Product deleted successfully"
+        },
+        {
+          "status": 404,
+          "description": "Product not found"
+        },
+        {
+          "status": 409,
+          "description": "Conflict - product has active orders",
+          "example": {
+            "error": "Cannot delete product with active orders"
+          }
+        }
+      ]
+    },
+    {
+      "path": "/orders",
+      "method": "GET",
+      "summary": "List customer orders",
+      "description": "Retrieve orders for the authenticated customer with pagination and filtering.",
+      "tags": ["Orders"],
+      "parameters": [
+        {
+          "name": "status",
+          "type": "string",
+          "required": false,
+          "description": "Filter by order status",
+          "example": "completed",
+          "location": "query"
+        },
+        {
+          "name": "start_date",
+          "type": "string",
+          "required": false,
+          "description": "Filter orders from this date",
+          "example": "2024-01-01",
+          "location": "query"
+        },
+        {
+          "name": "end_date",
+          "type": "string",
+          "required": false,
+          "description": "Filter orders until this date",
+          "example": "2024-01-31",
+          "location": "query"
+        }
+      ],
+      "responses": [
+        {
+          "status": 200,
+          "description": "Orders retrieved successfully",
+          "example": {
+            "data": [
+              {
+                "id": "order_789",
+                "customer_id": "cust_456",
+                "status": "completed",
+                "total": 299.98,
+                "items": [
+                  {
+                    "product_id": "prod_123",
+                    "quantity": 2,
+                    "price": 149.99
+                  }
+                ],
+                "shipping_address": {
+                  "street": "123 Main St",
+                  "city": "New York",
+                  "state": "NY",
+                  "zip": "10001"
+                },
+                "created_at": "2024-01-20T14:30:00Z"
+              }
+            ],
+            "pagination": {
+              "page": 1,
+              "limit": 20,
+              "total": 5,
+              "pages": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "/orders",
+      "method": "POST",
+      "summary": "Create new order",
+      "description": "Create a new order with the items in the customer's cart.",
+      "tags": ["Orders"],
+      "requestBody": {
+        "description": "Order creation data",
+        "required": true,
+        "example": {
+          "items": [
+            {
+              "product_id": "prod_123",
+              "quantity": 2
+            }
+          ],
+          "shipping_address": {
+            "street": "123 Main St",
+            "city": "New York",
+            "state": "NY",
+            "zip": "10001",
+            "country": "US"
+          },
+          "payment_method": "credit_card"
+        }
+      },
+      "responses": [
+        {
+          "status": 201,
+          "description": "Order created successfully",
+          "example": {
+            "id": "order_789",
+            "status": "pending",
+            "total": 299.98,
+            "payment_url": "https://payments.example.com/checkout/order_789"
+          }
+        },
+        {
+          "status": 400,
+          "description": "Invalid order data",
+          "example": {
+            "error": "Insufficient stock for product prod_123"
+          }
+        }
+      ]
+    },
+    {
+      "path": "/customers/profile",
+      "method": "GET",
+      "summary": "Get customer profile",
+      "description": "Retrieve the authenticated customer's profile information.",
+      "tags": ["Customers"],
+      "responses": [
+        {
+          "status": 200,
+          "description": "Customer profile retrieved successfully",
+          "example": {
+            "id": "cust_456",
+            "email": "john.doe@example.com",
+            "first_name": "John",
+            "last_name": "Doe",
+            "phone": "+1-555-0123",
+            "addresses": [
+              {
+                "id": "addr_123",
+                "type": "billing",
+                "street": "123 Main St",
+                "city": "New York",
+                "state": "NY",
+                "zip": "10001"
+              }
+            ],
+            "created_at": "2024-01-01T00:00:00Z"
+          }
+        }
+      ]
+    },
+    {
+      "path": "/payments/methods",
+      "method": "GET",
+      "summary": "List payment methods",
+      "description": "Retrieve available payment methods for the customer.",
+      "tags": ["Payments"],
+      "responses": [
+        {
+          "status": 200,
+          "description": "Payment methods retrieved successfully",
+          "example": {
+            "methods": [
+              {
+                "id": "pm_123",
+                "type": "credit_card",
+                "last_four": "4242",
+                "brand": "visa",
+                "exp_month": 12,
+                "exp_year": 2025
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "path": "/webhooks/orders",
+      "method": "POST",
+      "summary": "Order webhook",
+      "description": "Webhook endpoint for order status updates from payment processors.",
+      "tags": ["Orders"],
+      "deprecated": false,
+      "requestBody": {
+        "description": "Webhook payload from payment processor",
+        "required": true,
+        "example": {
+          "event": "payment.completed",
+          "order_id": "order_789",
+          "amount": 299.98,
+          "timestamp": "2024-01-20T15:00:00Z"
+        }
+      },
+      "responses": [
+        {
+          "status": 200,
+          "description": "Webhook processed successfully"
+        },
+        {
+          "status": 400,
+          "description": "Invalid webhook payload"
+        }
+      ]
+    }
+  ]
+}
