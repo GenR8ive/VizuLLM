@@ -25,6 +25,8 @@
     "update-list": "node scripts/update-list.mjs"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.1.13",
+    "@xyflow/react": "^12.8.1",
     "html2canvas": "^1.4.1",
     "jspdf": "^3.0.1",
     "react": "^18.2.0",
@@ -54,7 +56,7 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-tailwindcss": "^3.18.0",
     "happy-dom": "^15.11.7",
-    "postcss": "^8.5.3",
+    "postcss": "^8.5.6",
     "prettier": "3.1.1",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.3",

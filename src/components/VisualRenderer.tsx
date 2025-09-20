@@ -63,10 +63,22 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
   useEffect(() => {
     if (schema) {
       try {
-        const jsonSchema = zodToJsonSchema(schema, "Schema");
-        const properties = (jsonSchema.definitions!.Schema as Record<string, unknown>).properties || {};
-        const required = (jsonSchema.definitions!.Schema as Record<string, unknown>).required || [];
-        setJsonOutput(JSON.stringify({ properties, required }, null, 2));
+        console.log('Processing schema:', schema);
+        console.log('Schema type:', typeof schema);
+        console.log('Schema has parse method:', 'parse' in schema);
+        
+        // Check if schema is a valid Zod schema
+        if (typeof schema === 'object' && schema !== null && 'parse' in schema) {
+          console.log('Converting schema to JSON...');
+          const jsonSchema = zodToJsonSchema(schema, "Schema");
+          console.log('JSON schema result:', jsonSchema);
+          const properties = (jsonSchema.definitions!.Schema as Record<string, unknown>).properties || {};
+          const required = (jsonSchema.definitions!.Schema as Record<string, unknown>).required || [];
+          setJsonOutput(JSON.stringify({ properties, required }, null, 2));
+        } else {
+          console.warn('Schema is not a valid Zod schema:', schema);
+          setJsonOutput('');
+        }
       } catch (error) {
         console.error('Error converting schema to JSON:', error);
         setJsonOutput('');
@@ -78,9 +90,17 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
 
   useEffect(() => {
     if (schema) {
-      console.log(zodToJsonSchema(schema, "Schema"));
+      try {
+        // Check if schema is a valid Zod schema before converting
+        if (typeof schema === 'object' && schema !== null && 'parse' in schema) {
+          console.log(zodToJsonSchema(schema, "Schema"));
+        } else {
+          console.warn('Schema is not a valid Zod schema for logging:', schema);
+        }
+      } catch (error) {
+        console.error('Error in schema logging:', error);
+      }
     }
-    console.log("h");
   }, [schema]);
 
   const componentRef = useRef<HTMLDivElement>(null);
@@ -135,7 +155,9 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
         // Load schema
         try {
           const schemaModule = await import(`../../visuals/${slug}/schema.ts`);
+          console.log('Schema module loaded:', schemaModule);
           const schemaData = schemaModule.default || schemaModule;
+          console.log('Schema data:', schemaData);
           setSchema(schemaData);
         } catch (schemaError) {
           console.warn('Failed to load schema:', schemaError);
@@ -154,7 +176,9 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
         // Load component
         try {
           const componentModule = await import(`../../visuals/${slug}/component.tsx`);
+          console.log('Component module loaded:', componentModule);
           const Component = componentModule.default;
+          console.log('Component:', Component);
           setComponent(() => Component);
         } catch (componentError) {
           console.error('Failed to load component:', componentError);

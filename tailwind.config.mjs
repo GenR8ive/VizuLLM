@@ -1,8 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 
 export default {
-  content: ['./src/**/*.{mjs,js,ts,jsx,tsx}'],
+  content: ['./src/**/*.{mjs,js,ts,jsx,tsx,html}','./visuals/**/*.{mjs,js,ts,jsx,tsx,html}'],
   theme: {
+
     extend: {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

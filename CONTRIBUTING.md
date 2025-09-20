@@ -1,6 +1,6 @@
-# Contributing to VisuLLM
+# Contributing to VizuLLM
 
-Thank you for your interest in contributing to VisuLLM! This guide will help you create new visual components using our Zod-based schema system.
+Thank you for your interest in contributing to VizuLLM! This guide will help you create new visual components using our Zod-based schema system.
 
 ## 🚀 Quick Start
 
@@ -43,7 +43,7 @@ This interactive script will:
 ```bash
 $ npm run generate-visual
 
-🎨 VisuLLM Visual Generator
+🎨 VizuLLM Visual Generator
 
 Visual name (e.g., "Invoice Generator"): Invoice Generator
 Visual description: Professional invoice template with company branding
@@ -493,8 +493,8 @@ Brief description of what this component does.
 
 ## 📄 License
 
-By contributing to VisuLLM, you agree that your contributions will be licensed under the same license as the project.
+By contributing to VizuLLM, you agree that your contributions will be licensed under the same license as the project.
 
 ---
 
-Thank you for contributing to VisuLLM! 🎉 
+Thank you for contributing to VizuLLM! 🎉 
