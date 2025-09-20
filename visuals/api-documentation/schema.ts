@@ -89,3 +89,5 @@ export type LicenseData = z.infer<typeof LicenseDataSchema>;
 export type TagData = z.infer<typeof TagDataSchema>;
 export type EndpointData = z.infer<typeof EndpointDataSchema>;
 export type ApiDocumentationData = z.infer<typeof ApiDocumentationSchema>;
+
+export default ApiDocumentationSchema;
