@@ -375,7 +375,6 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
         {/* Header */}
         <div className="z-40 shrink-0 border-b border-white/20 bg-white/70 backdrop-blur-xl">
           <div className="mx-auto max-w-7xl p-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col space-y-4 sm:items-center sm:justify-between sm:space-y-0">
               <div className="space-y-2">
                 <h1 className="bg-gradient-to-r from-slate-900 to-slate-600 bg-clip-text text-2xl font-bold tracking-tight text-transparent sm:text-3xl">
                   {visual.name}
@@ -392,7 +391,6 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
                   </span>
                 </div>
               </div>
-            </div>
           </div>
         </div>
 
