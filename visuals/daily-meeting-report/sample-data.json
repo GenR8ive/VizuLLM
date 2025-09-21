@@ -1,0 +1,187 @@
+{
+  "meetingInfo": {
+    "title": "Q4 Product Planning & Strategy Review",
+    "date": "December 15, 2024",
+    "time": "2:00 PM - 3:30 PM",
+    "duration": "90 minutes",
+    "location": "Conference Room A / Zoom",
+    "meetingType": "Strategic Planning",
+    "facilitator": "Sarah Johnson"
+  },
+  "attendees": [
+    {
+      "name": "Sarah Johnson",
+      "role": "Product Manager",
+      "department": "Product",
+      "email": "sarah.johnson@company.com",
+      "status": "present"
+    },
+    {
+      "name": "Michael Chen",
+      "role": "Engineering Lead",
+      "department": "Engineering",
+      "email": "michael.chen@company.com",
+      "status": "present"
+    },
+    {
+      "name": "Emily Rodriguez",
+      "role": "Design Director",
+      "department": "Design",
+      "email": "emily.rodriguez@company.com",
+      "status": "present"
+    },
+    {
+      "name": "David Kim",
+      "role": "Marketing Manager",
+      "department": "Marketing",
+      "email": "david.kim@company.com",
+      "status": "late"
+    },
+    {
+      "name": "Lisa Wang",
+      "role": "Data Analyst",
+      "department": "Analytics",
+      "email": "lisa.wang@company.com",
+      "status": "present"
+    },
+    {
+      "name": "James Wilson",
+      "role": "Sales Director",
+      "department": "Sales",
+      "email": "james.wilson@company.com",
+      "status": "absent"
+    }
+  ],
+  "agenda": [
+    {
+      "item": "Q3 Performance Review & Metrics",
+      "presenter": "Sarah Johnson",
+      "duration": "15 minutes",
+      "status": "completed"
+    },
+    {
+      "item": "Q4 Product Roadmap Discussion",
+      "presenter": "Michael Chen",
+      "duration": "25 minutes",
+      "status": "completed"
+    },
+    {
+      "item": "User Research Findings & Insights",
+      "presenter": "Emily Rodriguez",
+      "duration": "20 minutes",
+      "status": "completed"
+    },
+    {
+      "item": "Marketing Campaign Strategy",
+      "presenter": "David Kim",
+      "duration": "15 minutes",
+      "status": "in-progress"
+    },
+    {
+      "item": "Budget Allocation & Resource Planning",
+      "presenter": "Sarah Johnson",
+      "duration": "15 minutes",
+      "status": "postponed"
+    }
+  ],
+  "keyDecisions": [
+    {
+      "decision": "Prioritize mobile app redesign for Q4 launch",
+      "rationale": "User research shows 70% of users access via mobile, current UX has 3.2/5 rating",
+      "impact": "Requires 2 additional designers and 3 developers for 8-week timeline"
+    },
+    {
+      "decision": "Implement new analytics dashboard by January 15th",
+      "rationale": "Current reporting tools are insufficient for Q4 metrics tracking",
+      "impact": "Will improve decision-making speed by 40% according to Lisa's analysis"
+    },
+    {
+      "decision": "Postpone AI feature integration to Q1 2025",
+      "rationale": "Technical complexity requires more research and development time",
+      "impact": "Frees up 4 developers for mobile redesign project"
+    }
+  ],
+  "actionItems": [
+    {
+      "task": "Create detailed mobile redesign wireframes",
+      "assignee": "Emily Rodriguez",
+      "dueDate": "December 22, 2024",
+      "priority": "high",
+      "status": "pending"
+    },
+    {
+      "task": "Set up new analytics infrastructure",
+      "assignee": "Michael Chen",
+      "dueDate": "January 8, 2025",
+      "priority": "high",
+      "status": "pending"
+    },
+    {
+      "task": "Conduct user interviews for mobile pain points",
+      "assignee": "Emily Rodriguez",
+      "dueDate": "December 20, 2024",
+      "priority": "medium",
+      "status": "in-progress"
+    },
+    {
+      "task": "Prepare Q4 budget proposal for executive review",
+      "assignee": "Sarah Johnson",
+      "dueDate": "December 18, 2024",
+      "priority": "high",
+      "status": "pending"
+    },
+    {
+      "task": "Research AI integration best practices",
+      "assignee": "Michael Chen",
+      "dueDate": "January 15, 2025",
+      "priority": "low",
+      "status": "pending"
+    }
+  ],
+  "nextSteps": [
+    {
+      "step": "Schedule follow-up meeting with design team",
+      "owner": "Emily Rodriguez",
+      "timeline": "This week"
+    },
+    {
+      "step": "Present budget proposal to executives",
+      "owner": "Sarah Johnson",
+      "timeline": "Next Monday"
+    },
+    {
+      "step": "Begin analytics dashboard development",
+      "owner": "Michael Chen",
+      "timeline": "Immediately"
+    },
+    {
+      "step": "Send meeting notes to all attendees",
+      "owner": "Sarah Johnson",
+      "timeline": "Today"
+    }
+  ],
+  "notes": "Strong alignment on mobile-first approach. James Wilson's absence noted - will need to catch up on budget discussions. David Kim arrived 10 minutes late but contributed valuable marketing insights. Team is energized about Q4 goals and ready to execute.",
+  "attachments": [
+    {
+      "name": "Q3 Performance Dashboard.pdf",
+      "type": "PDF",
+      "url": "#"
+    },
+    {
+      "name": "Mobile UX Research Report.xlsx",
+      "type": "Excel",
+      "url": "#"
+    },
+    {
+      "name": "Q4 Budget Template.xlsx",
+      "type": "Excel",
+      "url": "#"
+    }
+  ],
+  "followUpMeeting": {
+    "scheduled": true,
+    "date": "December 22, 2024",
+    "time": "2:00 PM - 3:00 PM",
+    "agenda": "Review wireframes and budget approval status"
+  }
+} 

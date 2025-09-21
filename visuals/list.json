@@ -1,5 +1,14 @@
 [
   {
+    "name": "Daily Meeting Report",
+    "slug": "daily-meeting-report",
+    "author": "tscburak",
+    "description": "A comprehensive daily meeting report summary that includes meeting details, attendees, agenda items, decisions made, action items, and next steps. Perfect for documenting team meetings, project updates, and stakeholder communications.",
+    "schema": "visuals/daily-meeting-report/schema.ts",
+    "componentPath": "visuals/daily-meeting-report/component.tsx",
+    "createdAt": 1758462953867
+  },
+  {
     "name": "API Documentation",
     "slug": "api-documentation",
     "author": "tscburak",
