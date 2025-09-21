@@ -43,13 +43,5 @@
     "schema": "visuals/weekly-table/schema.ts",
     "componentPath": "visuals/weekly-table/component.tsx",
     "createdAt": 1726905200000
-  },
-  {
-    "name": "as",
-    "slug": "as",
-    "author": "as",
-    "description": "d",
-    "schema": "visuals/as/schema.ts",
-    "componentPath": "visuals/as/component.tsx"
   }
 ]
