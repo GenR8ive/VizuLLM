@@ -20,7 +20,7 @@ visuals/your-component-name/
 ├── component.tsx      # Main React component
 ├── schema.ts          # Zod schema definition
 ├── sample-data.json   # Sample data for testing
-└── README.md          # Component documentation
+└── metadata.json      # Component information.
 ```
 
 ## 🛠️ Creating a New Component
@@ -48,12 +48,9 @@ $ npm run generate-visual
 Visual name (e.g., "Invoice Generator"): Invoice Generator
 Visual description: Professional invoice template with company branding
 Your GitHub username: your-username
-Category (schedule/document/data/creative/utility): document
 
 📋 Visual Details:
 Name: Invoice Generator
-Slug: invoice-generator
-Category: document
 Author: your-username
 Description: Professional invoice template with company branding
 
@@ -64,7 +61,6 @@ Proceed with generation? (y/N): y
 ✅ Generated component.tsx
 ✅ Generated sample-data.json
 ✅ Generated metadata.json
-✅ Generated README.md
 ✅ Updated visuals/list.json
 
 🎉 Visual generated successfully!
@@ -453,47 +449,6 @@ Brief description of what this component does.
    - Clear description of what the component does
    - Screenshots or GIFs showing the component
    - Any special considerations or dependencies
-
-## 🤝 Code Review Process
-
-1. **Automated checks** must pass
-2. **Code review** by maintainers
-3. **Testing** on different devices/browsers
-4. **Documentation** review
-5. **Final approval** and merge
-
-## 📞 Getting Help
-
-- **Open an issue** for bugs or feature requests
-- **Join discussions** in GitHub Discussions
-- **Check existing issues** before creating new ones
-- **Be respectful** and follow the code of conduct
-
-## 🎯 Contribution Ideas
-
-### High Priority
-- [ ] Invoice templates
-- [ ] Resume/CV templates
-- [ ] Calendar components
-- [ ] Data visualization charts
-- [ ] Form generators
-
-### Medium Priority
-- [ ] Business card templates
-- [ ] Certificate generators
-- [ ] Timeline components
-- [ ] Progress trackers
-- [ ] Quote generators
-
-### Low Priority
-- [ ] Social media templates
-- [ ] Game components
-- [ ] Educational tools
-- [ ] Creative art generators
-
-## 📄 License
-
-By contributing to VizuLLM, you agree that your contributions will be licensed under the same license as the project.
 
 ---
 
