@@ -5,6 +5,7 @@ import path from 'path';
 import readline from 'readline';
 import { fileURLToPath } from 'url';
 import { parseArgs } from 'util';
+import {updateVisualsList} from './update-list.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -260,17 +261,7 @@ async function generateVisual() {
       throw new Error(`Component with slug '${slug}' already exists in visuals/list.json`);
     }
 
-    const newComponent = {
-      name: componentName,
-      slug: slug,
-      author: author,
-      description: description,
-      schema: `visuals/${slug}/schema.ts`,
-      componentPath: `visuals/${slug}/component.tsx`
-    };
-    
-    listContent.push(newComponent);
-    fs.writeFileSync(listPath, JSON.stringify(listContent, null, 2));
+    updateVisualsList();
     console.log('✅ Updated visuals/list.json');
 
     console.log('\n🎉 Visual generated successfully!');

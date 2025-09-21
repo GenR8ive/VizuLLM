@@ -7,7 +7,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-function updateVisualsList() {
+export function updateVisualsList() {
   console.log('🔄 Updating visuals list...\n');
 
   try {
