@@ -9,6 +9,7 @@ interface VisualizationItem {
   description: string;
   schema: string;
   componentPath: string;
+  createdAt?: number;
 }
 
 interface VisualizationGridProps {
