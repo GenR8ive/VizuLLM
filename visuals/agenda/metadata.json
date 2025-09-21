@@ -3,5 +3,6 @@
   "version": "1.0.0",
   "description": "To keep your day organized, good ui to be motivated.",
   "author": "tscburak",
-  "slug": "agenda"
+  "slug": "agenda",
+  "createdAt": 1726905500000
 }

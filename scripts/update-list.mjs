@@ -81,7 +81,8 @@ function updateVisualsList() {
           author: metadata.author || 'unknown',
           description: metadata.description || 'No description available',
           schema: schemaPath,
-          componentPath: `visuals/${dirName}/component.tsx`
+          componentPath: `visuals/${dirName}/component.tsx`,
+          createdAt: metadata.createdAt || Date.now()
         };
 
         // Check if this is an existing component
@@ -94,7 +95,8 @@ function updateVisualsList() {
             author: componentEntry.author,
             description: componentEntry.description,
             schema: componentEntry.schema,
-            componentPath: componentEntry.componentPath
+            componentPath: componentEntry.componentPath,
+            createdAt: componentEntry.createdAt
           };
           updatedComponents.push(updatedComponent);
           processedSlugs.add(dirName);
@@ -132,7 +134,7 @@ function updateVisualsList() {
       console.log('');
     }
 
-    // Combine new components (at beginning) with updated existing components (maintaining order)
+    // Combine new components with updated existing components and sort by createdAt (newest first)
     const updatedList = [
       ...newComponents,
       ...existingList
@@ -141,7 +143,7 @@ function updateVisualsList() {
           const updatedComponent = updatedComponents.find(updated => updated.slug === component.slug);
           return updatedComponent || component;
         })
-    ];
+    ].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
     // Write updated list
     fs.writeFileSync(listPath, JSON.stringify(updatedList, null, 2));

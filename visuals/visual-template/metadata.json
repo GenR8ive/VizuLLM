@@ -2,5 +2,7 @@
     "name": "Your Component Name",
     "version": "1.0.0",
     "description": "Brief description of what this component does",
-    "author": "your-github-username"
+    "author": "your-github-username",
+    "slug": "visual-template",
+    "createdAt": 1726905200000
 }

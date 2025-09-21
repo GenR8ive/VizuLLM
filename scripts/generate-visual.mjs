@@ -238,7 +238,8 @@ async function generateVisual() {
       version: "1.0.0",
       description: description,
       author: author,
-      slug: slug
+      slug: slug,
+      createdAt: Date.now()
     };
     
     fs.writeFileSync(path.join(componentDir, 'metadata.json'), JSON.stringify(metadata, null, 2));
