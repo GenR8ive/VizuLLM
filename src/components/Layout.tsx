@@ -13,20 +13,20 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <div className="via-gunmetal-25 to-bleu_de_france-25 relative flex min-h-screen flex-col overflow-hidden bg-gradient-to-br from-white">
       {/* Background Radial Gradients */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {/* Top left gradient */}
-        <div className="via-bleu_de_france-50/20 absolute -left-40 -top-40 size-80 rounded-full bg-gradient-radial from-bleu_de_france-100/30 to-transparent blur-3xl"></div>
+        {/* Top left gradient - reduced opacity on mobile */}
+        <div className="via-bleu_de_france-50/10 absolute -left-40 -top-40 size-80 rounded-full bg-gradient-radial from-bleu_de_france-100/15 to-transparent blur-3xl sm:via-bleu_de_france-50/20 sm:from-bleu_de_france-100/30"></div>
 
-        {/* Top right gradient */}
-        <div className="via-keppel-50/15 absolute -right-32 -top-32 size-96 rounded-full bg-gradient-radial from-keppel-100/25 to-transparent blur-3xl"></div>
+        {/* Top right gradient - smaller and less opaque on mobile */}
+        <div className="via-keppel-50/8 absolute -right-32 -top-32 size-64 rounded-full bg-gradient-radial from-keppel-100/12 to-transparent blur-2xl sm:size-96 sm:via-keppel-50/15 sm:from-keppel-100/25 sm:blur-3xl"></div>
 
-        {/* Center gradient */}
-        <div className="from-saffron-50/20 via-saffron-25/10 absolute left-1/2 top-1/2 size-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-radial to-transparent blur-3xl"></div>
+        {/* Center gradient - much smaller on mobile */}
+        <div className="from-saffron-50/10 via-saffron-25/5 absolute left-1/2 top-1/2 size-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-radial to-transparent blur-2xl sm:size-[600px] sm:from-saffron-50/20 sm:via-saffron-25/10 sm:blur-3xl"></div>
 
-        {/* Bottom left gradient */}
-        <div className="via-keppel-50/10 absolute -bottom-48 -left-48 size-96 rounded-full bg-gradient-radial from-keppel-100/20 to-transparent blur-3xl"></div>
+        {/* Bottom left gradient - reduced on mobile */}
+        <div className="via-keppel-50/5 absolute -bottom-48 -left-48 size-64 rounded-full bg-gradient-radial from-keppel-100/10 to-transparent blur-2xl sm:size-96 sm:via-keppel-50/10 sm:from-keppel-100/20 sm:blur-3xl"></div>
 
-        {/* Bottom right gradient */}
-        <div className="via-bleu_de_france-50/15 absolute -bottom-40 -right-40 size-80 rounded-full bg-gradient-radial from-bleu_de_france-100/25 to-transparent blur-3xl"></div>
+        {/* Bottom right gradient - reduced on mobile */}
+        <div className="via-bleu_de_france-50/8 absolute -bottom-40 -right-40 size-64 rounded-full bg-gradient-radial from-bleu_de_france-100/12 to-transparent blur-2xl sm:size-80 sm:via-bleu_de_france-50/15 sm:from-bleu_de_france-100/25 sm:blur-3xl"></div>
       </div>
 
       {/* Header */}
