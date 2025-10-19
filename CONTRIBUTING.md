@@ -277,9 +277,7 @@ Add your component to `visuals/list.json`:
   "name": "Your Component Name",
   "slug": "your-component-slug",
   "author": "your-username",
-  "description": "Brief description of what this component does",
-  "schema": "visuals/your-component-slug/schema.ts",
-  "componentPath": "visuals/your-component-slug/component.tsx"
+  "description": "Brief description of what this component does"
 }
 ```
 
@@ -291,44 +289,10 @@ Add your component to `visuals/list.json`:
 - Ensure **accessibility** with proper ARIA labels
 - Use **semantic HTML** elements
 
-### Color Schemes
-```typescript
-const colorSchemes = {
-  blue: {
-    primary: 'bg-blue-100 text-blue-800',
-    secondary: 'bg-blue-50 border-blue-200',
-    accent: 'text-blue-600'
-  },
-  green: {
-    primary: 'bg-green-100 text-green-800',
-    secondary: 'bg-green-50 border-green-200',
-    accent: 'text-green-600'
-  },
-  purple: {
-    primary: 'bg-purple-100 text-purple-800',
-    secondary: 'bg-purple-50 border-purple-200',
-    accent: 'text-purple-600'
-  },
-  red: {
-    primary: 'bg-red-100 text-red-800',
-    secondary: 'bg-red-50 border-red-200',
-    accent: 'text-red-600'
-  }
-};
-```
-
 ### Typography
 - Use **rem** or **em** units for font sizes
 - Maintain **readable line heights** (1.5-1.7)
 - Ensure **proper contrast ratios**
-
-## 📊 Component Categories
-
-- **`schedule`** - Timetables, calendars, planners
-- **`document`** - Invoices, reports, forms, letters
-- **`data`** - Charts, tables, analytics, dashboards
-- **`creative`** - Cards, presentations, graphics, portfolios
-- **`utility`** - Tools, calculators, converters, generators
 
 ## 🧪 Testing Your Component
 
