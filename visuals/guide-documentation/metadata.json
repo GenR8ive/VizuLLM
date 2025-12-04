@@ -1,0 +1,9 @@
+{
+  "name": "Guide Documentation",
+  "version": "1.0.0",
+  "description": "A flexible, comprehensive documentation component for creating beautiful guides, tutorials, how-tos, user manuals, and technical documentation. Supports multiple content types including code blocks, lists, callouts, step-by-step instructions, prerequisites, and related resources. Perfect for software documentation, tutorials, onboarding guides, and knowledge bases.",
+  "author": "tscburak",
+  "slug": "guide-documentation",
+  "createdAt": 1758463000000
+}
+

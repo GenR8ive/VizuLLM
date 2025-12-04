@@ -1,5 +1,14 @@
 [
   {
+    "name": "Guide Documentation",
+    "slug": "guide-documentation",
+    "author": "tscburak",
+    "description": "A flexible, comprehensive documentation component for creating beautiful guides, tutorials, how-tos, user manuals, and technical documentation. Supports multiple content types including code blocks, lists, callouts, step-by-step instructions, prerequisites, and related resources. Perfect for software documentation, tutorials, onboarding guides, and knowledge bases.",
+    "schema": "visuals/guide-documentation/schema.ts",
+    "componentPath": "visuals/guide-documentation/component.tsx",
+    "createdAt": 1758463000000
+  },
+  {
     "name": "Daily Meeting Report",
     "slug": "daily-meeting-report",
     "author": "tscburak",

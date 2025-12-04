@@ -1,0 +1,358 @@
+{
+  "title": "Getting Started with React Hooks",
+  "subtitle": "A comprehensive guide to modern React development",
+  "description": "This guide will walk you through the fundamentals of React Hooks, from basic useState to advanced custom hooks. Perfect for developers transitioning from class components or learning React for the first time.",
+  "author": "Jane Developer",
+  "version": "2.1.0",
+  "lastUpdated": "2024-01-15",
+  "category": "Programming",
+  "tags": ["React", "JavaScript", "Frontend", "Hooks", "Tutorial"],
+  "difficulty": "intermediate",
+  "estimatedTime": "45 minutes",
+  "prerequisites": [
+    {
+      "title": "Basic JavaScript Knowledge",
+      "description": "You should be familiar with ES6+ features",
+      "items": [
+        "Arrow functions",
+        "Destructuring",
+        "Template literals",
+        "Array methods (map, filter, reduce)"
+      ]
+    },
+    {
+      "title": "React Fundamentals",
+      "description": "Understanding of React basics is required",
+      "items": [
+        "JSX syntax",
+        "Components and props",
+        "Component lifecycle (optional, but helpful)"
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introduction to React Hooks",
+      "description": "Learn what hooks are and why they were introduced to React.",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": "React Hooks were introduced in React 16.8 as a way to use state and other React features in functional components. They allow you to 'hook into' React state and lifecycle features from function components."
+        },
+        {
+          "type": "callout",
+          "content": {
+            "type": "info",
+            "title": "Why Hooks?",
+            "content": "Hooks solve several problems: they make it easier to reuse stateful logic, simplify complex components, and provide a more intuitive API for React concepts."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 3,
+            "text": "Key Benefits"
+          }
+        },
+        {
+          "type": "list",
+          "content": {
+            "type": "unordered",
+            "items": [
+              "Simpler code with less boilerplate",
+              "Better code reusability",
+              "Easier to test and maintain",
+              "More intuitive mental model"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "useState",
+      "title": "The useState Hook",
+      "description": "Master the most fundamental hook for managing component state.",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": "The useState hook is the most commonly used hook. It allows you to add state to functional components."
+        },
+        {
+          "type": "code",
+          "content": {
+            "language": "javascript",
+            "code": "import React, { useState } from 'react';\n\nfunction Counter() {\n  const [count, setCount] = useState(0);\n\n  return (\n    <div>\n      <p>You clicked {count} times</p>\n      <button onClick={() => setCount(count + 1)}>\n        Click me\n      </button>\n    </div>\n  );\n}"
+          }
+        },
+        {
+          "type": "callout",
+          "content": {
+            "type": "tip",
+            "title": "Pro Tip",
+            "content": "You can use functional updates when the new state depends on the previous state: setCount(prev => prev + 1)"
+          }
+        }
+      ],
+      "subsections": [
+        {
+          "id": "useState-basic",
+          "title": "Basic Usage",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": "The useState hook returns an array with two elements: the current state value and a function to update it."
+            },
+            {
+              "type": "code",
+              "content": {
+                "language": "javascript",
+                "filename": "example.jsx",
+                "code": "const [state, setState] = useState(initialValue);"
+              }
+            }
+          ]
+        },
+        {
+          "id": "useState-advanced",
+          "title": "Advanced Patterns",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": "You can use useState with objects and arrays, and even with lazy initialization for expensive computations."
+            },
+            {
+              "type": "code",
+              "content": {
+                "language": "javascript",
+                "code": "// Lazy initialization\nconst [data, setData] = useState(() => {\n  return expensiveComputation();\n});\n\n// Object state\nconst [user, setUser] = useState({ name: '', email: '' });\n\n// Update object state\nsetUser(prev => ({ ...prev, name: 'John' }));"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "useEffect",
+      "title": "The useEffect Hook",
+      "description": "Handle side effects in your components like data fetching and subscriptions.",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": "The useEffect hook lets you perform side effects in functional components. It serves the same purpose as componentDidMount, componentDidUpdate, and componentWillUnmount combined."
+        },
+        {
+          "type": "code",
+          "content": {
+            "language": "javascript",
+            "code": "import React, { useState, useEffect } from 'react';\n\nfunction UserProfile({ userId }) {\n  const [user, setUser] = useState(null);\n\n  useEffect(() => {\n    // Fetch user data\n    fetch(`/api/users/${userId}`)\n      .then(res => res.json())\n      .then(data => setUser(data));\n  }, [userId]); // Dependency array\n\n  if (!user) return <div>Loading...</div>;\n  return <div>{user.name}</div>;\n}"
+          }
+        },
+        {
+          "type": "callout",
+          "content": {
+            "type": "warning",
+            "title": "Important",
+            "content": "Always include dependencies in the dependency array. Missing dependencies can lead to bugs and stale closures."
+          }
+        }
+      ],
+      "subsections": [
+        {
+          "id": "useEffect-cleanup",
+          "title": "Cleanup Functions",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": "Some effects require cleanup to prevent memory leaks, such as subscriptions or timers."
+            },
+            {
+              "type": "code",
+              "content": {
+                "language": "javascript",
+                "code": "useEffect(() => {\n  const subscription = subscribe();\n  \n  // Cleanup function\n  return () => {\n    subscription.unsubscribe();\n  };\n}, []);"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "step-by-step",
+      "title": "Building Your First Hook",
+      "description": "Follow this step-by-step guide to create a custom hook.",
+      "content": [
+        {
+          "type": "steps",
+          "content": [
+            {
+              "number": 1,
+              "title": "Create a new file",
+              "description": "Create a new file called useCustomHook.js in your hooks directory.",
+              "code": {
+                "language": "javascript",
+                "code": "// hooks/useCustomHook.js\nexport function useCustomHook() {\n  // Your hook logic here\n}"
+              }
+            },
+            {
+              "number": 2,
+              "title": "Add state and logic",
+              "description": "Use built-in hooks like useState and useEffect to implement your hook's functionality.",
+              "code": {
+                "language": "javascript",
+                "code": "import { useState, useEffect } from 'react';\n\nexport function useCustomHook(initialValue) {\n  const [value, setValue] = useState(initialValue);\n  \n  useEffect(() => {\n    // Side effects here\n  }, [value]);\n  \n  return { value, setValue };\n}"
+              }
+            },
+            {
+              "number": 3,
+              "title": "Use your hook",
+              "description": "Import and use your custom hook in any functional component.",
+              "code": {
+                "language": "javascript",
+                "code": "import { useCustomHook } from './hooks/useCustomHook';\n\nfunction MyComponent() {\n  const { value, setValue } = useCustomHook(0);\n  return <div>{value}</div>;\n}"
+              }
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "content": {
+            "type": "success",
+            "title": "Congratulations!",
+            "content": "You've created your first custom hook. Custom hooks are a powerful way to share stateful logic between components."
+          }
+        }
+      ]
+    },
+    {
+      "id": "best-practices",
+      "title": "Best Practices",
+      "description": "Learn the do's and don'ts of using React Hooks.",
+      "content": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 3,
+            "text": "Rules of Hooks"
+          }
+        },
+        {
+          "type": "list",
+          "content": {
+            "type": "ordered",
+            "items": [
+              {
+                "text": "Only call hooks at the top level",
+                "subItems": [
+                  "Don't call hooks inside loops, conditions, or nested functions",
+                  "This ensures hooks are called in the same order every render"
+                ]
+              },
+              {
+                "text": "Only call hooks from React functions",
+                "subItems": [
+                  "Call hooks from React functional components",
+                  "Call hooks from custom hooks"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "type": "callout",
+          "content": {
+            "type": "error",
+            "title": "Common Mistake",
+            "content": "Never call hooks conditionally. This violates the Rules of Hooks and will cause bugs."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 3,
+            "text": "Performance Tips"
+          }
+        },
+        {
+          "type": "list",
+          "content": {
+            "type": "unordered",
+            "items": [
+              "Use useMemo for expensive calculations",
+              "Use useCallback to memoize functions",
+              "Optimize useEffect dependencies",
+              "Consider using React.memo for component memoization"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "common-patterns",
+      "title": "Common Patterns",
+      "description": "Explore common hook patterns used in real-world applications.",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": "Here are some common patterns you'll encounter when working with hooks:"
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 4,
+            "text": "Data Fetching Pattern"
+          }
+        },
+        {
+          "type": "code",
+          "content": {
+            "language": "javascript",
+            "code": "function useFetch(url) {\n  const [data, setData] = useState(null);\n  const [loading, setLoading] = useState(true);\n  const [error, setError] = useState(null);\n\n  useEffect(() => {\n    fetch(url)\n      .then(res => res.json())\n      .then(data => {\n        setData(data);\n        setLoading(false);\n      })\n      .catch(err => {\n        setError(err);\n        setLoading(false);\n      });\n  }, [url]);\n\n  return { data, loading, error };\n}"
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 4,
+            "text": "Local Storage Pattern"
+          }
+        },
+        {
+          "type": "code",
+          "content": {
+            "language": "javascript",
+            "code": "function useLocalStorage(key, initialValue) {\n  const [storedValue, setStoredValue] = useState(() => {\n    try {\n      const item = window.localStorage.getItem(key);\n      return item ? JSON.parse(item) : initialValue;\n    } catch (error) {\n      return initialValue;\n    }\n  });\n\n  const setValue = (value) => {\n    try {\n      setStoredValue(value);\n      window.localStorage.setItem(key, JSON.stringify(value));\n    } catch (error) {\n      console.error(error);\n    }\n  };\n\n  return [storedValue, setValue];\n}"
+          }
+        }
+      ]
+    }
+  ],
+  "relatedResources": [
+    {
+      "title": "Official React Hooks Documentation",
+      "url": "https://react.dev/reference/react",
+      "description": "Comprehensive official documentation from the React team",
+      "type": "documentation"
+    },
+    {
+      "title": "React Hooks Video Course",
+      "url": "https://example.com/react-hooks-course",
+      "description": "Interactive video course with hands-on exercises",
+      "type": "video"
+    },
+    {
+      "title": "Advanced Hooks Patterns",
+      "url": "https://example.com/advanced-hooks",
+      "description": "Learn advanced patterns and optimization techniques",
+      "type": "article"
+    },
+    {
+      "title": "React Hook Form",
+      "url": "https://react-hook-form.com",
+      "description": "Performant, flexible form library with easy validation",
+      "type": "tool"
+    }
+  ],
+  "footer": "© 2024 Guide Documentation. This guide is maintained by the community."
+}
+
