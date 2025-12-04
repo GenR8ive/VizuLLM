@@ -52,23 +52,33 @@ const getCalloutIcon = (type: string) => {
 };
 
 // Code block component
-const CodeBlock: React.FC<{ codeBlock: CodeBlockData }> = ({ codeBlock }) => (
-  <div className="my-4 overflow-hidden rounded-lg border border-gray-300 bg-gray-900">
-    {codeBlock.filename && (
-      <div className="border-b border-gray-700 bg-gray-800 px-4 py-2 text-xs text-gray-400">
-        {codeBlock.filename}
-      </div>
-    )}
-    <pre className="overflow-x-auto p-4">
-      <code className={`text-sm text-gray-100 ${codeBlock.language ? `language-${codeBlock.language}` : ''}`}>
-        {codeBlock.code}
-      </code>
-    </pre>
-  </div>
-);
+const CodeBlock: React.FC<{ codeBlock: CodeBlockData }> = ({ codeBlock }) => {
+  if (!codeBlock || !codeBlock.code) {
+    return null;
+  }
+
+  return (
+    <div className="my-4 overflow-hidden rounded-lg border border-gray-300 bg-gray-900">
+      {codeBlock.filename && (
+        <div className="border-b border-gray-700 bg-gray-800 px-4 py-2 text-xs text-gray-400">
+          {codeBlock.filename}
+        </div>
+      )}
+      <pre className="overflow-x-auto p-4">
+        <code className={`text-sm text-gray-100 ${codeBlock.language ? `language-${codeBlock.language}` : ''}`}>
+          {codeBlock.code}
+        </code>
+      </pre>
+    </div>
+  );
+};
 
 // List component
 const List: React.FC<{ list: ListData }> = ({ list }) => {
+  if (!list || !list.items || !Array.isArray(list.items)) {
+    return null;
+  }
+
   const ListTag = list.type === 'ordered' ? 'ol' : 'ul';
   const listStyle = list.type === 'ordered' ? 'list-decimal' : 'list-disc';
 
@@ -88,7 +98,7 @@ const List: React.FC<{ list: ListData }> = ({ list }) => {
               {item.subItems && item.subItems.length > 0 && (
                 <ul className="ml-6 mt-2 list-disc space-y-1">
                   {item.subItems.map((subItem, subIndex) => (
-                    <li key={subIndex} className="text-gray-600 text-sm">
+                    <li key={subIndex} className="text-sm text-gray-600">
                       {subItem}
                     </li>
                   ))}
@@ -103,27 +113,38 @@ const List: React.FC<{ list: ListData }> = ({ list }) => {
 };
 
 // Callout component
-const Callout: React.FC<{ callout: CalloutData }> = ({ callout }) => (
-  <div className={`my-4 rounded-lg border-l-4 p-4 ${getCalloutColors(callout.type)}`}>
-    <div className="flex items-start">
-      <span className="mr-2 text-xl">{getCalloutIcon(callout.type)}</span>
-      <div className="flex-1">
-        {callout.title && (
-          <h4 className="mb-1 font-semibold">{callout.title}</h4>
-        )}
-        <p className="text-sm leading-relaxed">{callout.content}</p>
+const Callout: React.FC<{ callout: CalloutData }> = ({ callout }) => {
+  if (!callout || !callout.content) {
+    return null;
+  }
+
+  return (
+    <div className={`my-4 rounded-lg border-l-4 p-4 ${getCalloutColors(callout.type || 'note')}`}>
+      <div className="flex items-start">
+        <span className="mr-2 text-xl">{getCalloutIcon(callout.type || 'note')}</span>
+        <div className="flex-1">
+          {callout.title && (
+            <h4 className="mb-1 font-semibold">{callout.title}</h4>
+          )}
+          <p className="text-sm leading-relaxed">{callout.content}</p>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 // Steps component
-const Steps: React.FC<{ steps: StepData[] }> = ({ steps }) => (
-  <div className="my-6 space-y-6">
-    {steps.map((step, index) => (
+const Steps: React.FC<{ steps: StepData[] }> = ({ steps }) => {
+  if (!steps || !Array.isArray(steps)) {
+    return null;
+  }
+
+  return (
+    <div className="my-6 space-y-6">
+      {steps.map((step, index) => (
       <div key={index} className="flex gap-4">
-        <div className="flex-shrink-0">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-sm font-semibold text-white">
+        <div className="shrink-0">
+          <div className="flex size-8 items-center justify-center rounded-full bg-blue-600 text-sm font-semibold text-white">
             {step.number ?? index + 1}
           </div>
         </div>
@@ -145,50 +166,76 @@ const Steps: React.FC<{ steps: StepData[] }> = ({ steps }) => (
         </div>
       </div>
     ))}
-  </div>
-);
+    </div>
+  );
+};
 
 // Content block renderer
 const ContentBlock: React.FC<{ block: ContentBlockData }> = ({ block }) => {
-  switch (block.type) {
-    case 'paragraph':
-      return <p className="my-4 leading-relaxed text-gray-700">{block.content}</p>;
-    case 'code':
-      return <CodeBlock codeBlock={block.content as CodeBlockData} />;
-    case 'list':
-      return <List list={block.content as ListData} />;
-    case 'callout':
-      return <Callout callout={block.content as CalloutData} />;
-    case 'image':
-      return (
-        <div className="my-6">
-          <img
-            src={block.content.url || block.content}
-            alt={block.content.alt || ''}
-            className="w-full rounded-lg border border-gray-300"
-          />
-          {block.content.caption && (
-            <p className="mt-2 text-center text-sm text-gray-500">{block.content.caption}</p>
-          )}
-        </div>
-      );
-    case 'heading':
-      const HeadingTag = `h${block.content.level || 3}` as 'h3' | 'h4' | 'h5' | 'h6';
-      const headingClasses = {
-        h3: 'text-2xl font-bold mt-8 mb-4 text-gray-900',
-        h4: 'text-xl font-semibold mt-6 mb-3 text-gray-900',
-        h5: 'text-lg font-semibold mt-4 mb-2 text-gray-900',
-        h6: 'text-base font-semibold mt-3 mb-2 text-gray-900',
-      };
-      return (
-        <HeadingTag className={headingClasses[HeadingTag] || headingClasses.h3}>
-          {block.content.text}
-        </HeadingTag>
-      );
-    case 'steps':
-      return <Steps steps={block.content as StepData[]} />;
-    default:
-      return null;
+  if (!block || !block.type || !block.content) {
+    return null;
+  }
+
+  try {
+    switch (block.type) {
+      case 'paragraph':
+        return <p className="my-4 leading-relaxed text-gray-700">{block.content}</p>;
+      case 'code':
+        if (!block.content || typeof block.content !== 'object') return null;
+        return <CodeBlock codeBlock={block.content as CodeBlockData} />;
+      case 'list':
+        if (!block.content || typeof block.content !== 'object') return null;
+        return <List list={block.content as ListData} />;
+      case 'callout':
+        if (!block.content || typeof block.content !== 'object') return null;
+        return <Callout callout={block.content as CalloutData} />;
+      case 'image':
+        if (!block.content) return null;
+        const imageSrc = typeof block.content === 'string' 
+          ? block.content 
+          : (block.content as any)?.url || block.content;
+        const imageAlt = typeof block.content === 'object' 
+          ? (block.content as any)?.alt || '' 
+          : '';
+        const imageCaption = typeof block.content === 'object' 
+          ? (block.content as any)?.caption 
+          : undefined;
+        return (
+          <div className="my-6">
+            <img
+              src={imageSrc}
+              alt={imageAlt}
+              className="w-full rounded-lg border border-gray-300"
+            />
+            {imageCaption && (
+              <p className="mt-2 text-center text-sm text-gray-500">{imageCaption}</p>
+            )}
+          </div>
+        );
+      case 'heading':
+        if (!block.content || typeof block.content !== 'object') return null;
+        const headingContent = block.content as any;
+        const HeadingTag = `h${headingContent.level || 3}` as 'h3' | 'h4' | 'h5' | 'h6';
+        const headingClasses = {
+          h3: 'text-2xl font-bold mt-8 mb-4 text-gray-900',
+          h4: 'text-xl font-semibold mt-6 mb-3 text-gray-900',
+          h5: 'text-lg font-semibold mt-4 mb-2 text-gray-900',
+          h6: 'text-base font-semibold mt-3 mb-2 text-gray-900',
+        };
+        return (
+          <HeadingTag className={headingClasses[HeadingTag] || headingClasses.h3}>
+            {headingContent.text || ''}
+          </HeadingTag>
+        );
+      case 'steps':
+        if (!block.content || !Array.isArray(block.content)) return null;
+        return <Steps steps={block.content as StepData[]} />;
+      default:
+        return null;
+    }
+  } catch (error) {
+    console.error('Error rendering content block:', error, block);
+    return null;
   }
 };
 
@@ -210,14 +257,14 @@ const Subsection: React.FC<{ subsection: SubsectionData; level?: number }> = ({
       <HeadingTag id={subsection.id} className={headingClasses[HeadingTag] || headingClasses.h4}>
         {subsection.title}
       </HeadingTag>
-      {subsection.content && (
+      {subsection.content && Array.isArray(subsection.content) && (
         <div>
           {subsection.content.map((block, index) => (
             <ContentBlock key={index} block={block} />
           ))}
         </div>
       )}
-      {subsection.subsections && subsection.subsections.length > 0 && (
+      {subsection.subsections && Array.isArray(subsection.subsections) && subsection.subsections.length > 0 && (
         <div className="ml-4 mt-4 border-l-2 border-gray-200 pl-6">
           {subsection.subsections.map((sub, index) => (
             <Subsection key={index} subsection={sub} level={level + 1} />
@@ -235,14 +282,14 @@ const Section: React.FC<{ section: SectionData }> = ({ section }) => (
     {section.description && (
       <p className="mb-6 text-lg text-gray-600">{section.description}</p>
     )}
-    {section.content && (
+    {section.content && Array.isArray(section.content) && (
       <div>
         {section.content.map((block, index) => (
           <ContentBlock key={index} block={block} />
         ))}
       </div>
     )}
-    {section.subsections && section.subsections.length > 0 && (
+    {section.subsections && Array.isArray(section.subsections) && section.subsections.length > 0 && (
       <div className="mt-6">
         {section.subsections.map((subsection, index) => (
           <Subsection key={index} subsection={subsection} level={3} />
@@ -253,24 +300,30 @@ const Section: React.FC<{ section: SectionData }> = ({ section }) => (
 );
 
 // Prerequisite component
-const Prerequisite: React.FC<{ prerequisite: PrerequisiteData }> = ({ prerequisite }) => (
-  <div className="mb-4 rounded-lg border border-blue-200 bg-blue-50 p-4">
-    <h4 className="mb-2 font-semibold text-blue-900">{prerequisite.title}</h4>
-    {prerequisite.description && (
-      <p className="mb-2 text-sm text-blue-800">{prerequisite.description}</p>
-    )}
-    {prerequisite.items && prerequisite.items.length > 0 && (
-      <ul className="ml-6 list-disc space-y-1 text-sm text-blue-800">
-        {prerequisite.items.map((item, index) => (
-          <li key={index}>{item}</li>
-        ))}
-      </ul>
-    )}
-  </div>
-);
+const Prerequisite: React.FC<{ prerequisite: PrerequisiteData }> = ({ prerequisite }) => {
+  if (!prerequisite) return null;
+  
+  return (
+    <div className="mb-4 rounded-lg border border-blue-200 bg-blue-50 p-4">
+      <h4 className="mb-2 font-semibold text-blue-900">{prerequisite.title || ''}</h4>
+      {prerequisite.description && (
+        <p className="mb-2 text-sm text-blue-800">{prerequisite.description}</p>
+      )}
+      {prerequisite.items && Array.isArray(prerequisite.items) && prerequisite.items.length > 0 && (
+        <ul className="ml-6 list-disc space-y-1 text-sm text-blue-800">
+          {prerequisite.items.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+};
 
 // Related resource component
 const RelatedResource: React.FC<{ resource: RelatedResourceData }> = ({ resource }) => {
+  if (!resource) return null;
+
   const getTypeIcon = (type?: string) => {
     const icons = {
       article: '📄',
@@ -382,7 +435,7 @@ const GuideDocumentation: React.FC<GuideDocumentationProps> = ({ data }) => {
         </div>
 
         {/* Tags */}
-        {validatedData.tags && validatedData.tags.length > 0 && (
+        {validatedData.tags && Array.isArray(validatedData.tags) && validatedData.tags.length > 0 && (
           <div className="mb-4 flex flex-wrap gap-2">
             {validatedData.tags.map((tag, index) => (
               <span
@@ -401,7 +454,7 @@ const GuideDocumentation: React.FC<GuideDocumentationProps> = ({ data }) => {
         )}
 
         {/* Prerequisites */}
-        {validatedData.prerequisites && validatedData.prerequisites.length > 0 && (
+        {validatedData.prerequisites && Array.isArray(validatedData.prerequisites) && validatedData.prerequisites.length > 0 && (
           <div className="mt-6">
             <h3 className="mb-3 text-lg font-semibold text-gray-900">Prerequisites</h3>
             <div className="space-y-3">
@@ -414,7 +467,7 @@ const GuideDocumentation: React.FC<GuideDocumentationProps> = ({ data }) => {
       </header>
 
       {/* Table of Contents */}
-      {validatedData.sections && validatedData.sections.length > 0 && (
+      {validatedData.sections && Array.isArray(validatedData.sections) && validatedData.sections.length > 0 && (
         <nav className="mb-8 rounded-lg border border-gray-200 bg-gray-50 p-6">
           <h3 className="mb-4 text-lg font-semibold text-gray-900">Table of Contents</h3>
           <ol className="space-y-2">
@@ -426,7 +479,7 @@ const GuideDocumentation: React.FC<GuideDocumentationProps> = ({ data }) => {
                 >
                   {index + 1}. {section.title}
                 </a>
-                {section.subsections && section.subsections.length > 0 && (
+                {section.subsections && Array.isArray(section.subsections) && section.subsections.length > 0 && (
                   <ol className="ml-6 mt-2 space-y-1 text-sm">
                     {section.subsections.map((subsection, subIndex) => (
                       <li key={subIndex}>
@@ -448,13 +501,13 @@ const GuideDocumentation: React.FC<GuideDocumentationProps> = ({ data }) => {
 
       {/* Main Content - Sections */}
       <main>
-        {validatedData.sections.map((section, index) => (
+        {validatedData.sections && Array.isArray(validatedData.sections) && validatedData.sections.map((section, index) => (
           <Section key={index} section={section} />
         ))}
       </main>
 
       {/* Related Resources */}
-      {validatedData.relatedResources && validatedData.relatedResources.length > 0 && (
+      {validatedData.relatedResources && Array.isArray(validatedData.relatedResources) && validatedData.relatedResources.length > 0 && (
         <aside className="mt-12 border-t border-gray-200 pt-8">
           <h3 className="mb-4 text-2xl font-semibold text-gray-900">Related Resources</h3>
           <div className="grid gap-4 md:grid-cols-2">
