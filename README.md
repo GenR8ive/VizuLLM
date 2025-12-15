@@ -1,223 +1,199 @@
-# VizuLLM - Visual Component Library for LLM Outputs
+# VizuLLM
 
-A modern, type-safe visual component library built with React, TypeScript, and Zod schemas. Transform your LLM outputs into beautiful, printable visualizations with just a few clicks.
+## 🚀 An Open-Source, Schema-Driven Rendering Engine for LLM-Generated Documents
 
-## ✨ What is VizuLLM?
+VizuLLM turns **structured LLM outputs** into **real, deterministic documents and visual artifacts**.
 
-VizuLLM provides pre-defined visual components that can render LLM outputs into beautiful, professional visualizations. Whether you need to create schedules, documents, charts, or any other visual representation of your LLM data, VizuLLM makes it easy with its schema-based approach.
+Instead of asking an LLM to *write text*, VizuLLM enables LLMs to **generate data for a document type**, which is then rendered reliably using a strict schema contract.
 
-## 🚀 How to Use
+This makes LLM-powered systems predictable, printable, and production-ready.
 
-### For End Users
+---
 
-1. **Browse Components**: Visit the home page to see all available visual components
-2. **Find Your Need**: Select the component that best fits your visualization requirements
-3. **Copy Schema**: Click the "Copy Schema as Prompt" button to get the JSON schema
-4. **Use with LLM**: 
-   - Go to your preferred LLM (ChatGPT, Claude, etc.)
-   - Describe what you want to visualize
-   - Paste the schema you copied from VizuLLM
-   - Ask the LLM to generate data in that format
-5. **Visualize**: Copy the LLM's JSON output and paste it into VizuLLM
-6. **Export**: Your visualization is ready to print or download as PDF!
+## ❓ Why VizuLLM Exists
+
+Large Language Models are excellent at generating text, but most real-world applications don’t need paragraphs — they need **documents**.
+
+Invoices. Timelines. Guides. Schedules. Diagrams.
+
+VizuLLM introduces a missing layer between LLMs and user-facing outputs:
+
+* The **LLM** generates structured JSON
+* The **schema** defines the document contract
+* **VizuLLM** renders a deterministic artifact
+
+This separation allows LLMs to be used as **content generators**, not document designers.
+
+---
+
+## 🧭 What VizuLLM Is 
+
+* A schema-driven rendering engine
+* A document and artifact generation layer for LLM-powered products
+* An open-source ecosystem of document renderers
+
+---
+
+## 🧩 Core Concept
+
+VizuLLM is built around a simple contract:
+
+1. **Choose a document type** (e.g. timetable, invoice, guide)
+2. **Provide its schema to an LLM**
+3. **Receive structured JSON output**
+4. **Render a finished document** using VizuLLM
+
+The same schema will always produce the same document structure — regardless of which LLM is used.
+
+---
+
+## ⚙️ How It Works
+
+```
+LLM → Structured JSON → Schema Validation → Renderer → Document / PDF / Visual Artifact
+```
+
+Schemas are defined using **Zod**, ensuring:
+
+* Type safety
+* Validation
+* Deterministic output
+
+---
+
+## ✨ Getting Started (End Users)
+
+1. **Browse Document Types** available in VizuLLM
+2. **Select an artifact** that matches your need
+3. **Copy the schema contract**
+4. **Ask an LLM** to generate data following that schema
+5. **Paste the JSON output** into VizuLLM
+6. **Export** a ready-to-use document or PDF
 
 ### Example Workflow
 
 ```
-1. Choose "Weekly Timetable" component
-2. Copy the schema prompt
-3. Ask LLM: "Create a weekly schedule for a software developer"
-4. Paste the schema: "Generate data in this format: { schema here }"
-5. Copy LLM's JSON response
-6. Paste into VizuLLM → Beautiful timetable ready to print!
+1. Choose the "Weekly Timetable" document type
+2. Copy its schema
+3. Ask the LLM to generate timetable data
+4. Paste the JSON output into VizuLLM
+5. Receive a printable timetable
 ```
 
-## 🛠️ For Developers - Creating New Components
+---
+
+## 🛠️ For Developers – Creating Document Renderers
+
+Every contribution to VizuLLM adds a **new document or artifact type** that LLMs can reliably generate.
 
 ### Quick Start
 
 ```bash
-# Clone the repository
-git clone https://github.com/your-username/VizuLLM.git
+git clone https://github.com/genr8ive/VizuLLM.git
 cd VizuLLM
-
-# Install dependencies
 npm install
-
-# Create a new visual component
 npm run generate-visual
 ```
 
-The script will guide you through:
-- **Visual Name**: What to call your component
-- **Description**: What it does
-- **GitHub Username**: For attribution
+The generator will guide you through:
 
-### Component Structure
-
-Each component consists of:
-
-- **`component.tsx`** - The React component that renders your visualization
-- **`schema.ts`** - Zod schema defining the expected JSON input format
-- **`sample-data.json`** - Sample data for preview and testing
-- **`metadata.json`** - Component metadata (auto-filled, editable)
-
-### Example Component
-
-```typescript
-// schema.ts
-import { z } from 'zod';
-
-export const MyVisualSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  items: z.array(z.object({
-    name: z.string(),
-    value: z.number().positive(),
-  })),
-  theme: z.object({
-    primaryColor: z.enum(['blue', 'green', 'purple']).default('blue'),
-  }).optional(),
-});
-
-export type MyVisualData = z.infer<typeof MyVisualSchema>;
-```
-
-```typescript
-// component.tsx
-import React from 'react';
-import { MyVisualSchema, type MyVisualData } from './schema';
-
-const MyVisual: React.FC<{ data?: MyVisualData }> = ({ data }) => {
-  const validatedData = MyVisualSchema.parse(data || sampleData);
-  
-  return (
-    <div className="p-6">
-      <h1>{validatedData.title}</h1>
-      {validatedData.items.map((item, index) => (
-        <div key={index}>
-          <span>{item.name}</span>
-          <span>{item.value}</span>
-        </div>
-      ))}
-    </div>
-  );
-};
-```
-
-### Development Commands
-
-```bash
-# Development
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run preview      # Preview production build
-
-# Component Management
-npm run create-visual # Create new component
-npm run update-list   # Update component registry
-
-# Code Quality
-npm run lint         # Run ESLint
-npm run type-check   # Run TypeScript checks
-npm run test         # Run tests
-```
-
-## 📊 Available Components
-
-### Schedule & Planning
-- **Weekly Timetable** - Class schedules, work shifts, appointments
-- **Weekly/Monthly Agenda** - Event calendars, program scheduling
-
-### Documents & Reports
-- **Cover Letter** - Job application templates
-- **Invoice (Modern)** - Professional billing documents
-
-### Data Visualization
-- **Coming Soon** - Charts, graphs, analytics dashboards
-
-### Creative & Design
-- **Coming Soon** - Cards, presentations, infographics
-
-## 🎨 Design System
-
-### Color Schemes
-- **Blue** - Professional, trustworthy
-- **Green** - Growth, success  
-- **Purple** - Creative, innovative
-- **Red** - Attention, urgency
-
-### Typography & Layout
-- **Responsive Design**: Works on all devices
-- **Print Optimized**: Clean layouts for PDF export
-- **Accessible**: WCAG compliant components
-
-## 🤝 Contributing
-
-We welcome contributions! Here's how to get started:
-
-### Quick Contribution Steps
-
-1. **Fork** the repository
-2. **Clone** and install dependencies
-3. **Create** a new component: `npm run create-visual`
-4. **Develop** your component following the template
-5. **Test** thoroughly on different devices
-6. **Submit** a pull request
-
-### Component Guidelines
-
-- ✅ Use TypeScript and Zod schemas for type safety
-- ✅ Follow responsive design principles
-- ✅ Ensure accessibility compliance
-- ✅ Optimize for print functionality
-- ✅ Include comprehensive documentation
-- ✅ Add proper error handling
-- ✅ Test with various data inputs
-
-### Updating the Component List
-
-The component list updates automatically on deployment, but if you need to refresh it locally:
-
-```bash
-npm run update-list
-```
-
-## 📁 Project Structure
-
-```
-VizuLLM/
-├── src/                    # Source code
-│   ├── components/         # React components
-│   ├── pages/             # Page components
-│   └── utils/             # Utility functions
-├── visuals/               # Visual components
-│   ├── component-template/ # Template for new components
-│   ├── weekly-timetable/  # Example component
-│   └── list.json          # Component registry
-├── public/                # Static assets
-└── package.json           # Dependencies and scripts
-```
-
-## 🐛 Issues & Support
-
-- **Bug Reports**: [GitHub Issues](https://github.com/your-username/VizuLLM/issues)
-- **Feature Requests**: [GitHub Discussions](https://github.com/your-username/VizuLLM/discussions)
-- **Questions**: [GitHub Discussions](https://github.com/your-username/VizuLLM/discussions)
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **React** - UI library
-- **TypeScript** - Type safety
-- **Zod** - Schema validation
-- **Tailwind CSS** - Styling
-- **Vite** - Build tool
-- **React Router** - Navigation
-- **React To Print** - PDF export
+* Naming your document type
+* Defining its schema
+* Creating a renderer
+* Attribution
 
 ---
 
-**Made with ❤️ by the VizuLLM community**
+## Renderer Structure
+
+Each document renderer includes:
+
+* **component.tsx** – Renders the document
+* **schema.ts** – Zod schema defining the contract
+* **sample-data.json** – Example input
+* **metadata.json** – Renderer metadata
+
+### Example Schema
+
+```ts
+import { z } from 'zod';
+
+export const DocumentSchema = z.object({
+  title: z.string(),
+  items: z.array(
+    z.object({
+      label: z.string(),
+      value: z.number(),
+    })
+  ),
+});
+```
+
+---
+
+## 📚 Available Document Types
+
+### Planning & Scheduling
+
+* Weekly Timetable
+* Weekly / Monthly Agenda
+
+### Business Documents
+
+* Invoice (Modern)
+* Cover Letter
+
+### Diagrams & Data
+
+* Coming soon
+
+### Creative Artifacts
+
+* Coming soon
+
+---
+
+## 🤝 Contribution Philosophy
+
+VizuLLM is **not a generic UI component library**.
+
+Contributions should represent **document or artifact types** that:
+
+* Have a clear schema contract
+* Can be generated deterministically by an LLM
+* Produce a real, usable output
+
+UI creativity is welcome — but structure and reliability come first.
+
+---
+
+## 🗂️ Project Structure
+
+```
+VizuLLM/
+├── src/
+├── visuals/
+│   ├── component-template/
+│   ├── weekly-timetable/
+│   └── list.json
+├── public/
+└── package.json
+```
+
+---
+
+## 📄 License
+
+MIT License
+
+---
+
+## 🔮 Vision
+
+VizuLLM aims to standardize how LLMs produce documents.
+
+As the ecosystem grows, LLMs won’t just *write* — they’ll generate **structured artifacts** that plug directly into real products.
+
+---
+
+**Built by the VizuLLM community**
