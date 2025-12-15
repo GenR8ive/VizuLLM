@@ -82,13 +82,12 @@ export function updateVisualsList() {
           description: metadata.description || 'No description available',
           schema: schemaPath,
           componentPath: `visuals/${dirName}/component.tsx`,
-          createdAt: metadata.createdAt || Date.now()
         };
 
         // Check if this is an existing component
         const existingComponent = existingComponentsMap.get(dirName);
         if (existingComponent) {
-          // Update existing component with latest metadata
+          // Update existing component with latest metadata, but PRESERVE createdAt
           const updatedComponent = {
             ...existingComponent,
             name: componentEntry.name,
@@ -96,7 +95,8 @@ export function updateVisualsList() {
             description: componentEntry.description,
             schema: componentEntry.schema,
             componentPath: componentEntry.componentPath,
-            createdAt: componentEntry.createdAt
+            // Keep the original createdAt date
+            createdAt: existingComponent.createdAt
           };
           updatedComponents.push(updatedComponent);
           processedSlugs.add(dirName);
@@ -104,14 +104,20 @@ export function updateVisualsList() {
           console.log(`   Name: ${componentEntry.name}`);
           console.log(`   Author: ${componentEntry.author}`);
           console.log(`   Description: ${componentEntry.description}`);
+          console.log(`   Created: ${new Date(existingComponent.createdAt).toLocaleDateString()} (preserved)`);
           console.log('');
         } else {
-          // This is a new component
-          newComponents.push(componentEntry);
+          // This is a new component - assign a new createdAt timestamp
+          const newComponent = {
+            ...componentEntry,
+            createdAt: metadata.createdAt || Date.now()
+          };
+          newComponents.push(newComponent);
           processedSlugs.add(dirName);
           console.log(`🆕 Added new component: ${dirName}:`);
           console.log(`   Name: ${componentEntry.name}`);
           console.log(`   Author: ${componentEntry.author}`);
+          console.log(`   Created: ${new Date(newComponent.createdAt).toLocaleDateString()} (new)`);
           console.log('');
 
         }
@@ -167,7 +173,7 @@ export function updateVisualsList() {
     }
     
     if (updatedComponents.length > 0) {
-      console.log(`🔄 Updated ${updatedComponents.length} existing component(s) with latest metadata`);
+      console.log(`🔄 Updated ${updatedComponents.length} existing component(s) with latest metadata (createdAt preserved)`);
     }
 
   } catch (error) {
@@ -177,4 +183,4 @@ export function updateVisualsList() {
 }
 
 // Run the script
-updateVisualsList(); 
+updateVisualsList();
