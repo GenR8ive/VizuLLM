@@ -18,7 +18,7 @@ const HomePage: React.FC = () => {
 
   // Set page title
   useEffect(() => {
-    document.title = 'VizuLLM - Visual Component Library for LLM Outputs';
+    document.title = 'VizuLLM - Schema-Driven Rendering Engine for LLM-Generated Documents';
   }, []);
 
   const handleVisualSelect = (item: VisualizationItem) => {
