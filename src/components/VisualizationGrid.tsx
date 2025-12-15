@@ -41,10 +41,10 @@ const VisualizationGrid: React.FC<VisualizationGridProps> = ({ items, onItemSele
       {/* Header Section */}
       <div className="text-center">
         <h1 className="mb-4 text-4xl font-bold text-gunmetal-800">
-          Visualization Templates
+          Document Renderers
         </h1>
         <p className="mx-auto max-w-2xl text-lg text-gunmetal-600">
-          Discover and use beautiful visualization templates created by our community
+          Discover and use document renderers that transform LLM outputs into beautiful artifacts
         </p>
       </div>
 
@@ -59,7 +59,7 @@ const VisualizationGrid: React.FC<VisualizationGridProps> = ({ items, onItemSele
           </div>
           <input
             type="text"
-            placeholder="Search templates by name, description, or author..."
+            placeholder="Search renderers by name, description, or author..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="block w-full rounded-2xl bg-white py-4 pl-12 pr-4 text-sm shadow-md transition-all duration-200 placeholder:text-gunmetal-400 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-4 focus:ring-bleu_de_france-500/20"
@@ -98,7 +98,7 @@ const VisualizationGrid: React.FC<VisualizationGridProps> = ({ items, onItemSele
       <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
         <div className="flex items-center space-x-4">
           <h2 className="text-2xl font-semibold text-gunmetal-800">
-            Templates
+            Renderers
           </h2>
           <div className="inline-flex items-center rounded-xl bg-gray-100 px-3 py-1 text-sm font-medium text-gunmetal-700 shadow-sm">
             {filteredItems.length} of {items.length}
@@ -109,7 +109,7 @@ const VisualizationGrid: React.FC<VisualizationGridProps> = ({ items, onItemSele
       {/* Grid */}
       {filteredItems.length > 0 ? (
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {/* Add New Template Card */}
+          {/* Add New Renderer Card */}
           <a
             href="https://github.com/GenR8ive/VizuLLM/blob/main/CONTRIBUTING.md"
             target="_blank"
@@ -127,14 +127,14 @@ const VisualizationGrid: React.FC<VisualizationGridProps> = ({ items, onItemSele
 
               <div className="space-y-2">
                 <h3 className="text-xl font-bold text-gunmetal-800 transition-colors group-hover:text-gunmetal-900">
-                  Add New Template
+                  Add New Renderer
                 </h3>
                 <p className="text-sm leading-relaxed text-gunmetal-600">
-                  Contribute to the community by creating your own visualization template
+                  Contribute by creating a new document renderer for LLM outputs
                 </p>
               </div>
 
-              
+
             </div>
           </a>
 
@@ -153,9 +153,9 @@ const VisualizationGrid: React.FC<VisualizationGridProps> = ({ items, onItemSele
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.291-.974-5.709-2.291" />
             </svg>
           </div>
-          <h3 className="mb-2 text-xl font-semibold text-gunmetal-800">No templates found</h3>
+          <h3 className="mb-2 text-xl font-semibold text-gunmetal-800">No renderers found</h3>
           <p className="mb-6 max-w-md text-center text-gunmetal-600">
-            We couldn&apos;t find any templates matching your search. Try adjusting your search terms.
+            We couldn&apos;t find any document renderers matching your search. Try adjusting your search terms.
           </p>
           {searchTerm && (
             <button
