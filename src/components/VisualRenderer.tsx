@@ -66,7 +66,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
         console.log('Processing schema:', schema);
         console.log('Schema type:', typeof schema);
         console.log('Schema has parse method:', 'parse' in schema);
-        
+
         // Check if schema is a valid Zod schema
         if (typeof schema === 'object' && schema !== null && 'parse' in schema) {
           console.log('Converting schema to JSON...');
@@ -239,7 +239,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
 
     try {
 
-      await navigator.clipboard.writeText(`Output as following JSON Schema:\n\n${jsonOutput}`);
+      await navigator.clipboard.writeText(`Analyze the zod schema below. If any information is missing tell me to add it.\n\nOutput as JSON according to zod schema:\n\n${jsonOutput}`);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
@@ -326,7 +326,7 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
     return (
       <div className="fixed inset-0 z-[9999] bg-white">
         {/* Close Button - fixed at the top right of the fullscreen overlay */}
-        <button 
+        <button
           onClick={toggleFullScreen}
           className="fixed right-20 top-20 z-[10000] rounded-lg bg-blue-100 p-2 text-gray-600 transition-colors hover:bg-gray-200 hover:text-gray-800"
           title="Exit full screen"
@@ -336,11 +336,11 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
           </svg>
         </button>
         {/* Resizable Component Container */}
-        <div 
+        <div
           className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden p-4 pt-16"
           ref={fullScreenRef}
         >
-          <div className='relative w-full' style={{resize: 'both', overflow: 'auto', width: componentSize.width, height: componentSize.height}}>
+          <div className='relative w-full' style={{ resize: 'both', overflow: 'auto', width: componentSize.width, height: componentSize.height }}>
             {/* Component Content */}
             <div className="size-full">
               {Component ? (
@@ -375,22 +375,22 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
         {/* Header */}
         <div className="z-40 shrink-0 border-b border-white/20 bg-white/70 backdrop-blur-xl">
           <div className="mx-auto max-w-7xl p-4 sm:px-6 lg:px-8">
-              <div className="space-y-2">
-                <h1 className="bg-gradient-to-r from-slate-900 to-slate-600 bg-clip-text text-2xl font-bold tracking-tight text-transparent sm:text-3xl">
-                  {visual.name}
-                </h1>
-                <p className="text-sm font-medium text-slate-600 sm:text-base">{visual.description}</p>
-                <div className="flex flex-col space-y-2 text-xs text-slate-500 sm:flex-row sm:items-center sm:space-x-6 sm:space-y-0 sm:text-sm">
-                  <span className="flex items-center">
-                    <div className="mr-2 size-2 rounded-full bg-blue-500"></div>
-                    {visual.author}
-                  </span>
-                  <span className="flex items-center">
-                    <div className="mr-2 size-2 rounded-full bg-purple-500"></div>
-                    {visual.slug}
-                  </span>
-                </div>
+            <div className="space-y-2">
+              <h1 className="bg-gradient-to-r from-slate-900 to-slate-600 bg-clip-text text-2xl font-bold tracking-tight text-transparent sm:text-3xl">
+                {visual.name}
+              </h1>
+              <p className="text-sm font-medium text-slate-600 sm:text-base">{visual.description}</p>
+              <div className="flex flex-col space-y-2 text-xs text-slate-500 sm:flex-row sm:items-center sm:space-x-6 sm:space-y-0 sm:text-sm">
+                <span className="flex items-center">
+                  <div className="mr-2 size-2 rounded-full bg-blue-500"></div>
+                  {visual.author}
+                </span>
+                <span className="flex items-center">
+                  <div className="mr-2 size-2 rounded-full bg-purple-500"></div>
+                  {visual.slug}
+                </span>
               </div>
+            </div>
           </div>
         </div>
 
