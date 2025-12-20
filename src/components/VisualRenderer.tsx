@@ -430,20 +430,25 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
       setTimeout(() => {
         element.remove();
         setIsDirty(true);
-        // Sync content to the other ref after deletion
-        syncContentToOtherRef();
-        // Re-setup editing on remaining elements to ensure event listeners are still active
-        // Use a small delay to ensure DOM has updated
-        setTimeout(() => {
-          const currentContainer = isFullScreen ? fullScreenRef.current : componentRef.current;
-          if (currentContainer) {
-            // Re-setup editing on remaining elements
-            // makeElementsHoverable now checks for existing listeners, so it's safe to call
-            makeElementsHoverable(currentContainer, true);
-            // Update editedHTML to reflect the deletion
-            updateEditedHTML();
+        
+        // Get the current container and component content
+        const currentContainer = isFullScreen ? fullScreenRef.current : componentRef.current;
+        const componentContent = getComponentContent(currentContainer);
+        
+        if (componentContent) {
+          // Sync content to the other ref after deletion
+          const sourceContent = getComponentContent(currentContainer);
+          const otherContainer = isFullScreen ? componentRef.current : fullScreenRef.current;
+          const targetContent = getComponentContent(otherContainer);
+          
+          if (sourceContent && targetContent) {
+            targetContent.innerHTML = sourceContent.innerHTML;
           }
-        }, 50);
+          
+          // Update editedHTML state - this will trigger React re-render
+          // The useEffect will automatically re-attach listeners after React re-renders
+          updateEditedHTML();
+        }
       }, 200);
     };
 
@@ -467,6 +472,9 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
     // Initialize editing setup with a delay to ensure DOM is ready after remount
     const rafId = requestAnimationFrame(() => {
       setTimeout(() => {
+        // Skip re-setup if actively editing to avoid interrupting the user
+        if (activeEditElementRef.current) return;
+        
         const currentContainer = isFullScreen ? fullScreenRef.current : componentRef.current;
         if (!currentContainer) return;
 
@@ -478,14 +486,28 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
           originalContentRef.current = componentContent.innerHTML;
         }
 
+        // Clean up any existing listeners first to avoid duplicates
+        cleanupElements(currentContainer);
+
         // Initialize - pass true to skip the root container itself
         makeElementsHoverable(currentContainer, true);
-      }, 50);
+        
+        // Also set up listeners on the other ref to keep them in sync
+        const otherContainer = isFullScreen ? componentRef.current : fullScreenRef.current;
+        if (otherContainer) {
+          const otherContent = getComponentContent(otherContainer);
+          if (otherContent) {
+            cleanupElements(otherContainer);
+            makeElementsHoverable(otherContainer, true);
+          }
+        }
+      }, 100); // Increased delay to ensure React has finished re-rendering
     });
 
     return () => {
       cancelAnimationFrame(rafId);
-      if (container) {
+      // Skip cleanup if actively editing to avoid interrupting the user
+      if (!activeEditElementRef.current && container) {
         cleanupElements(container);
       }
       closeContextMenu();
@@ -496,8 +518,10 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
   // Note: activeEditElement is intentionally NOT in dependency array to prevent
   // the effect from re-running and canceling edits when editing starts
   // resetKey is included to re-setup editing after reset/remount
+  // isDirty and editedHTML are included to re-setup listeners after React re-renders
+  // We skip cleanup if actively editing to prevent interrupting the user
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isFullScreen, Component, userData, resetKey]);
+  }, [isFullScreen, Component, userData, resetKey, isDirty, editedHTML]);
 
   // Sync content between refs when switching modes and store in state
   // Use useLayoutEffect to sync synchronously after DOM updates but before paint
