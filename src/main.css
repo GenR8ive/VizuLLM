@@ -1,3 +1,301 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* VizuLLM Visual Editor Styles */
+.vizullm-hoverable {
+  position: relative;
+  cursor: pointer;
+  transition: outline 0.15s ease, background-color 0.15s ease;
+}
+
+.vizullm-hoverable:hover {
+  outline: 2px solid rgba(59, 130, 246, 0.7);
+  outline-offset: -2px;
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+.vizullm-editing {
+  outline: 2px solid rgba(59, 130, 246, 1) !important;
+  outline-offset: -2px;
+  background-color: rgba(59, 130, 246, 0.08) !important;
+  cursor: text !important;
+}
+
+.vizullm-context-menu {
+  position: fixed !important;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+  z-index: 999999 !important;
+  min-width: 160px;
+  padding: 4px;
+  margin: 0;
+}
+
+.vizullm-context-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #374151;
+  transition: background-color 0.15s;
+  user-select: none;
+}
+
+.vizullm-context-menu-item:hover {
+  background-color: #f3f4f6;
+}
+
+.vizullm-context-menu-item.danger {
+  color: #dc2626;
+}
+
+.vizullm-context-menu-item.danger:hover {
+  background-color: #fee2e2;
+}
+
+@media print {
+  .vizullm-hoverable {
+    outline: none !important;
+    background-color: transparent !important;
+  }
+  .vizullm-editing {
+    outline: none !important;
+    background-color: transparent !important;
+  }
+  .vizullm-context-menu {
+    display: none !important;
+  }
+}
+
+/* ========================================
+   PRINT PAGINATION STYLES
+   Prevents sections from being cut in half
+   Only active when .print-pagination class is present
+   ======================================== */
+@media print {
+  /* Global print settings */
+  @page {
+    margin: 1cm;
+  }
+
+  /* Hide UI elements that shouldn't print */
+  button,
+  [role="button"],
+  .no-print,
+  [data-no-print] {
+    display: none !important;
+  }
+
+  /* === PAGINATION STYLES (only when enabled) === */
+  
+  /* Apply to ALL divs and block elements - most comprehensive approach */
+  .print-pagination div,
+  .print-pagination section,
+  .print-pagination article,
+  .print-pagination header,
+  .print-pagination footer,
+  .print-pagination aside,
+  .print-pagination nav,
+  .print-pagination main,
+  .print-pagination figure,
+  .print-pagination figcaption,
+  .print-pagination blockquote,
+  .print-pagination pre,
+  .print-pagination code,
+  .print-pagination ul,
+  .print-pagination ol,
+  .print-pagination li,
+  .print-pagination dl,
+  .print-pagination dt,
+  .print-pagination dd,
+  .print-pagination h1,
+  .print-pagination h2,
+  .print-pagination h3,
+  .print-pagination h4,
+  .print-pagination h5,
+  .print-pagination h6,
+  .print-pagination p,
+  .print-pagination img,
+  .print-pagination svg,
+  .print-pagination form,
+  .print-pagination fieldset,
+  .print-pagination address,
+  .print-pagination .print-no-break,
+  .print-pagination [data-print-no-break] {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    -webkit-break-inside: avoid !important;
+    orphans: 2;
+    widows: 2;
+  }
+  
+  /* Exception: allow empty divs to break (they're just spacing) */
+  .print-pagination div:empty {
+    page-break-inside: auto !important;
+    break-inside: auto !important;
+  }
+  
+  /* Special handling for tables - allow table to break but keep rows together */
+  .print-pagination table {
+    page-break-inside: auto !important;
+    break-inside: auto !important;
+  }
+  
+  .print-pagination thead {
+    display: table-header-group !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  
+  .print-pagination tfoot {
+    display: table-footer-group !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  
+  .print-pagination tbody {
+    page-break-inside: auto !important;
+  }
+  
+  .print-pagination tr {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    -webkit-break-inside: avoid !important;
+  }
+
+  /* Keep headings with their following content */
+  .print-pagination h1,
+  .print-pagination h2,
+  .print-pagination h3,
+  .print-pagination h4,
+  .print-pagination h5,
+  .print-pagination h6 {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+    -webkit-break-after: avoid !important;
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* Avoid orphans and widows in paragraphs */
+  .print-pagination p {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* Keep table rows together - critical for tables */
+  .print-pagination table {
+    page-break-inside: auto !important;
+  }
+  
+  .print-pagination thead {
+    display: table-header-group !important;
+  }
+  
+  .print-pagination tfoot {
+    display: table-footer-group !important;
+  }
+  
+  .print-pagination tr {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    -webkit-break-inside: avoid !important;
+  }
+
+  /* Keep list items together */
+  .print-pagination li {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    -webkit-break-inside: avoid !important;
+  }
+
+  /* Allow page breaks between major sections if needed */
+  .print-pagination .print-page-break-before {
+    page-break-before: always !important;
+    break-before: page !important;
+  }
+
+  .print-pagination .print-page-break-after {
+    page-break-after: always !important;
+    break-after: page !important;
+  }
+
+  /* Cards and containers with visual styling should stay together */
+  .print-pagination [class*="card"],
+  .print-pagination [class*="Card"],
+  .print-pagination [class*="rounded"]:not([class*="rounded-full"]):not([class*="rounded-sm"]):not([class*="rounded-md"]),
+  .print-pagination [class*="shadow"]:not([class*="shadow-sm"]):not([class*="shadow-xs"]),
+  .print-pagination [class*="border"]:not([class*="border-t"]):not([class*="border-b"]):not([class*="border-l"]):not([class*="border-r"]) {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    -webkit-break-inside: avoid !important;
+  }
+
+  /* Flex and grid direct children should stay together */
+  .print-pagination .flex > *:not(:empty),
+  .print-pagination .grid > *:not(:empty),
+  .print-pagination [class*="flex"] > *:not(:empty),
+  .print-pagination [class*="grid"] > *:not(:empty) {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    -webkit-break-inside: avoid !important;
+  }
+
+  /* Divs with padding/margin (likely content blocks) */
+  .print-pagination div[class*="p-"]:not(:empty),
+  .print-pagination div[class*="py-"]:not(:empty),
+  .print-pagination div[class*="px-"]:not(:empty),
+  .print-pagination div[class*="m-"]:not(:empty),
+  .print-pagination div[class*="my-"]:not(:empty),
+  .print-pagination div[class*="mx-"]:not(:empty) {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    -webkit-break-inside: avoid !important;
+  }
+
+  /* Ensure images don't break and fit properly */
+  .print-pagination img {
+    max-height: 100vh;
+    max-width: 100%;
+    object-fit: contain;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    -webkit-break-inside: avoid !important;
+  }
+  
+  /* Ensure the print-pagination container allows page breaks between its children */
+  .print-pagination {
+    page-break-inside: auto !important;
+    break-inside: auto !important;
+  }
+  
+  /* Keep headings with at least 2 lines of following content */
+  .print-pagination h1 + *,
+  .print-pagination h2 + *,
+  .print-pagination h3 + *,
+  .print-pagination h4 + *,
+  .print-pagination h5 + *,
+  .print-pagination h6 + * {
+    page-break-before: avoid !important;
+    break-before: avoid !important;
+  }
+  
+  /* Allow the root component container to flow naturally */
+  .print-pagination[data-component-content] {
+    page-break-inside: auto !important;
+    break-inside: auto !important;
+  }
+  
+  /* But all its children should avoid breaks */
+  .print-pagination[data-component-content] > * {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    -webkit-break-inside: avoid !important;
+  }
+}

@@ -68,7 +68,19 @@ Schemas are defined using **Zod**, ensuring:
 3. **Copy the schema contract**
 4. **Ask an LLM** to generate data following that schema
 5. **Paste the JSON output** into VizuLLM
-6. **Export** a ready-to-use document or PDF
+6. **Edit content inline** by double-clicking any text element
+7. **Export** a ready-to-use document or PDF
+
+### ✏️ Editing Features
+
+VizuLLM includes powerful inline editing capabilities:
+
+* **Double-click to edit** - Edit any text element directly in the preview
+* **Context menu** - Right-click or single-click for edit/delete options
+* **Undo/Redo** - Track changes with undo functionality
+* **Fullscreen mode** - Edit in distraction-free fullscreen view
+* **Better Print** - Prevent sections from being cut across pages when printing
+* **Real-time sync** - Changes sync automatically between normal and fullscreen views
 
 ### Example Workflow
 
