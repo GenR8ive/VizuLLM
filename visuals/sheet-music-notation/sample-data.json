@@ -1,0 +1,95 @@
+{
+  "title": "Hayatın Uzağı",
+  "subtitle": "Piyano için basit düzenleme",
+  "composer": "Bilinmiyor",
+  "arranger": "ChatGPT",
+  "tempo": {
+    "noteValue": "quarter",
+    "bpm": 72,
+    "text": "Moderato"
+  },
+  "dynamics": {
+    "position": "start",
+    "value": "mp"
+  },
+  "staves": [
+    {
+      "clef": "treble",
+      "keySignature": {
+        "sharps": 5,
+        "flats": 0
+      },
+      "timeSignature": {
+        "numerator": 4,
+        "denominator": 4
+      },
+      "label": "Sağ El",
+      "bars": [
+        {
+          "notes": [
+            { "pitch": "A#4", "duration": "quarter" },
+            { "pitch": "C#5", "duration": "quarter" },
+            { "pitch": "F5", "duration": "half" }
+          ]
+        },
+        {
+          "notes": [
+            { "pitch": "A#4", "duration": "quarter" },
+            { "pitch": "C#5", "duration": "quarter" },
+            { "pitch": "F5", "duration": "half" }
+          ]
+        },
+        {
+          "notes": [
+            { "pitch": "D#5", "duration": "quarter" },
+            { "pitch": "C#5", "duration": "quarter" },
+            { "pitch": "F5", "duration": "half" }
+          ]
+        }
+      ]
+    },
+    {
+      "clef": "bass",
+      "keySignature": {
+        "sharps": 5,
+        "flats": 0
+      },
+      "timeSignature": {
+        "numerator": 4,
+        "denominator": 4
+      },
+      "label": "Sol El",
+      "bars": [
+        {
+          "notes": [
+            { "pitch": "A#2", "duration": "half" },
+            { "pitch": "F3", "duration": "half" }
+          ]
+        },
+        {
+          "notes": [
+            { "pitch": "A#2", "duration": "half" },
+            { "pitch": "F3", "duration": "half" }
+          ]
+        },
+        {
+          "notes": [
+            { "pitch": "D#3", "duration": "half" },
+            { "pitch": "F3", "duration": "half" }
+          ]
+        }
+      ]
+    }
+  ],
+  "instrumentGroups": [
+    {
+      "name": "Piyano",
+      "staffIndices": [0, 1],
+      "bracket": false
+    }
+  ],
+  "showMeasureNumbers": true,
+  "pageSize": "a4",
+  "pageOrientation": "portrait",
+  "maxBarsPerSystem": 4
+}

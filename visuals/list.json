@@ -1,5 +1,14 @@
 [
   {
+    "name": "Sheet Music Notation",
+    "slug": "sheet-music-notation",
+    "author": "tscburak",
+    "description": "A professional sheet music component that displays musical notation from text input. Supports treble and bass clefs, notes (whole, half, quarter, eighth, sixteenth), rests, time signatures, key signatures, accidentals (sharps, flats, naturals), dynamics markings, and bar lines. Perfect for creating musical exercises, song notation, educational materials, and practice sheets that can be printed.",
+    "schema": "visuals/sheet-music-notation/schema.ts",
+    "componentPath": "visuals/sheet-music-notation/component.tsx",
+    "createdAt": 1770495970429
+  },
+  {
     "name": "Guide Documentation",
     "slug": "guide-documentation",
     "author": "tscburak",
