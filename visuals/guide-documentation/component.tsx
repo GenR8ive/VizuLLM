@@ -5,13 +5,14 @@ import {
   type SectionData,
   type SubsectionData,
   type ContentBlockData,
-  type CodeBlockData,
-  type ListData,
-  type CalloutData,
-  type StepData,
-  type PrerequisiteData,
-  type RelatedResourceData,
 } from './schema.ts';
+
+type CodeBlockData = { language?: string; code: string; filename?: string };
+type ListData = { type: 'ordered' | 'unordered'; items: (string | { text: string; subItems?: string[] })[] };
+type CalloutData = { type: 'info' | 'warning' | 'error' | 'success' | 'tip' | 'note'; title?: string; content: string };
+type StepData = { number?: number; title?: string; description: string; code?: CodeBlockData; image?: string; imageAlt?: string };
+type PrerequisiteData = { title: string; description?: string; items?: string[] };
+type RelatedResourceData = { title: string; url?: string; description?: string; type?: string };
 import sampleData from './sample-data.json';
 
 interface GuideDocumentationProps {
@@ -141,31 +142,35 @@ const Steps: React.FC<{ steps: StepData[] }> = ({ steps }) => {
 
   return (
     <div className="my-6 space-y-6">
-      {steps.map((step, index) => (
-      <div key={index} className="flex gap-4">
-        <div className="shrink-0">
-          <div className="flex size-8 items-center justify-center rounded-full bg-blue-600 text-sm font-semibold text-white">
-            {step.number ?? index + 1}
-          </div>
-        </div>
-        <div className="flex-1">
-          {step.title && (
-            <h4 className="mb-2 font-semibold text-gray-900">{step.title}</h4>
-          )}
-          <p className="mb-3 text-gray-700">{step.description}</p>
-          {step.code && <CodeBlock codeBlock={step.code} />}
-          {step.image && (
-            <div className="my-3">
-              <img
-                src={step.image}
-                alt={step.imageAlt || step.title || `Step ${index + 1}`}
-                className="rounded-lg border border-gray-300"
-              />
+      {steps.map((step, index) => {
+        const text = typeof step === 'string' ? step : step.description;
+        const stepObj = typeof step === 'string' ? null : step;
+        return (
+          <div key={index} className="flex gap-4">
+            <div className="shrink-0">
+              <div className="flex size-8 items-center justify-center rounded-full bg-blue-600 text-sm font-semibold text-white">
+                {stepObj?.number ?? index + 1}
+              </div>
             </div>
-          )}
-        </div>
-      </div>
-    ))}
+            <div className="flex-1">
+              {stepObj?.title && (
+                <h4 className="mb-2 font-semibold text-gray-900">{stepObj.title}</h4>
+              )}
+              <p className="mb-3 text-gray-700">{text}</p>
+              {stepObj?.code && <CodeBlock codeBlock={stepObj.code} />}
+              {stepObj?.image && (
+                <div className="my-3">
+                  <img
+                    src={stepObj.image}
+                    alt={stepObj.imageAlt || stepObj.title || `Step ${index + 1}`}
+                    className="rounded-lg border border-gray-300"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };
@@ -181,14 +186,29 @@ const ContentBlock: React.FC<{ block: ContentBlockData }> = ({ block }) => {
       case 'paragraph':
         return <p className="my-4 leading-relaxed text-gray-700">{block.content}</p>;
       case 'code':
-        if (!block.content || typeof block.content !== 'object') return null;
-        return <CodeBlock codeBlock={block.content as CodeBlockData} />;
+        if (typeof block.content === 'string') {
+          return <CodeBlock codeBlock={{ code: block.content }} />;
+        }
+        if (typeof block.content === 'object') {
+          return <CodeBlock codeBlock={block.content as CodeBlockData} />;
+        }
+        return null;
       case 'list':
-        if (!block.content || typeof block.content !== 'object') return null;
-        return <List list={block.content as ListData} />;
+        if (Array.isArray(block.content)) {
+          return <List list={{ type: 'unordered', items: block.content as string[] }} />;
+        }
+        if (typeof block.content === 'object') {
+          return <List list={block.content as ListData} />;
+        }
+        return null;
       case 'callout':
-        if (!block.content || typeof block.content !== 'object') return null;
-        return <Callout callout={block.content as CalloutData} />;
+        if (typeof block.content === 'string') {
+          return <Callout callout={{ type: 'note', content: block.content }} />;
+        }
+        if (typeof block.content === 'object') {
+          return <Callout callout={block.content as CalloutData} />;
+        }
+        return null;
       case 'image':
         if (!block.content) return null;
         const imageSrc = typeof block.content === 'string' 
@@ -213,20 +233,25 @@ const ContentBlock: React.FC<{ block: ContentBlockData }> = ({ block }) => {
           </div>
         );
       case 'heading':
-        if (!block.content || typeof block.content !== 'object') return null;
-        const headingContent = block.content as any;
-        const HeadingTag = `h${headingContent.level || 3}` as 'h3' | 'h4' | 'h5' | 'h6';
-        const headingClasses = {
-          h3: 'text-2xl font-bold mt-8 mb-4 text-gray-900',
-          h4: 'text-xl font-semibold mt-6 mb-3 text-gray-900',
-          h5: 'text-lg font-semibold mt-4 mb-2 text-gray-900',
-          h6: 'text-base font-semibold mt-3 mb-2 text-gray-900',
-        };
-        return (
-          <HeadingTag className={headingClasses[HeadingTag] || headingClasses.h3}>
-            {headingContent.text || ''}
-          </HeadingTag>
-        );
+        if (typeof block.content === 'string') {
+          return <h3 className="text-2xl font-bold mt-8 mb-4 text-gray-900">{block.content}</h3>;
+        }
+        if (typeof block.content === 'object') {
+          const headingContent = block.content as any;
+          const HeadingTag = `h${headingContent.level || 3}` as 'h3' | 'h4' | 'h5' | 'h6';
+          const headingClasses = {
+            h3: 'text-2xl font-bold mt-8 mb-4 text-gray-900',
+            h4: 'text-xl font-semibold mt-6 mb-3 text-gray-900',
+            h5: 'text-lg font-semibold mt-4 mb-2 text-gray-900',
+            h6: 'text-base font-semibold mt-3 mb-2 text-gray-900',
+          };
+          return (
+            <HeadingTag className={headingClasses[HeadingTag] || headingClasses.h3}>
+              {headingContent.text || ''}
+            </HeadingTag>
+          );
+        }
+        return null;
       case 'steps':
         if (!block.content || !Array.isArray(block.content)) return null;
         return <Steps steps={block.content as StepData[]} />;
