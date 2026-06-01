@@ -82,6 +82,7 @@ export function updateVisualsList() {
           description: metadata.description || 'No description available',
           schema: schemaPath,
           componentPath: `visuals/${dirName}/component.tsx`,
+          ...(metadata.prompt && { prompt: metadata.prompt }),
         };
 
         // Check if this is an existing component

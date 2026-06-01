@@ -6,6 +6,8 @@ import { z } from 'zod';
 import { zodToJsonSchema } from "zod-to-json-schema";
 import visuals from '../../visuals/list.json';
 
+const DEFAULT_PROMPT = 'Output as json follow. Check the required fields and ask user to clarify those fields if they are not provided.';
+
 interface VisualComponent {
   name: string;
   slug: string;
@@ -13,6 +15,7 @@ interface VisualComponent {
   description: string;
   schema: string;
   componentPath: string;
+  prompt?: string;
 }
 
 interface VisualRendererProps {
@@ -789,7 +792,8 @@ const VisualRenderer: React.FC<VisualRendererProps> = ({ onError }) => {
 
     try {
 
-      await navigator.clipboard.writeText(`Output as JSON according to zod schema:\n\n${jsonOutput}`);
+      const promptPrefix = visual?.prompt || DEFAULT_PROMPT;
+      await navigator.clipboard.writeText(`${promptPrefix}\n\n${jsonOutput}`);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {

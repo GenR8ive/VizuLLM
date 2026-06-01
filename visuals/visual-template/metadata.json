@@ -4,5 +4,6 @@
     "description": "Brief description of what this component does",
     "author": "your-github-username",
     "slug": "visual-template",
-    "createdAt": 1758413548377
+    "createdAt": 1758413548377,
+    "prompt": "Output as json follow. Check the required fields and ask user to clarify those fields if they are not provided."
 }
