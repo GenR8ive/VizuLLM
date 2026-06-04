@@ -1,0 +1,8 @@
+{
+  "name": "Cognitive Profile",
+  "version": "1.0.0",
+  "description": "A comprehensive AI-generated personality and cognitive analysis report. Visualizes traits via radar charts, Big Five estimates, decision-making styles, communication preferences, learning patterns, strengths, blind spots, interest maps, and archetype classification. Designed for users to prompt their preferred LLM to analyze conversations and generate a detailed cognitive profile.",
+  "author": "tscburak",
+  "slug": "cognitive-profile",
+  "createdAt": 1780608252809
+}
