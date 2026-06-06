@@ -5,16 +5,18 @@
     "overallScore": 81,
     "aiConfidence": 82
   },
-  "coreTraits": [
-    { "name": "Creativity", "score": 92 },
-    { "name": "Curiosity", "score": 88 },
-    { "name": "Risk Taking", "score": 81 },
-    { "name": "Analysis", "score": 95 },
-    { "name": "Practicality", "score": 75 },
-    { "name": "Emotion", "score": 54 },
-    { "name": "Consistency", "score": 61 },
-    { "name": "Social", "score": 47 }
-  ],
+  "coreTraits": {
+    "content": [
+      { "name": "Creativity", "score": 92 },
+      { "name": "Curiosity", "score": 88 },
+      { "name": "Risk Taking", "score": 81 },
+      { "name": "Analysis", "score": 95 },
+      { "name": "Practicality", "score": 75 },
+      { "name": "Emotion", "score": 54 },
+      { "name": "Consistency", "score": 61 },
+      { "name": "Social", "score": 47 }
+    ]
+  },
   "bigFive": {
     "traits": [
       { "trait": "Openness", "score": 94 },
@@ -25,18 +27,22 @@
     ],
     "commentary": "High Openness reflects strong intellectual curiosity and preference for novel experiences. Lower Extraversion suggests comfort with focused, independent work. Low Neuroticism indicates emotional stability under pressure."
   },
-  "decisionMaking": [
-    { "label": "Data-driven", "score": 90, "icon": "📊" },
-    { "label": "Intuition-driven", "score": 50, "icon": "🎯" },
-    { "label": "Long-term Thinking", "score": 80, "icon": "🔭" },
-    { "label": "Experimentation", "score": 92, "icon": "🧪" }
-  ],
-  "communicationStyle": [
-    { "left": "Logical", "right": "Emotional", "position": 15 },
-    { "left": "Direct", "right": "Diplomatic", "position": 25 },
-    { "left": "Detailed", "right": "Concise", "position": 70 },
-    { "left": "Formal", "right": "Casual", "position": 65 }
-  ],
+  "decisionMaking": {
+    "content": [
+      { "label": "Data-driven", "score": 90, "icon": "📊" },
+      { "label": "Intuition-driven", "score": 50, "icon": "🎯" },
+      { "label": "Long-term Thinking", "score": 80, "icon": "🔭" },
+      { "label": "Experimentation", "score": 92, "icon": "🧪" }
+    ]
+  },
+  "communicationStyle": {
+    "content": [
+      { "left": "Logical", "right": "Emotional", "position": 15 },
+      { "left": "Direct", "right": "Diplomatic", "position": 25 },
+      { "left": "Detailed", "right": "Concise", "position": 70 },
+      { "left": "Formal", "right": "Casual", "position": 65 }
+    ]
+  },
   "learningPreferences": {
     "methods": [
       { "label": "Project-based learning", "percentage": 85 },
@@ -56,32 +62,38 @@
       "Rigid step-by-step tutorials"
     ]
   },
-  "strengths": [
-    { "icon": "🧠", "title": "Pattern Recognition", "description": "Quickly identifies patterns and connections across disparate domains." },
-    { "icon": "🚀", "title": "Rapid Prototyping", "description": "Transforms ideas into working prototypes with remarkable speed." },
-    { "icon": "🔍", "title": "Research Capability", "description": "Deep-dives into topics with systematic thoroughness when motivated." },
-    { "icon": "💡", "title": "Idea Generation", "description": "Consistently produces novel ideas and alternative approaches." },
-    { "icon": "⚙️", "title": "Systems Thinking", "description": "Understands complex systems and their interdependencies." },
-    { "icon": "🛡️", "title": "Resilience Under Pressure", "description": "Maintains composure and problem-solving ability in high-stress situations." }
-  ],
-  "blindSpots": [
-    "May jump quickly into implementation before fully mapping out requirements.",
-    "Can lose interest after the initial exploration phase of a project.",
-    "Often optimizes for speed over documentation and long-term maintainability.",
-    "Prefers autonomy over rigid structures, which can complicate team coordination.",
-    "May underestimate the value of incremental iteration over full rewrites."
-  ],
-  "interestMap": [
-    { "topic": "AI", "size": 10 },
-    { "topic": "SaaS", "size": 8 },
-    { "topic": "NLP", "size": 8 },
-    { "topic": "Design", "size": 7 },
-    { "topic": "Business", "size": 8 },
-    { "topic": "Psychology", "size": 6 },
-    { "topic": "Games", "size": 5 },
-    { "topic": "UX", "size": 6 },
-    { "topic": "Music", "size": 4 }
-  ],
+  "strengths": {
+    "content": [
+      { "icon": "🧠", "title": "Pattern Recognition", "description": "Quickly identifies patterns and connections across disparate domains." },
+      { "icon": "🚀", "title": "Rapid Prototyping", "description": "Transforms ideas into working prototypes with remarkable speed." },
+      { "icon": "🔍", "title": "Research Capability", "description": "Deep-dives into topics with systematic thoroughness when motivated." },
+      { "icon": "💡", "title": "Idea Generation", "description": "Consistently produces novel ideas and alternative approaches." },
+      { "icon": "⚙️", "title": "Systems Thinking", "description": "Understands complex systems and their interdependencies." },
+      { "icon": "🛡️", "title": "Resilience Under Pressure", "description": "Maintains composure and problem-solving ability in high-stress situations." }
+    ]
+  },
+  "blindSpots": {
+    "content": [
+      "May jump quickly into implementation before fully mapping out requirements.",
+      "Can lose interest after the initial exploration phase of a project.",
+      "Often optimizes for speed over documentation and long-term maintainability.",
+      "Prefers autonomy over rigid structures, which can complicate team coordination.",
+      "May underestimate the value of incremental iteration over full rewrites."
+    ]
+  },
+  "interestMap": {
+    "content": [
+      { "topic": "AI", "size": 10 },
+      { "topic": "SaaS", "size": 8 },
+      { "topic": "NLP", "size": 8 },
+      { "topic": "Design", "size": 7 },
+      { "topic": "Business", "size": 8 },
+      { "topic": "Psychology", "size": 6 },
+      { "topic": "Games", "size": 5 },
+      { "topic": "UX", "size": 6 },
+      { "topic": "Music", "size": 4 }
+    ]
+  },
   "conversationStats": {
     "totalConversations": 124,
     "averageMessageLength": "47 words",
@@ -94,7 +106,9 @@
     ],
     "questionStatementRatio": "1 : 2.4"
   },
-  "motto": "Build first, optimize later.",
+  "motto": {
+    "content": "Build first, optimize later."
+  },
   "operatingGuide": {
     "worksBestWhen": [
       "Given autonomy and ownership over decisions.",
@@ -122,12 +136,14 @@
     ],
     "description": "You appear to combine the curiosity of an Explorer with the execution focus of a Builder — a rare blend that drives rapid innovation cycles."
   },
-  "confidenceMeter": [
-    { "section": "Core Traits", "confidence": 91 },
-    { "section": "Learning Style", "confidence": 84 },
-    { "section": "Communication", "confidence": 96 },
-    { "section": "Blind Spots", "confidence": 58 },
-    { "section": "Big Five Estimate", "confidence": 61 },
-    { "section": "Archetype", "confidence": 78 }
-  ]
+  "confidenceMeter": {
+    "content": [
+      { "section": "Core Traits", "confidence": 91 },
+      { "section": "Learning Style", "confidence": 84 },
+      { "section": "Communication", "confidence": 96 },
+      { "section": "Blind Spots", "confidence": 58 },
+      { "section": "Big Five Estimate", "confidence": 61 },
+      { "section": "Archetype", "confidence": 78 }
+    ]
+  }
 }

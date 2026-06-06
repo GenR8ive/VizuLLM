@@ -180,7 +180,7 @@ const CognitiveProfile: React.FC<CognitiveProfileProps> = ({ data }) => {
       <header className="mb-10 border-b border-stone-200 pb-8">
         <div className="flex items-start justify-between gap-6">
           <div>
-            <p className="mb-1.5 text-[10px] uppercase tracking-[0.25em] text-stone-400">Cognitive Profile</p>
+            <p className="mb-1.5 text-[10px] uppercase tracking-[0.25em] text-stone-400">{d.executiveSummary.title ?? 'Cognitive Profile'}</p>
             <h1 className="font-[Georgia,serif] text-3xl text-stone-900">{d.subjectName}</h1>
           </div>
           <div className="flex shrink-0 gap-6 pt-1">
@@ -199,13 +199,13 @@ const CognitiveProfile: React.FC<CognitiveProfileProps> = ({ data }) => {
 
       {/* ── 2. Core Traits ── */}
       <section className="mb-10" aria-label="Core Traits">
-        <SectionTitle number={2} title="Core Traits" subtitle="Multi-axis personality trait visualization" />
-        <RadarChart traits={d.coreTraits} />
+        <SectionTitle number={2} title={d.coreTraits.title ?? 'Core Traits'} subtitle={d.coreTraits.subtitle ?? 'Multi-axis personality trait visualization'} />
+        <RadarChart traits={d.coreTraits.content} />
       </section>
 
       {/* ── 3. Big Five ── */}
       <section className="mb-10" aria-label="Big Five Approximation">
-        <SectionTitle number={3} title="Big Five Approximation" subtitle="Estimated — based on conversational analysis" />
+        <SectionTitle number={3} title={d.bigFive.title ?? 'Big Five Approximation'} subtitle={d.bigFive.subtitle ?? 'Estimated — based on conversational analysis'} />
         <div className="mb-4 grid grid-cols-1 gap-x-10 gap-y-3 sm:grid-cols-2">
           {d.bigFive.traits.map((t) => (
             <div key={t.trait}>
@@ -226,9 +226,9 @@ const CognitiveProfile: React.FC<CognitiveProfileProps> = ({ data }) => {
 
       {/* ── 4. Decision Making ── */}
       <section className="mb-10" aria-label="Decision Making Style">
-        <SectionTitle number={4} title="Decision Making Style" />
+        <SectionTitle number={4} title={d.decisionMaking.title ?? 'Decision Making Style'} subtitle={d.decisionMaking.subtitle} />
         <div className="grid grid-cols-1 gap-x-10 gap-y-4 sm:grid-cols-2">
-          {d.decisionMaking.map((item) => (
+          {d.decisionMaking.content.map((item) => (
             <div key={item.label}>
               <div className="mb-1.5 flex items-baseline justify-between">
                 <span className="text-[13px] text-stone-600">
@@ -247,9 +247,9 @@ const CognitiveProfile: React.FC<CognitiveProfileProps> = ({ data }) => {
 
       {/* ── 5. Communication Style ── */}
       <section className="mb-10" aria-label="Communication Style">
-        <SectionTitle number={5} title="Communication Style" subtitle="Position on each spectrum" />
+        <SectionTitle number={5} title={d.communicationStyle.title ?? 'Communication Style'} subtitle={d.communicationStyle.subtitle ?? 'Position on each spectrum'} />
         <div className="border border-stone-200 p-6">
-          {d.communicationStyle.map((s) => (
+          {d.communicationStyle.content.map((s) => (
             <Spectrum key={`${s.left}-${s.right}`} left={s.left} right={s.right} position={s.position} />
           ))}
         </div>
@@ -257,7 +257,7 @@ const CognitiveProfile: React.FC<CognitiveProfileProps> = ({ data }) => {
 
       {/* ── 6. Learning Preferences ── */}
       <section className="mb-10" aria-label="Learning Preferences">
-        <SectionTitle number={6} title="Learning Preferences" />
+        <SectionTitle number={6} title={d.learningPreferences.title ?? 'Learning Preferences'} subtitle={d.learningPreferences.subtitle} />
         <div className="mb-6 space-y-3">
           {d.learningPreferences.methods.map((m) => (
             <ThinBar key={m.label} value={m.percentage} label={m.label} />
@@ -265,7 +265,7 @@ const CognitiveProfile: React.FC<CognitiveProfileProps> = ({ data }) => {
         </div>
         <div className="grid grid-cols-2 gap-px overflow-hidden border border-stone-200 bg-stone-200">
           <div className="bg-white p-4">
-            <h3 className="mb-3 text-[10px] uppercase tracking-[0.2em] text-stone-400">Learns Best Through</h3>
+            <h3 className="mb-3 text-[10px] uppercase tracking-[0.2em] text-stone-400">{d.learningPreferences.learnsBestThroughTitle ?? 'Learns Best Through'}</h3>
             <ul className="space-y-2">
               {d.learningPreferences.learnsBestThrough.map((item) => (
                 <li key={item} className="flex items-start gap-2 text-[13px] text-stone-600">
@@ -275,7 +275,7 @@ const CognitiveProfile: React.FC<CognitiveProfileProps> = ({ data }) => {
             </ul>
           </div>
           <div className="bg-white p-4">
-            <h3 className="mb-3 text-[10px] uppercase tracking-[0.2em] text-stone-400">Struggles With</h3>
+            <h3 className="mb-3 text-[10px] uppercase tracking-[0.2em] text-stone-400">{d.learningPreferences.strugglesWithTitle ?? 'Struggles With'}</h3>
             <ul className="space-y-2">
               {d.learningPreferences.strugglesWith.map((item) => (
                 <li key={item} className="flex items-start gap-2 text-[13px] text-stone-400">
@@ -289,9 +289,9 @@ const CognitiveProfile: React.FC<CognitiveProfileProps> = ({ data }) => {
 
       {/* ── 7. Strengths ── */}
       <section className="mb-10" aria-label="Strengths">
-        <SectionTitle number={7} title="Strengths" />
+        <SectionTitle number={7} title={d.strengths.title ?? 'Strengths'} subtitle={d.strengths.subtitle} />
         <div className="grid grid-cols-2 gap-px overflow-hidden border border-stone-200 bg-stone-200 lg:grid-cols-3">
-          {d.strengths.map((s) => (
+          {d.strengths.content.map((s) => (
             <div key={s.title} className="bg-white p-5">
               <div className="mb-2 text-xl leading-none">{s.icon}</div>
               <h3 className="text-[13px] font-semibold text-stone-900">{s.title}</h3>
@@ -303,10 +303,10 @@ const CognitiveProfile: React.FC<CognitiveProfileProps> = ({ data }) => {
 
       {/* ── 8. Blind Spots ── */}
       <section className="mb-10" aria-label="Potential Blind Spots">
-        <SectionTitle number={8} title="Potential Blind Spots" subtitle="Observed tendencies — not limitations" />
+        <SectionTitle number={8} title={d.blindSpots.title ?? 'Potential Blind Spots'} subtitle={d.blindSpots.subtitle ?? 'Observed tendencies — not limitations'} />
         <div className="border border-stone-200 py-4 pl-5 pr-6">
           <ul className="space-y-2.5">
-            {d.blindSpots.map((spot) => (
+            {d.blindSpots.content.map((spot) => (
               <li key={spot} className="flex items-start gap-3 text-[13px] leading-relaxed text-stone-500">
                 <span className="mt-1.5 size-1 shrink-0 bg-stone-300" />
                 {spot}
@@ -318,11 +318,11 @@ const CognitiveProfile: React.FC<CognitiveProfileProps> = ({ data }) => {
 
       {/* ── 9. Interest Map + Topics ── */}
       <section className="mb-10" aria-label="Interest Map">
-        <SectionTitle number={9} title="Interest Map" subtitle="Relative interest intensity" />
-        <BubbleChart interests={d.interestMap} />
+        <SectionTitle number={9} title={d.interestMap.title ?? 'Interest Map'} subtitle={d.interestMap.subtitle ?? 'Relative interest intensity'} />
+        <BubbleChart interests={d.interestMap.content} />
         {d.conversationStats.mostDiscussedTopics.length > 0 && (
           <div className="mt-5 border-t border-stone-100 pt-4">
-            <p className="mb-2.5 text-[10px] uppercase tracking-[0.2em] text-stone-400">Most Discussed Topics</p>
+            <p className="mb-2.5 text-[10px] uppercase tracking-[0.2em] text-stone-400">{d.conversationStats.mostDiscussedTopicsTitle ?? 'Most Discussed Topics'}</p>
             <div className="flex flex-wrap gap-1.5">
               {d.conversationStats.mostDiscussedTopics.map((topic) => (
                 <span key={topic} className="border border-stone-200 px-2.5 py-1 text-[11px] text-stone-600">{topic}</span>
@@ -334,20 +334,20 @@ const CognitiveProfile: React.FC<CognitiveProfileProps> = ({ data }) => {
 
       {/* ── 10. Motto ── */}
       <section className="mb-10" aria-label="AI Generated Motto">
-        <SectionTitle number={10} title="Motto" />
+        <SectionTitle number={10} title={d.motto.title ?? 'Motto'} subtitle={d.motto.subtitle} />
         <div className="border-l-2 border-stone-900 py-2 pl-6">
           <p className="font-[Georgia,serif] text-xl italic leading-relaxed text-stone-800">
-            &ldquo;{d.motto}&rdquo;
+            &ldquo;{d.motto.content}&rdquo;
           </p>
         </div>
       </section>
 
       {/* ── 11. Operating Guide ── */}
       <section className="mb-10" aria-label="Personal Operating Guide">
-        <SectionTitle number={11} title="Personal Operating Guide" subtitle="How to collaborate effectively" />
+        <SectionTitle number={11} title={d.operatingGuide.title ?? 'Personal Operating Guide'} subtitle={d.operatingGuide.subtitle ?? 'How to collaborate effectively'} />
         <div className="grid grid-cols-3 gap-px overflow-hidden border border-stone-200 bg-stone-200">
           <div className="bg-white p-5">
-            <h3 className="mb-3 text-[10px] uppercase tracking-[0.2em] text-stone-400">Works Best When</h3>
+            <h3 className="mb-3 text-[10px] uppercase tracking-[0.2em] text-stone-400">{d.operatingGuide.worksBestWhenTitle ?? 'Works Best When'}</h3>
             <ul className="space-y-2.5">
               {d.operatingGuide.worksBestWhen.map((item) => (
                 <li key={item} className="text-[12px] leading-relaxed text-stone-600">{item}</li>
@@ -355,7 +355,7 @@ const CognitiveProfile: React.FC<CognitiveProfileProps> = ({ data }) => {
             </ul>
           </div>
           <div className="bg-white p-5">
-            <h3 className="mb-3 text-[10px] uppercase tracking-[0.2em] text-stone-400">May Struggle When</h3>
+            <h3 className="mb-3 text-[10px] uppercase tracking-[0.2em] text-stone-400">{d.operatingGuide.mayStruggleWhenTitle ?? 'May Struggle When'}</h3>
             <ul className="space-y-2.5">
               {d.operatingGuide.mayStruggleWhen.map((item) => (
                 <li key={item} className="text-[12px] leading-relaxed text-stone-400">{item}</li>
@@ -363,7 +363,7 @@ const CognitiveProfile: React.FC<CognitiveProfileProps> = ({ data }) => {
             </ul>
           </div>
           <div className="bg-white p-5">
-            <h3 className="mb-3 text-[10px] uppercase tracking-[0.2em] text-stone-400">Best Feedback Style</h3>
+            <h3 className="mb-3 text-[10px] uppercase tracking-[0.2em] text-stone-400">{d.operatingGuide.bestFeedbackStyleTitle ?? 'Best Feedback Style'}</h3>
             <ul className="space-y-2.5">
               {d.operatingGuide.bestFeedbackStyle.map((item) => (
                 <li key={item} className="text-[12px] leading-relaxed text-stone-600">{item}</li>
@@ -375,7 +375,7 @@ const CognitiveProfile: React.FC<CognitiveProfileProps> = ({ data }) => {
 
       {/* ── 12. Archetype ── */}
       <section className="mb-10" aria-label="Archetype">
-        <SectionTitle number={12} title="Archetype" subtitle="Dominant personality classification" />
+        <SectionTitle number={12} title={d.archetype.title ?? 'Archetype'} subtitle={d.archetype.subtitle ?? 'Dominant personality classification'} />
         <div className="mb-4 flex flex-wrap gap-2">
           {d.archetype.archetypes.map((a) => (
             <div key={a.name} className="border border-stone-900 px-4 py-2">
@@ -389,9 +389,9 @@ const CognitiveProfile: React.FC<CognitiveProfileProps> = ({ data }) => {
 
       {/* ── 13. Confidence Meter ── */}
       <section className="mb-6" aria-label="Confidence Meter">
-        <SectionTitle number={13} title="Confidence Meter" subtitle="Analysis reliability per section" />
+        <SectionTitle number={13} title={d.confidenceMeter.title ?? 'Confidence Meter'} subtitle={d.confidenceMeter.subtitle ?? 'Analysis reliability per section'} />
         <div className="space-y-2.5">
-          {d.confidenceMeter.map((c) => (
+          {d.confidenceMeter.content.map((c) => (
             <div key={c.section} className="flex items-center gap-3">
               <span className="w-32 shrink-0 text-[12px] text-stone-500">{c.section}</span>
               <div className="h-px flex-1 bg-stone-100">

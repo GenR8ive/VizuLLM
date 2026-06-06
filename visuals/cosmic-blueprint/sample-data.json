@@ -1,0 +1,161 @@
+{
+  "subjectName": "Burak Taşçı",
+  "birthInfo": {
+    "date": "14 January 2000",
+    "time": "08:42",
+    "location": "Istanbul, Turkey"
+  },
+  "executiveSummary": {
+    "summary": "Your chart emphasizes intellectual exploration, independence, and long-term creation. With a Capricorn Sun driving ambition and a Gemini Moon fueling curiosity, you naturally gravitate toward building systems, learning deeply, and pursuing unconventional ideas. Aquarius Mercury gives your thinking a visionary edge, while Mars in Aries ensures you act on your convictions with courage and immediacy.",
+    "dominantEnergy": "Earth-Air synthesis — grounded innovation"
+  },
+  "elements": {
+    "content": [
+      { "element": "Fire", "percentage": 25 },
+      { "element": "Earth", "percentage": 35 },
+      { "element": "Air", "percentage": 30 },
+      { "element": "Water", "percentage": 10 }
+    ]
+  },
+  "modalities": {
+    "content": [
+      { "modality": "Cardinal", "percentage": 45 },
+      { "modality": "Fixed", "percentage": 30 },
+      { "modality": "Mutable", "percentage": 25 }
+    ]
+  },
+  "planetPositions": {
+    "content": [
+      { "planet": "Sun", "symbol": "☉", "sign": "Capricorn", "house": 10, "degree": 294 },
+      { "planet": "Moon", "symbol": "☽", "sign": "Gemini", "house": 3, "degree": 96 },
+      { "planet": "Mercury", "symbol": "☿", "sign": "Aquarius", "house": 11, "degree": 327 },
+      { "planet": "Venus", "symbol": "♀", "sign": "Sagittarius", "house": 9, "degree": 261 },
+      { "planet": "Mars", "symbol": "♂", "sign": "Aries", "house": 1, "degree": 15 },
+      { "planet": "Jupiter", "symbol": "♃", "sign": "Taurus", "house": 2, "degree": 48 },
+      { "planet": "Saturn", "symbol": "♄", "sign": "Taurus", "house": 2, "degree": 52 },
+      { "planet": "Uranus", "symbol": "♅", "sign": "Aquarius", "house": 11, "degree": 329 },
+      { "planet": "Neptune", "symbol": "♆", "sign": "Aquarius", "house": 11, "degree": 333 },
+      { "planet": "Pluto", "symbol": "♇", "sign": "Sagittarius", "house": 9, "degree": 255 },
+      { "planet": "North Node", "symbol": "☊", "sign": "Cancer", "house": 4, "degree": 122 },
+      { "planet": "Chiron", "symbol": "⚷", "sign": "Sagittarius", "house": 9, "degree": 265 }
+    ]
+  },
+  "zodiacWheel": {
+    "ascendant": "Aries",
+    "midheaven": "Capricorn",
+    "houses": [
+      { "sign": "Aries", "startDegree": 0 },
+      { "sign": "Taurus", "startDegree": 30 },
+      { "sign": "Gemini", "startDegree": 60 },
+      { "sign": "Cancer", "startDegree": 90 },
+      { "sign": "Leo", "startDegree": 120 },
+      { "sign": "Virgo", "startDegree": 150 },
+      { "sign": "Libra", "startDegree": 180 },
+      { "sign": "Scorpio", "startDegree": 210 },
+      { "sign": "Sagittarius", "startDegree": 240 },
+      { "sign": "Capricorn", "startDegree": 270 },
+      { "sign": "Aquarius", "startDegree": 300 },
+      { "sign": "Pisces", "startDegree": 330 }
+    ]
+  },
+  "aspects": {
+    "content": [
+      { "planet1": "Sun", "planet2": "Moon", "type": "trine", "angle": 120, "description": "Harmonious flow between your conscious goals and emotional needs. You feel at peace when your actions align with your inner world." },
+      { "planet1": "Mars", "planet2": "Venus", "type": "conjunction", "angle": 0, "description": "A powerful blend of drive and attraction. Your passions are intense and you pursue what — and who — you want with confidence." },
+      { "planet1": "Mercury", "planet2": "Saturn", "type": "square", "angle": 90, "description": "Tension between free thinking and structured logic. You may sometimes feel restricted in communication, but this pushes you toward precision." },
+      { "planet1": "Jupiter", "planet2": "Saturn", "type": "conjunction", "angle": 0, "description": "Expansion meets discipline. You have the rare ability to grow steadily without overextending, balancing optimism with realism." },
+      { "planet1": "Sun", "planet2": "Mars", "type": "sextile", "angle": 60, "description": "Natural assertiveness supports your ambitions. You act with purpose and your willpower rarely wavers." },
+      { "planet1": "Moon", "planet2": "Mercury", "type": "quincunx", "angle": 150, "description": "Your emotions and intellect sometimes speak different languages. Learning to bridge feeling and thought is a lifelong journey." },
+      { "planet1": "Venus", "planet2": "Neptune", "type": "trine", "angle": 120, "description": "A dreamy, creative romantic energy. You appreciate beauty deeply and may express love through art, music, or acts of imagination." },
+      { "planet1": "Mars", "planet2": "Jupiter", "type": "opposition", "angle": 180, "description": "Bold energy meets expansive growth. You may sometimes overreach, but your enthusiasm carries you far when channeled wisely." }
+    ]
+  },
+  "planetaryStrengths": {
+    "content": [
+      { "planet": "Mercury", "score": 92 },
+      { "planet": "Mars", "score": 85 },
+      { "planet": "Saturn", "score": 78 },
+      { "planet": "Sun", "score": 74 },
+      { "planet": "Moon", "score": 65 },
+      { "planet": "Jupiter", "score": 60 },
+      { "planet": "Venus", "score": 52 },
+      { "planet": "Neptune", "score": 40 }
+    ]
+  },
+  "houseAnalysis": {
+    "content": [
+      { "house": 1, "title": "Identity & Self-Image", "sign": "Aries", "description": "Bold, independent, and action-oriented. You present yourself with confidence and aren't afraid to take the lead in new situations." },
+      { "house": 2, "title": "Values & Finances", "sign": "Taurus", "description": "Steady and resourceful with money. You value quality over quantity and build financial security through patience and persistence." },
+      { "house": 3, "title": "Communication & Learning", "sign": "Gemini", "description": "Quick-witted and endlessly curious. Your mind absorbs information rapidly and you express ideas with versatility and charm." },
+      { "house": 4, "title": "Home & Roots", "sign": "Cancer", "description": "Deep emotional ties to family and heritage. Creating a secure, nurturing home environment is important for your inner stability." },
+      { "house": 5, "title": "Creativity & Pleasure", "sign": "Leo", "description": "Dramatic flair in creative expression. You find joy in building, performing, and sharing your unique vision with others." },
+      { "house": 6, "title": "Health & Routine", "sign": "Virgo", "description": "Detail-oriented approach to daily habits. You thrive when your routine is structured and your environment is organized." },
+      { "house": 7, "title": "Partnerships", "sign": "Libra", "description": "Seeking balance and harmony in relationships. You value intellectual partnership and fairness in all one-on-one dynamics." },
+      { "house": 8, "title": "Transformation & Depth", "sign": "Scorpio", "description": "Intense emotional depth and resilience. You're drawn to uncovering hidden truths and aren't afraid of profound change." },
+      { "house": 9, "title": "Philosophy & Exploration", "sign": "Sagittarius", "description": "Adventurous spirit with a hunger for meaning. Travel, higher education, and cross-cultural experiences expand your worldview." },
+      { "house": 10, "title": "Career & Reputation", "sign": "Capricorn", "description": "Ambitious and strategic in public life. You build your career methodically, earning respect through competence and reliability." },
+      { "house": 11, "title": "Community & Innovation", "sign": "Aquarius", "description": "Visionary thinking within social networks. You're drawn to progressive causes, technology, and unconventional friendships." },
+      { "house": 12, "title": "Spirituality & Subconscious", "sign": "Pisces", "description": "Rich inner world with strong intuitive abilities. Solitude and reflection recharge you and connect you to something greater." }
+    ]
+  },
+  "personalityThemes": {
+    "content": [
+      { "title": "The Builder", "description": "You prefer creating structures that last. Whether it's code, companies, or creative projects, you gravitate toward building things with enduring value." },
+      { "title": "The Explorer", "description": "You enjoy discovering new ideas and venturing into intellectual territory others haven't mapped. Your curiosity is your compass." },
+      { "title": "The Analyst", "description": "You seek deep understanding before commitment. Every decision passes through a rigorous internal review process." },
+      { "title": "The Innovator", "description": "Conventional wisdom rarely satisfies you. You look for better ways, question assumptions, and push boundaries naturally." },
+      { "title": "The Strategist", "description": "You think several moves ahead, combining patience with timing. Long-term planning comes as naturally as spontaneous action." }
+    ]
+  },
+  "relationshipStyle": {
+    "content": [
+      { "icon": "❤️", "title": "Emotional Expression", "description": "Reserved on the surface but deeply loyal underneath. You show love through consistent actions rather than grand declarations." },
+      { "icon": "🤝", "title": "Partnership Dynamics", "description": "You value intellectual compatibility above all. A partner who challenges your thinking earns your deepest respect." },
+      { "icon": "💬", "title": "Communication", "description": "Direct and thoughtful. You prefer meaningful conversations over small talk and appreciate partners who can keep up mentally." },
+      { "icon": "🔥", "title": "Attraction Patterns", "description": "Drawn to independence and competence. You're attracted to people who have their own passions and don't need constant validation." }
+    ]
+  },
+  "careerTendencies": {
+    "content": [
+      { "area": "Technical Mastery", "score": 92 },
+      { "area": "Entrepreneurship", "score": 85 },
+      { "area": "Research", "score": 80 },
+      { "area": "Creative Production", "score": 72 },
+      { "area": "Leadership", "score": 68 }
+    ]
+  },
+  "growthAreas": {
+    "content": [
+      "Learning patience — trusting the process over forcing outcomes",
+      "Delegating responsibility — sharing the load without losing quality",
+      "Balancing logic with emotion — allowing vulnerability to be a strength",
+      "Trusting uncertainty — not every variable needs to be controlled",
+      "Embracing rest — productivity isn't the only measure of worth"
+    ]
+  },
+  "cosmicTimeline": {
+    "content": [
+      { "year": 2026, "theme": "Career Expansion", "description": "Jupiter transits your 10th house, amplifying professional visibility and opening doors for advancement." },
+      { "year": 2027, "theme": "Relationship Focus", "description": "Venus and Mars activate your 7th house, bringing significant developments in partnerships and collaboration." },
+      { "year": 2028, "theme": "Creative Transformation", "description": "Pluto's influence on your 5th house sparks a deep reinvention of how you express yourself creatively." },
+      { "year": 2029, "theme": "Inner Foundation", "description": "Saturn returns to your 4th house, asking you to solidify your emotional base and redefine home." },
+      { "year": 2030, "theme": "Public Recognition", "description": "Solar eclipse cycle in your 10th house marks a peak moment for reputation and legacy-building." }
+    ]
+  },
+  "compatibilitySnapshot": {
+    "content": [
+      { "signType": "Air Signs", "score": 85 },
+      { "signType": "Earth Signs", "score": 78 },
+      { "signType": "Fire Signs", "score": 65 },
+      { "signType": "Water Signs", "score": 40 }
+    ]
+  },
+  "aiReflection": {
+    "content": "If your birth chart were a story, it would be one of building, exploring, and continuously refining your understanding of the world. Your strongest energies point toward creation rather than preservation. With Mercury in Aquarius as your guiding force, you're here to question, invent, and leave behind ideas that outlast you. The tension between your Capricorn ambition and Gemini restlessness isn't a flaw — it's your engine. Trust it."
+  },
+  "disclaimer": {
+    "dataAccuracy": 100,
+    "chartCalculation": "Precise",
+    "interpretation": "AI-generated"
+  }
+}
