@@ -1,5 +1,14 @@
 [
   {
+    "name": "Cosmic Blueprint",
+    "slug": "cosmic-blueprint",
+    "author": "tscburak",
+    "description": "A premium birth chart and cosmic analysis report. Renders a full natal chart with zodiac wheel, planet positions, aspects, element/modality distributions, personality themes, career tendencies, relationship style, growth areas, and AI-generated cosmic narrative.",
+    "schema": "visuals/cosmic-blueprint/schema.ts",
+    "componentPath": "visuals/cosmic-blueprint/component.tsx",
+    "createdAt": 1780786516695
+  },
+  {
     "name": "Cognitive Profile",
     "slug": "cognitive-profile",
     "author": "tscburak",
@@ -79,14 +88,5 @@
     "schema": "visuals/check-list/schema.ts",
     "componentPath": "visuals/check-list/component.tsx",
     "createdAt": 1758411548377
-  },
-  {
-    "name": "Cosmic Blueprint",
-    "slug": "cosmic-blueprint",
-    "author": "tscburak",
-    "description": "A premium birth chart and cosmic analysis report. Renders a full natal chart with zodiac wheel, planet positions, aspects, element/modality distributions, personality themes, career tendencies, relationship style, growth areas, and AI-generated cosmic narrative.",
-    "schema": "visuals/cosmic-blueprint/schema.ts",
-    "componentPath": "visuals/cosmic-blueprint/component.tsx",
-    "createdAt": 1749168000000
   }
 ]
